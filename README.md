@@ -174,6 +174,13 @@ A solução proposta busca transformar a gestão de riscos agrícolas, permitind
 
 
 
+link por aqui ou antes das considerações finais: aqui
+
+
+
+
+
+
 
 
 
