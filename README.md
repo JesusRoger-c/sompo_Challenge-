@@ -1,264 +1,261 @@
-# 🎓 FIAP - Faculdade de Informática e Administração Paulista
+# 🎓 FIAP - Faculdade de Informática e Administração Paulista  
 
-# 🚜 Challenge Sompo
+# 🚜 Challenge Sompo  
 
-## 🌱 Sistema Preditivo de Risco Agrícola
+## 🌱 Sistema Preditivo de Risco Agrícola  
 
-<p align="center"><a href="https://www.fiap.com.br/"><img src="assets/logo-fiap.png" alt="FIAP" width="40%"></a></p>
+<p align="center">
+  <a href="https://www.fiap.com.br/">
+    <img src="assets/logo-fiap.png" alt="FIAP" width="40%">
+  </a>
+</p>
 
 ---
 
 ## 👨‍🎓 Integrantes
 
-* Felipe de Sá Gomes Bruno
-* Karina Garta Szewczuk
-* Maria Sabrina Feitosa da Silva
-* Nicolas Lima Apolinário
-* Roger Gabriel de Souza Jesus Costa
+ - Karina Garta Szewczuk  
+- Maria Sabrina Feitosa da Silva  
+- Nicolas Lima Apolinário  
+- Roger Gabriel de Souza Jesus Costa  
 
 ---
 
-## 👩‍🏫 Professores
+## 👩‍🏫 Professores  
 
-### 📚 Tutora
+### Tutora  
+- Sabrina Otoni  
 
-* Sabrina Otoni
-
-### 🎯 Coordenador
-
-* André Godói
+### Coordenador  
+- André Godói  
 
 ---
 
-## 📜 Descrição
+## 📜 Descrição  
 
-## ⚠️ Problema
+## ⚠️ Problema  
 
-Equipamentos agrícolas operam em ambientes com alta exposição a riscos 🌧️🌱, principalmente em condições adversas como:
+A operação de equipamentos agrícolas ocorre em ambientes altamente variáveis e imprevisíveis. Fatores como clima, tipo de solo, umidade e proximidade com recursos hídricos impactam diretamente a segurança e a eficiência das atividades.
 
-* Solo úmido
-* Proximidade com água
-* Variações climáticas
+Atualmente, a tomada de decisão é predominantemente **reativa**, ou seja, ações são tomadas apenas após a ocorrência de incidentes, como:
 
-Atualmente, muitas decisões são tomadas de forma **reativa**, ou seja, após incidentes como:
+- Atolamento de máquinas 🚜  
+- Colisões em terrenos irregulares 💥  
+- Falhas mecânicas em condições adversas ⚙️  
 
-* Atolamentos 🚜
-* Colisões 💥
-* Falhas mecânicas ⚙️
+Esse cenário gera impactos relevantes:
 
-Isso gera:
+- 💸 Aumento de custos operacionais  
+- ⏱️ Redução da produtividade  
+- ⚠️ Riscos à segurança dos operadores  
+- 📉 Baixa previsibilidade de perdas  
 
-* 💸 Prejuízos financeiros
-* ⏱️ Perda de produtividade
-* ⚠️ Riscos à segurança
+Além disso, existe uma subutilização de dados que já estão disponíveis, mas que não são integrados de forma estruturada para apoiar decisões.
 
-👉 Surge então a necessidade de uma solução capaz de **antecipar riscos e apoiar decisões preventivas**.
-
----
-
-## 💡 Solução Proposta
-
-Desenvolvimento de um **sistema inteligente baseado em dados e IA 🤖** capaz de prever riscos antes da operação agrícola.
-
-### 🔍 O sistema será capaz de:
-
-* Identificar padrões de risco
-* Gerar alertas preventivos 🚨
-* Oferecer recomendações práticas
-* Apresentar dashboards 📊 e relatórios
+Diante disso, torna-se necessário um sistema capaz de **antecipar riscos e apoiar decisões preventivas**.
 
 ---
 
-### 📤 Saídas do Sistema
+## 💡 Solução Proposta  
 
-* 🎯 Score de risco (baixo, médio, alto)
-* 🚨 Alertas em tempo real
-* 📌 Recomendações de ação
-* 📊 Relatórios por região/operação
+A proposta consiste no desenvolvimento de um **sistema preditivo de risco agrícola**, baseado em análise de dados e Inteligência Artificial.
 
----
+O sistema será responsável por transformar dados ambientais e operacionais em informações acionáveis, permitindo a identificação antecipada de riscos.
 
-## 👥 Perfis de Usuário
+### 🔍 Principais capacidades
 
-### 🚜 Operador
-
-* Atua diretamente com o equipamento
-* Precisa saber se é seguro operar
-* Recebe alertas antes da execução
-
-### 📊 Gestor
-
-* Responsável pela operação
-* Busca reduzir custos e evitar perdas
-* Analisa relatórios e riscos
-
-### 🏢 Seguradora
-
-* Avalia riscos operacionais
-* Prevê possíveis prejuízos
-* Apoia decisões estratégicas
+- Análise integrada de múltiplas variáveis  
+- Classificação do nível de risco antes da operação  
+- Geração de alertas preventivos 🚨  
+- Recomendações baseadas em dados históricos  
+- Visualização por meio de dashboards 📊 e relatórios  
 
 ---
 
-## 🗂️ Estruturação dos Dados
+## 📤 Saídas do Sistema  
 
-A solução utiliza variáveis ambientais e operacionais para prever riscos.
+- 🎯 Score de risco (baixo, médio, alto)  
+- 🚨 Alertas preventivos  
+- 📌 Recomendações operacionais  
+- 📊 Relatórios analíticos por região e período  
 
-### 📊 Exemplo de Dataset
+---
+
+## 👥 Personas  
+
+### 🚜 Operador  
+Responsável pela execução das atividades. Necessita de informações rápidas para decidir se deve operar.
+
+### 📊 Gestor  
+Responsável pelo planejamento e acompanhamento. Busca reduzir custos e otimizar operações.
+
+### 🏢 Seguradora  
+Focada na avaliação de riscos e previsibilidade de prejuízos.
+
+---
+
+## 🗂️ Estruturação dos Dados  
+
+A solução é baseada na análise de variáveis ambientais e operacionais.
+
+### 📊 Exemplo de Dataset  
 
 | chuva_24h | tipo_solo | umidade | proximidade_agua | tipo_operacao | historico_falha | risco |
-| --------- | --------- | ------- | ---------------- | ------------- | --------------- | ----- |
-| alta      | argila    | alta    | sim              | campo         | sim             | alto  |
-| baixa     | areia     | baixa   | não              | transporte    | não             | baixo |
+|----------|----------|--------|------------------|--------------|----------------|------|
+| alta     | argila   | alta   | sim              | campo        | sim            | alto |
+| baixa    | areia    | baixa  | não              | transporte   | não            | baixo |
+
+### 🧾 Variáveis  
+
+- **chuva_24h**: precipitação recente  
+- **tipo_solo**: classificação do solo  
+- **umidade**: nível de umidade  
+- **proximidade_agua**: presença de água próxima  
+- **tipo_operacao**: tipo de atividade  
+- **historico_falha**: registros anteriores  
+- **risco**: variável alvo  
 
 ---
 
-### 🧾 Variáveis
+## 🤖 Modelo Preditivo  
 
-* chuva_24h: nível de chuva nas últimas 24h 🌧️
-* tipo_solo: classificação do solo
-* umidade: nível de umidade
-* proximidade_agua: presença de água
-* tipo_operacao: campo ou transporte
-* historico_falha: ocorrências anteriores
-* risco: saída do modelo
+Será utilizado um modelo de classificação supervisionada.
 
----
+### 📥 Entradas  
 
-## 🤖 Modelo Preditivo (IA)
+- Dados climáticos  
+- Condições do solo  
+- Tipo de operação  
+- Localização  
+- Histórico  
 
-Modelo de classificação capaz de prever o nível de risco.
+### 📤 Saída  
 
-### 📥 Entradas
+Classificação do risco em:
 
-* Dados climáticos
-* Condições do solo
-* Tipo de operação
-* Localização
-* Histórico
+- 🟢 Baixo  
+- 🟡 Médio  
+- 🔴 Alto  
 
-### 📤 Saída
+### ⭐ Diferencial  
 
-* Classificação de risco:
-
-  * 🟢 Baixo
-  * 🟡 Médio
-  * 🔴 Alto
-
-### ⭐ Diferencial
-
-O modelo explica **quais fatores influenciam o risco**, aumentando a transparência e a confiança.
+O modelo será interpretável, permitindo identificar os fatores que influenciam cada previsão.
 
 ---
 
-## 🏗️ Arquitetura da Solução
+## 🏗️ Arquitetura da Solução  
 
-### 🔄 Fluxo do Sistema
+### 🔄 Fluxo  
 
-Coleta de Dados 🌐
+Coleta de Dados 🌐 
 
-↓
+↓ 
 
-Armazenamento 💾
+Armazenamento 💾 
 
-↓
+↓ 
 
-Processamento ⚙️
+Processamento ⚙️ 
 
-↓
+↓ 
 
-Modelo de IA 🤖
+Modelo de IA 🤖 
 
-↓
+↓ 
 
-Geração de Insights 📊
+Geração de Insights 📊 
 
-↓
+↓ 
 
 Interface (Dashboard / Alertas) 📱
 
----
+### 🧩 Componentes  
 
-### 🧩 Componentes
-
-* Entrada: APIs, sensores ou dados simulados
-* Processamento: tratamento dos dados
-* IA: modelo preditivo
-* Saída:
-
-  * Alertas 🚨
-  * Dashboard 📊
-  * Relatórios 📄
+- Entrada: APIs, sensores ou dados simulados  
+- Processamento: limpeza e transformação dos dados  
+- Modelo: responsável pelas previsões  
+- Saída: dashboards 📊, alertas 🚨 e relatórios  
 
 ---
 
-## ⚙️ Funcionalidades
+## ⚙️ Funcionalidades  
 
-* 📊 Dashboard por equipamento/operação
-* 🚨 Alertas preventivos
-* 📌 Recomendações inteligentes
-* 📄 Relatórios por período/região
-* ⚙️ Configuração de limites de risco
+- 📊 Dashboard por operação ou equipamento  
+- 🚨 Alertas preventivos  
+- 📌 Recomendações automáticas  
+- 📄 Relatórios por período e região  
+- ⚙️ Configuração de limites de risco  
 
 ---
 
-## 🔗 Atendimento às User Stories
+## 🔗 Atendimento às User Stories  
 
 | Necessidade        | Solução                   |
-| ------------------ | ------------------------- |
+|------------------|--------------------------|
 | Visualizar risco   | Dashboard com score       |
 | Entender causas    | Explicação dos fatores    |
 | Receber alertas    | Alertas preventivos       |
 | Melhorar decisões  | Recomendações automáticas |
 | Analisar histórico | Relatórios                |
-| Facilidade de uso  | Interface simples         |
+| Facilidade de uso  | Interface intuitiva       |
 | Configurar regras  | Limites de risco          |
 
 ---
 
-## 🗓️ Próximas Etapas
+## 🗓️ Próximas Etapas  
 
-### 🚀 Sprint 2
+### 🚀 Sprint 2 — Estruturação e Modelagem  
 
-* Dataset
-* Modelo de IA
-* Testes iniciais
-
-### 🚀 Sprint 3
-
-* Dashboard
-* Integração
-
-### 🚀 Sprint 4
-
-* Ajustes finais
-* Validação
+- Criação e organização do dataset  
+- Tratamento e padronização dos dados  
+- Treinamento inicial do modelo  
+- Validação preliminar  
 
 ---
 
-## 🧑‍💻 Divisão de Tarefas
+### 🚀 Sprint 3 — Desenvolvimento e Integração  
 
-* Roger: Dados e dataset
-* Maria Sabrina: IA
-* Karina: Arquitetura
-* Nicolas: Documentação e apresentação
-
----
-
-# 🎥 Vídeo Demonstrativo
-
-📌 Link do vídeo: *        *
-
-
-## 📝 Considerações Finais
-
-A solução proposta busca **transformar a gestão de riscos agrícolas 🌱**, promovendo:
-
-* Mais segurança
-* Redução de custos
-* Maior eficiência operacional
-
-Tudo isso através do uso de **dados + Inteligência Artificial 🤖📊**.
+- Desenvolvimento do dashboard 📊  
+- Integração entre modelo e interface  
+- Implementação de alertas 🚨  
+- Testes de usabilidade  
 
 ---
 
+### 🚀 Sprint 4 — Refinamento e Validação  
+
+- Otimização do modelo  
+- Testes com cenários mais complexos  
+- Ajustes de interface  
+- Documentação final  
+- Preparação para apresentação  
+
+---
+
+## 🧑‍💻 Divisão de Tarefas  
+
+- Roger: Dados e dataset  
+- Maria Sabrina: Modelo de IA  
+- Karina: Arquitetura  
+- Nicolas: Documentação e apresentação  
+
+---
+
+## 🎥 Vídeo Demonstrativo  
+
+Link: [Chanllenge Sompo  ](https://youtu.be/hF9JeH9Zwjk)
+
+---
+
+## 📝 Considerações Finais  
+
+A solução proposta busca transformar a gestão de risco agrícola, migrando de um modelo reativo para um modelo preditivo.
+
+Os principais benefícios esperados são:
+
+- 💰 Redução de custos  
+- 🛡️ Aumento da segurança  
+- 📈 Melhoria na tomada de decisão  
+- 🔍 Maior previsibilidade operacional  
+
+O uso de dados e Inteligência Artificial permite gerar valor estratégico para operadores, gestores e seguradoras.
