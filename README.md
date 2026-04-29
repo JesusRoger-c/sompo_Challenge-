@@ -93,14 +93,19 @@ O modelo também indicará quais fatores influenciam o risco, permitindo maior t
 
 Coleta de Dados (Clima, Solo, Operação)
 ↓
+
 Armazenamento
 ↓
+
 Processamento
 ↓
+
 Modelo de IA
 ↓
+
 Geração de Insights
 ↓
+
 Interface (Dashboard / Alertas)
 
 
