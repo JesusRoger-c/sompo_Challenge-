@@ -250,6 +250,7 @@ Link: [Chanllenge Sompo  ](https://youtu.be/hF9JeH9Zwjk)
 ## 🗃 Histórico de lançamentos
 
 * 0.1.0 - 29/04/2024
+  
     *Lancamento do Planejamento
 
 ---
