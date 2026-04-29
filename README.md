@@ -14,10 +14,10 @@
 
 ## 👨‍🎓 Integrantes
 
- - Karina Garta Szewczuk  
-- Maria Sabrina Feitosa da Silva  
-- Nicolas Lima Apolinário  
-- Roger Gabriel de Souza Jesus Costa  
+- Karina Garta Szewczuk  RM569309
+- Maria Sabrina Feitosa da Silva  RM568714
+- Nicolas Lima Apolinário  RM570741
+- Roger Gabriel de Souza Jesus Costa  RM573659
 
 ---
 
@@ -247,6 +247,13 @@ Link: [Chanllenge Sompo  ](https://youtu.be/hF9JeH9Zwjk)
 
 ---
 
+## 🗃 Histórico de lançamentos
+
+* 0.1.0 - 29/04/2024
+    *Lancamento do Planejamento
+
+---
+
 ## 📝 Considerações Finais  
 
 A solução proposta busca transformar a gestão de risco agrícola, migrando de um modelo reativo para um modelo preditivo.
@@ -256,6 +263,12 @@ Os principais benefícios esperados são:
 - 💰 Redução de custos  
 - 🛡️ Aumento da segurança  
 - 📈 Melhoria na tomada de decisão  
-- 🔍 Maior previsibilidade operacional  
+- 🔍 Maior previsibilidade operacional
 
 O uso de dados e Inteligência Artificial permite gerar valor estratégico para operadores, gestores e seguradoras.
+
+
+
+## 📋 Licença
+
+<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/agodoi/template">MODELO GIT FIAP</a> por <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://fiap.com.br">Fiap</a> está licenciado sobre <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution 4.0 International</a>.</p>
