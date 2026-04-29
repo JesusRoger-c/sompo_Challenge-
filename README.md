@@ -1,300 +1,258 @@
-# FIAP - Faculdade de Informática e Administração Paulista
+# 🎓 FIAP - Faculdade de Informática e Administração Paulista
+
+# 🚜 Challenge Sompo
+
+## 🌱 Sistema Preditivo de Risco Agrícola
 
 <p align="center">
-<a href= "https://www.fiap.com.br/"><img src="assets/logo-fiap.png" alt="FIAP - Faculdade de Informática e Admnistração Paulista" border="0" width=40% height=40%></a>
+<a href="https://www.fiap.com.br/">
+<img src="assets/logo-fiap.png" alt="FIAP" width="40%">
+</a>
 </p>
 
-<br>
+---
 
-# Nome do projeto
+## 👨‍🎓 Integrantes
 
-## Nome do grupo
+* Felipe de Sá Gomes Bruno
+* Karina Garta Szewczuk
+* Maria Sabrina Feitosa da Silva
+* Nicolas Lima Apolinário
+* Roger Gabriel de Souza Jesus Costa
 
-## 👨‍🎓 Integrantes: 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 1</a>
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 2</a>
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 3</a> 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 4</a> 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do integrante 5</a>
+---
 
-## 👩‍🏫 Professores:
-### Tutor(a) 
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do Tutor</a>
-### Coordenador(a)
-- <a href="https://www.linkedin.com/company/inova-fusca">Nome do Coordenador</a>
+## 👩‍🏫 Professores
 
+### 📚 Tutora
+
+* Sabrina Otoni
+
+### 🎯 Coordenador
+
+* André Godói
+
+---
 
 ## 📜 Descrição
 
-*Descreva seu projeto com base no texto do PBL (até 600 palavras)*
+## ⚠️ Problema
 
+Equipamentos agrícolas operam em ambientes com alta exposição a riscos 🌧️🌱, principalmente em condições adversas como:
 
-## 📁 Estrutura de pastas
+* Solo úmido
+* Proximidade com água
+* Variações climáticas
 
-Dentre os arquivos e pastas presentes na raiz do projeto, definem-se:
+Atualmente, muitas decisões são tomadas de forma **reativa**, ou seja, após incidentes como:
 
-- <b>.github</b>: Nesta pasta ficarão os arquivos de configuração específicos do GitHub que ajudam a gerenciar e automatizar processos no repositório.
+* Atolamentos 🚜
+* Colisões 💥
+* Falhas mecânicas ⚙️
 
-- <b>assets</b>: aqui estão os arquivos relacionados a elementos não-estruturados deste repositório, como imagens.
+Isso gera:
 
-- <b>config</b>: Posicione aqui arquivos de configuração que são usados para definir parâmetros e ajustes do projeto.
+* 💸 Prejuízos financeiros
+* ⏱️ Perda de produtividade
+* ⚠️ Riscos à segurança
 
-- <b>document</b>: aqui estão todos os documentos do projeto que as atividades poderão pedir. Na subpasta "other", adicione documentos complementares e menos importantes.
+👉 Surge então a necessidade de uma solução capaz de **antecipar riscos e apoiar decisões preventivas**.
 
-- <b>scripts</b>: Posicione aqui scripts auxiliares para tarefas específicas do seu projeto. Exemplo: deploy, migrações de banco de dados, backups.
+---
 
-- <b>src</b>: Todo o código fonte criado para o desenvolvimento do projeto ao longo das 7 fases.
+## 💡 Solução Proposta
 
-- <b>README.md</b>: arquivo que serve como guia e explicação geral sobre o projeto (o mesmo que você está lendo agora).
+Desenvolvimento de um **sistema inteligente baseado em dados e IA 🤖** capaz de prever riscos antes da operação agrícola.
 
-## 🔧 Como executar o código
+### 🔍 O sistema será capaz de:
 
-*Acrescentar as informações necessárias sobre pré-requisitos (IDEs, serviços, bibliotecas etc.) e instalação básica do projeto, descrevendo eventuais versões utilizadas. Colocar um passo a passo de como o leitor pode baixar o seu código e executá-lo a partir de sua máquina ou seu repositório. Considere a explicação organizada em fase.*
+* Identificar padrões de risco
+* Gerar alertas preventivos 🚨
+* Oferecer recomendações práticas
+* Apresentar dashboards 📊 e relatórios
 
+---
 
-## 🗃 Histórico de lançamentos
+### 📤 Saídas do Sistema
 
-* 0.5.0 - XX/XX/2024
-    * 
-* 0.4.0 - XX/XX/2024
-    * 
-* 0.3.0 - XX/XX/2024
-    * 
-* 0.2.0 - XX/XX/2024
-    * 
-* 0.1.0 - XX/XX/2024
-    *
+* 🎯 Score de risco (baixo, médio, alto)
+* 🚨 Alertas em tempo real
+* 📌 Recomendações de ação
+* 📊 Relatórios por região/operação
 
-## 📋 Licença
+---
 
-<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/agodoi/template">MODELO GIT FIAP</a> por <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://fiap.com.br">Fiap</a> está licenciado sobre <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution 4.0 International</a>.</p>
+## 👥 Perfis de Usuário
 
+### 🚜 Operador
 
+* Atua diretamente com o equipamento
+* Precisa saber se é seguro operar
+* Recebe alertas antes da execução
 
+### 📊 Gestor
 
+* Responsável pela operação
+* Busca reduzir custos e evitar perdas
+* Analisa relatórios e riscos
 
+### 🏢 Seguradora
 
+* Avalia riscos operacionais
+* Prevê possíveis prejuízos
+* Apoia decisões estratégicas
 
+---
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Challenge Sompo - Sistema Preditivo de Risco Agrícola
-
-##  Descrição do Problema
-
-Equipamentos agrícolas operam em ambientes com alta exposição a riscos, especialmente em condições adversas como solo úmido, proximidade de água e variações climáticas. Atualmente, muitas decisões são tomadas de forma reativa, após a ocorrência de incidentes, como atolamentos, colisões ou falhas mecânicas. Isso gera prejuízos financeiros, perda de produtividade e riscos à segurança dos operadores.
-Dessa forma, existe a necessidade de uma solução capaz de **antecipar riscos e apoiar decisões preventivas**.
-
-
-##  Solução Proposta
-
-A solução consiste em um **sistema inteligente baseado em dados e Inteligência Artificial** que analisa informações ambientais e operacionais para prever riscos antes da execução de atividades agrícolas.
-
-O sistema será capaz de:
-
-- Identificar padrões de risco
-- Gerar alertas preventivos
-- Oferecer recomendações práticas
-- Apresentar dashboards e relatórios
-
-###  Saídas do sistema:
-- Score de risco (baixo, médio, alto)
-- Alertas em tempo real
-- Recomendações de ação
-- Relatórios por região/operação
-
-
-## Equipe
-
-###  Operador
-- Atua diretamente com o equipamento
-- Precisa saber se é seguro operar
-- Recebe alertas antes da operação
-
-###  Gestor
-- Responsável pela operação agrícola
-- Busca reduzir custos e evitar perdas
-- Analisa relatórios e riscos por região
-
-###  Seguradora
-- Avalia riscos operacionais
-- Precisa prever possíveis prejuízos
-- Utiliza dados para tomada de decisão
-
-
-##  Estruturação dos Dados
+## 🗂️ Estruturação dos Dados
 
 A solução utiliza variáveis ambientais e operacionais para prever riscos.
 
-### Exemplo de Dataset Simulado:
+### 📊 Exemplo de Dataset
 
 | chuva_24h | tipo_solo | umidade | proximidade_agua | tipo_operacao | historico_falha | risco |
-|---------- |---------- |-------- |------------------|--------------|----------------|------|
-| alta      | argila    | alta    | sim              | campo        | sim            | alto |
-| baixa     | areia     | baixa   | não              | transporte   | não            | baixo |
+| --------- | --------- | ------- | ---------------- | ------------- | --------------- | ----- |
+| alta      | argila    | alta    | sim              | campo         | sim             | alto  |
+| baixa     | areia     | baixa   | não              | transporte    | não             | baixo |
 
+---
 
+### 🧾 Variáveis
 
-### Descrição das variáveis:
-- chuva_24h: nível de chuva nas últimas 24h
-- tipo_solo: classificação do solo (areia, argila etc.)
-- umidade: nível de umidade do solo
-- proximidade_agua: presença de rios ou áreas alagadas
-- tipo_operacao: campo ou transporte
-- historico_falha: ocorrências anteriores
-- risco: saída esperada do modelo
+* chuva_24h: nível de chuva nas últimas 24h 🌧️
+* tipo_solo: classificação do solo
+* umidade: nível de umidade
+* proximidade_agua: presença de água
+* tipo_operacao: campo ou transporte
+* historico_falha: ocorrências anteriores
+* risco: saída do modelo
 
+---
 
+## 🤖 Modelo Preditivo (IA)
 
-##  Modelo Preditivo (IA)
+Modelo de classificação capaz de prever o nível de risco.
 
-Será utilizado um modelo de classificação de risco, capaz de prever o nível de risco de uma operação.
+### 📥 Entradas
 
-###  Entrada (inputs):
-- Dados climáticos
-- Condições do solo
-- Tipo de operação
-- Localização
-- Histórico
+* Dados climáticos
+* Condições do solo
+* Tipo de operação
+* Localização
+* Histórico
 
-### Saída (output):
-- Classificação de risco:
-  - Baixo
-  - Médio
-  - Alto
+### 📤 Saída
 
-### Diferencial:
-O modelo também indicará quais fatores influenciam o risco, permitindo maior transparência e melhor tomada de decisão.
+* Classificação de risco:
 
+  * 🟢 Baixo
+  * 🟡 Médio
+  * 🔴 Alto
 
-## Arquitetura da Solução
+### ⭐ Diferencial
 
-### Fluxo do Sistema:
+O modelo explica **quais fatores influenciam o risco**, aumentando a transparência e a confiança.
 
-Coleta de Dados (Clima, Solo, Operação)
+---
+
+## 🏗️ Arquitetura da Solução
+
+### 🔄 Fluxo do Sistema
+
+Coleta de Dados 🌐
 ↓
-
-Armazenamento
+Armazenamento 💾
 ↓
-
-Processamento
+Processamento ⚙️
 ↓
-
-Modelo de IA
+Modelo de IA 🤖
 ↓
-
-Geração de Insights
+Geração de Insights 📊
 ↓
+Interface (Dashboard / Alertas) 📱
 
-Interface (Dashboard / Alertas)
+---
 
+### 🧩 Componentes
 
+* Entrada: APIs, sensores ou dados simulados
+* Processamento: tratamento dos dados
+* IA: modelo preditivo
+* Saída:
 
-### Componentes:
+  * Alertas 🚨
+  * Dashboard 📊
+  * Relatórios 📄
 
-- Entrada: APIs de clima, sensores ou dados simulados
-- Processamento: tratamento e organização dos dados
-- IA: modelo de classificação de risco
-- Saída:
-  - Alertas
-  - Dashboard
-  - Relatórios
+---
 
+## ⚙️ Funcionalidades
 
+* 📊 Dashboard por equipamento/operação
+* 🚨 Alertas preventivos
+* 📌 Recomendações inteligentes
+* 📄 Relatórios por período/região
+* ⚙️ Configuração de limites de risco
 
-## ⚙️ Funcionalidades do Sistema
+---
 
--  Dashboard de risco por equipamento e operação
--  Alertas preventivos antes da execução
--  Recomendações práticas (rota, horário, operação)
--  Relatórios por região e período
--  Configuração de limites de risco
+## 🔗 Atendimento às User Stories
 
+| Necessidade        | Solução                   |
+| ------------------ | ------------------------- |
+| Visualizar risco   | Dashboard com score       |
+| Entender causas    | Explicação dos fatores    |
+| Receber alertas    | Alertas preventivos       |
+| Melhorar decisões  | Recomendações automáticas |
+| Analisar histórico | Relatórios                |
+| Facilidade de uso  | Interface simples         |
+| Configurar regras  | Limites de risco          |
 
+---
 
-## 🔗 Como a solução atende às User Stories
+## 🗓️ Próximas Etapas
 
-| Necessidade do Usuário | Solução Proposta |
-|----------------------|--------------------|
-| Visualizar risco     | Dashboard com score |
-| Entender causas      | Explicação dos fatores de risco |
-| Receber alertas      | Sistema de alertas preventivos |
-| Melhorar decisões    | Recomendações automáticas |
-| Analisar histórico   | Relatórios por região |
-| Facilidade de uso    | Interface simples |
-| Configurar regras    | Definição de limites |
+### 🚀 Sprint 2
 
+* Dataset
+* Modelo de IA
+* Testes iniciais
 
+### 🚀 Sprint 3
 
-## Planejamento das Próximas Etapas
+* Dashboard
+* Integração
 
-### Sprint 2:
-- Construção do dataset real/simulado
-- Implementação do modelo de IA
-- Testes iniciais
+### 🚀 Sprint 4
 
-### Sprint 3:
-- Desenvolvimento do dashboard
-- Integração com modelo
+* Ajustes finais
+* Validação
 
-### Sprint 4:
-- Ajustes finais
-- Validação da solução
+---
 
+## 🧑‍💻 Divisão de Tarefas
 
+* Roger: Dados e dataset
+* Maria Sabrina: IA
+* Karina: Arquitetura
+* Nicolas: Documentação e apresentação
 
-## Divisão de Tarefas
+---
 
-- Integrante 1 (Pendente): Dados e dataset
-- Integrante 2 (Pendente): Modelagem de IA
-- Integrante 3 (Pendente): Arquitetura
-- Integrante 4 (Pedente): Documentação e apresentação
+# 🎥 Vídeo Demonstrativo
 
-
-
-## Considerações Finais
-
-A solução proposta busca transformar a gestão de riscos agrícolas, permitindo decisões mais seguras, redução de custos e aumento da eficiência operacional através do uso de dados e Inteligência Artificial.
-
-
-
-
-link por aqui ou antes das considerações finais: aqui
+📌 Link do vídeo: *        *
 
 
+## 📝 Considerações Finais
 
+A solução proposta busca **transformar a gestão de riscos agrícolas 🌱**, promovendo:
 
+* Mais segurança
+* Redução de custos
+* Maior eficiência operacional
 
+Tudo isso através do uso de **dados + Inteligência Artificial 🤖📊**.
 
-
-
-
-
-
-
+---
 
