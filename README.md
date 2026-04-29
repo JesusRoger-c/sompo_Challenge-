@@ -4,11 +4,7 @@
 
 ## 🌱 Sistema Preditivo de Risco Agrícola
 
-<p align="center">
-<a href="https://www.fiap.com.br/">
-<img src="assets/logo-fiap.png" alt="FIAP" width="40%">
-</a>
-</p>
+<p align="center"><a href="https://www.fiap.com.br/"><img src="assets/logo-fiap.png" alt="FIAP" width="40%"></a></p>
 
 ---
 
@@ -160,15 +156,25 @@ O modelo explica **quais fatores influenciam o risco**, aumentando a transparên
 ### 🔄 Fluxo do Sistema
 
 Coleta de Dados 🌐
+
 ↓
+
 Armazenamento 💾
+
 ↓
+
 Processamento ⚙️
+
 ↓
+
 Modelo de IA 🤖
+
 ↓
+
 Geração de Insights 📊
+
 ↓
+
 Interface (Dashboard / Alertas) 📱
 
 ---
