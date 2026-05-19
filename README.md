@@ -8,16 +8,6 @@
   <a href="https://www.fiap.com.br/">
     <img src="assets/logo-fiap.png" alt="FIAP" width="40%">
   </a>
-</p>
-
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-MachineLearning-orange)
-![SQL](https://img.shields.io/badge/SQL-Database-lightgrey)
-![Status](https://img.shields.io/badge/status-em%20desenvolvimento-yellow)
-![FIAP](https://img.shields.io/badge/FIAP-Challenge-red)
-
-</p>
-
 ---
 
 # 👨‍🎓 Integrantes
