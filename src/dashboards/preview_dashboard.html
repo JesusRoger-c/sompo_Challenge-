@@ -180,6 +180,26 @@
   .clearbtn:hover{background:var(--white)}
   .empty{font-size:13px;color:var(--muted);padding:14px 0}
 
+  /* ---- Operador: selo tempo real, ajuda e tooltips ---- */
+  .live-badge{display:inline-block;background:var(--g-soft);color:var(--g-dark);font-size:10px;font-weight:700;
+    padding:2px 9px;border-radius:20px;font-family:var(--font-mono);letter-spacing:.4px;text-transform:uppercase;
+    vertical-align:middle;margin-left:6px}
+  .qmark{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;border:1px solid var(--muted-2);
+    color:var(--muted);font-size:10px;font-weight:700;cursor:help;margin-left:4px;vertical-align:middle}
+  .qmark:hover{border-color:var(--g-dark);color:var(--g-dark)}
+  details.help-box{background:var(--g-soft);border-radius:10px;padding:0 14px;margin-bottom:18px;border:1px solid var(--line)}
+  details.help-box summary{cursor:pointer;font-weight:600;font-size:13.5px;padding:12px 2px;color:var(--g-dark);list-style:none}
+  details.help-box summary::-webkit-details-marker{display:none}
+  details.help-box[open] summary{border-bottom:1px solid var(--line)}
+  details.help-box .body{font-size:12.5px;color:var(--ink);padding:10px 2px 14px;line-height:1.55}
+
+  /* ---- Card de prejuizo evitavel (R$) — destaque grafite, nao vermelho de risco ---- */
+  .economia{background:var(--ink);color:var(--white);border-radius:14px;padding:18px 20px;
+    border-left:5px solid var(--g-dark);margin-bottom:18px}
+  .economia .lbl{font-size:13px;opacity:.85}
+  .economia .big{font-family:var(--font-mono);font-size:34px;font-weight:600;margin:2px 0;letter-spacing:-.01em}
+  .economia .note{font-size:11px;opacity:.7}
+
   @media(max-width:760px){.op-grid{grid-template-columns:1fr}.kpis,.valid-grid{grid-template-columns:1fr 1fr}
     .brand h1{font-size:21px}.bar-row .lbl{width:110px}.filters select{min-width:120px}}
 </style>
@@ -207,14 +227,14 @@
 
 <div class="wrap">
 
-  <!-- ============ OPERADOR ============ -->
+  <!-- ============ OPERADOR (somente visualização) ============ -->
   <section class="on" id="op">
     <div class="op-grid">
       <div class="card">
-        <div class="eyebrow">Simulador <span class="sim-badge">estimativa</span></div>
+        <div class="eyebrow">Status do equipamento <span class="live-badge">tempo real · sensores e clima</span></div>
         <div class="selector">
-          <button class="on" onclick="preset('crit',this)">Cenário crítico · EQ-009</button>
-          <button onclick="preset('safe',this)">Cenário seguro · EQ-036</button>
+          <button class="on" onclick="setCenario('crit',this)">EQ-009 · agora</button>
+          <button onclick="setCenario('safe',this)">EQ-036 · agora</button>
         </div>
         <div class="gauge-wrap">
           <div class="gauge-svg">
@@ -224,34 +244,24 @@
           <div class="classe-pill" id="opPill"></div>
         </div>
         <div class="verdict" id="opVerdict"></div>
-        <div class="sim-note">Estimativa didática a partir de 4 variáveis. O modelo
-          <b>Random Forest</b> treinado usa todas as variáveis e roda no servidor — aqui você
-          vê, de forma aproximada, como cada fator move o risco.</div>
       </div>
       <div>
+        <details class="help-box">
+          <summary>❓ Como ler este painel</summary>
+          <div class="body">Este painel mostra o <b>risco de operar agora</b> com este equipamento.
+          Os números chegam <b>sozinhos</b> dos sensores da máquina e da previsão do tempo — você
+          não precisa medir nem digitar nada. A <b>cor</b> indica se pode operar:
+          🟢 verde libera, 🟡 amarelo pede atenção, 🟠 laranja restringe e 🔴 vermelho não recomenda.
+          Quando o risco estiver alto ou crítico, <b>siga a recomendação</b> mostrada.</div>
+        </details>
         <div class="card" style="margin-bottom:18px">
-          <h3>Ajuste as condições</h3>
-          <div class="sub">Arraste os controles — o score recalcula em tempo real.</div>
-          <div class="slider-row">
-            <div class="top"><span class="lab"><span class="help" title="Umidade atual do solo; quanto mais úmido, menos firme fica o terreno.">Umidade do solo</span></span><span class="val"><span id="vUmid">55</span> %</span></div>
-            <input type="range" id="sUmid" min="0" max="100" step="1" value="55">
-          </div>
-          <div class="slider-row">
-            <div class="top"><span class="lab"><span class="help" title="Precipitação acumulada nas últimas 24 horas.">Chuva 24h</span></span><span class="val"><span id="vChuva">30</span> mm</span></div>
-            <input type="range" id="sChuva" min="0" max="200" step="1" value="30">
-          </div>
-          <div class="slider-row">
-            <div class="top"><span class="lab"><span class="help" title="Distância até o rio/açude mais próximo; quanto mais perto, mais instável o terreno.">Distância da água</span></span><span class="val"><span id="vAgua">800</span> m</span></div>
-            <input type="range" id="sAgua" min="5" max="2000" step="5" value="800">
-          </div>
-          <div class="slider-row">
-            <div class="top"><span class="lab"><span class="help" title="Inclinação do terreno em graus; mais íngreme = maior risco de tombamento.">Declividade</span></span><span class="val"><span id="vDecliv">15</span> °</span></div>
-            <input type="range" id="sDecliv" min="0" max="45" step="1" value="15">
-          </div>
+          <h3>Leitura atual dos sensores</h3>
+          <div class="sub" id="opMeta"></div>
+          <div class="readings" id="opReadings"></div>
         </div>
         <div class="card">
           <h3>Por que esse risco? <span style="font-weight:400;font-size:13px;color:var(--muted)">(top fatores)</span></h3>
-          <div class="sub">O modelo é interpretável: a lista reordena conforme o que mais pesa na sua simulação.</div>
+          <div class="sub">O modelo é interpretável: aponta o que mais pesou nesta leitura.</div>
           <div class="factors" id="opFactors"></div>
         </div>
       </div>
@@ -280,6 +290,11 @@
       <div class="kpi amber"><div class="label">Em risco Alto/Crítico</div><div class="num" id="kAltoCrit">1.624</div><div class="note" id="kAltoCritNote">das leituras</div></div>
       <div class="kpi red"><div class="label">Alertas abertos</div><div class="num" id="kAlertas">1.624</div><div class="note">aguardando ação</div></div>
     </div>
+    <div class="economia">
+      <div class="lbl">Prejuízo evitável estimado</div>
+      <div class="big" id="gEconomia">R$ 62,1 mi</div>
+      <div class="note" id="gEconomiaNote">1.624 alertas × R$ 85 mil × 45% (prevenção). Premissas ajustáveis.</div>
+    </div>
     <div class="row">
       <div class="card" style="flex:1;min-width:340px">
         <h3>Risco médio por região</h3>
@@ -305,6 +320,44 @@
         <div class="legend" id="distLegend"></div>
       </div>
     </div>
+    <div class="row" style="margin-top:18px">
+      <div class="card" style="flex:1;min-width:340px">
+        <div class="eyebrow">Simulador de cenário — e se? <span class="sim-badge">estimativa</span></div>
+        <h3>Planeje cenários antes que aconteçam</h3>
+        <div class="sub">Arraste os controles (ex.: "e se chover forte amanhã?") e veja o risco recalcular.</div>
+        <div class="slider-row">
+          <div class="top"><span class="lab"><span class="help" title="O quanto a terra está molhada; perto de 100% = mais risco de atolar.">Umidade do solo</span></span><span class="val"><span id="gvUmid">55</span> %</span></div>
+          <input type="range" id="gUmid" min="0" max="100" step="1" value="55">
+        </div>
+        <div class="slider-row">
+          <div class="top"><span class="lab"><span class="help" title="Quanto choveu no último dia; mais chuva = terreno mais mole.">Chuva 24h</span></span><span class="val"><span id="gvChuva">30</span> mm</span></div>
+          <input type="range" id="gChuva" min="0" max="200" step="1" value="30">
+        </div>
+        <div class="slider-row">
+          <div class="top"><span class="lab"><span class="help" title="Quão perto de rio/açude; mais perto = terreno mais instável.">Distância da água</span></span><span class="val"><span id="gvAgua">800</span> m</span></div>
+          <input type="range" id="gAgua" min="5" max="2000" step="5" value="800">
+        </div>
+        <div class="slider-row">
+          <div class="top"><span class="lab"><span class="help" title="O quanto o terreno está inclinado; ladeira forte aumenta o risco de tombar.">Declividade</span></span><span class="val"><span id="gvDecliv">15</span> °</span></div>
+          <input type="range" id="gDecliv" min="0" max="45" step="1" value="15">
+        </div>
+        <div class="sim-note">Aproximação didática do modelo <b>Random Forest</b> treinado (que usa
+          todas as variáveis e roda no servidor) — para planejar cenários, não para decisão final.</div>
+      </div>
+      <div class="card" style="flex:1;min-width:300px">
+        <h3>Resultado do cenário</h3>
+        <div class="sub">Score estimado e recomendação para as condições simuladas.</div>
+        <div class="gauge-wrap">
+          <div class="gauge-svg">
+            <svg viewBox="0 0 240 124" id="simGauge"></svg>
+            <div class="scoreNum" id="simScore">0</div>
+          </div>
+          <div class="classe-pill" id="simPill"></div>
+        </div>
+        <div class="verdict" id="simVerdict"></div>
+        <div class="factors" id="simFactors" style="margin-top:14px"></div>
+      </div>
+    </div>
   </section>
 
   <!-- ============ SEGURADORA ============ -->
@@ -315,6 +368,11 @@
       <div class="sub">Taxa real de sinistro observada nos dados históricos, agrupada pela faixa de risco que o modelo previu. Quanto maior a faixa, maior a sinistralidade real — exatamente o esperado.</div>
       <div class="valid-grid" id="validGrid"></div>
       <div class="insight">📈 <b>Leitura de risco Baixo → apenas 1,8% viraram sinistro. Crítico → 97,6%.</b> Uma separação de mais de 50× entre as pontas comprova que o score é confiável para embasar decisões de subscrição e precificação.</div>
+    </div>
+    <div class="economia">
+      <div class="lbl">Prejuízo evitável estimado</div>
+      <div class="big" id="sEconomia">R$ 62,1 mi</div>
+      <div class="note" id="sEconomiaNote">1.624 alertas × R$ 85 mil × 45% (prevenção). Premissas ajustáveis.</div>
     </div>
     <div class="filters">
       <div class="fgroup"><label for="sClasse">Classe de risco</label>
@@ -402,38 +460,83 @@ const ORDER=['Baixo','Medio','Alto','Critico'];
 const fmt=n=>n.toLocaleString('pt-BR');
 function classifica(s){ return s<=25?'Baixo':s<=50?'Medio':s<=75?'Alto':'Critico'; }
 
-/* ===================== OPERADOR — simulador ===================== */
-/* Aproximacao didatica coerente com risco_utils.py: normaliza cada variavel na
-   direcao do risco, soma ponderada (umidade e distancia da agua tem peso maior;
-   chuva e declividade, medio) e uma interacao (solo muito umido + perto da agua
-   eleva bastante). NAO e o Random Forest — e uma estimativa para o operador. */
-const sl={umid:'sUmid',chuva:'sChuva',agua:'sAgua',decliv:'sDecliv'};
-const PRESETS={ crit:{umid:87,chuva:40,agua:30,decliv:23}, safe:{umid:33,chuva:29,agua:1078,decliv:8} };
+/* Premissas economicas (espelham risco_utils.py) para o "prejuizo evitavel". */
+const CUSTO_MEDIO_SINISTRO=85000, TAXA_PREVENCAO=0.45;
+function estimarEconomia(n){ return n*CUSTO_MEDIO_SINISTRO*TAXA_PREVENCAO; }
+function economiaFmt(v){
+  if(v>=1e6) return 'R$ '+(v/1e6).toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+' mi';
+  if(v>=1e3) return 'R$ '+Math.round(v/1e3).toLocaleString('pt-BR')+' mil';
+  return 'R$ '+Math.round(v).toLocaleString('pt-BR');
+}
+
+/* ---- Gauge reutilizavel (Operador e Simulador do Gestor usam o mesmo) ---- */
 const GR=96, GLEN=Math.PI*GR;
-function initGauge(){
-  // cy baixo (112) deixa a cupula alta e o miolo livre para o numero do score;
-  // os rotulos 0/100 ficam junto das pontas do arco.
+function initGauge(svgId){
+  // cy baixo (112) deixa a cupula alta e o miolo livre para o numero do score.
   const cx=120,cy=112,r=GR, d=`M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}`;
-  document.getElementById('gauge').innerHTML=`
+  document.getElementById(svgId).innerHTML=`
     <path d="${d}" fill="none" stroke="${C_TRACK}" stroke-width="18" stroke-linecap="round"/>
-    <path id="gaugeFill" d="${d}" fill="none" stroke="${COR.Baixo}" stroke-width="18" stroke-linecap="round"
+    <path id="${svgId}Fill" d="${d}" fill="none" stroke="${COR.Baixo}" stroke-width="18" stroke-linecap="round"
           stroke-dasharray="0 ${GLEN}" style="transition:stroke-dasharray .3s ease, stroke .3s ease"/>
     <text x="${cx-r+2}" y="122" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">0</text>
     <text x="${cx+r-8}" y="122" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">100</text>`;
 }
-function updGauge(score,cor){
-  const f=document.getElementById('gaugeFill');
+function updGauge(svgId,score,cor){
+  const f=document.getElementById(svgId+'Fill');
   f.setAttribute('stroke-dasharray',`${Math.max(0,Math.min(100,score))/100*GLEN} ${GLEN}`);
   f.setAttribute('stroke',cor);
 }
+
+/* ===================== OPERADOR — somente visualizacao ===================== */
+/* Na vida real os valores chegam dos SENSORES e da API de clima; o operador nao
+   ajusta nada. Mostramos cenarios reais (saida do modelo) por equipamento. */
+const CENARIOS={
+  crit:{eq:'EQ-009',modelo:'Case IH Magnum 340',regiao:'Sorriso (MT)',op:'Plantio',score:82,classe:'Critico',
+        umid:87,chuva:40,agua:30,decliv:23, fatores:["Distância da água","Umidade do solo","Tipo de solo (encharcado)"]},
+  safe:{eq:'EQ-036',modelo:'Jacto Uniport 3030',regiao:'Sorriso (MT)',op:'Pulverização',score:1,classe:'Baixo',
+        umid:33,chuva:29,agua:1078,decliv:8, fatores:["Tipo de solo","Umidade do solo","Distância da água"]}
+};
+/* tooltip (significado + origem do dado) por variavel da leitura */
+const DICA={
+  umid:"O quanto a terra está molhada. Perto de 100% = mais risco de atolar. Vem do sensor de umidade.",
+  chuva:"Quanto choveu no último dia. Mais chuva = terreno mais mole. Vem da previsão do tempo.",
+  agua:"Quão perto de rio/açude. Mais perto = terreno mais instável. Vem do GPS.",
+  decliv:"O quanto o terreno está inclinado. Ladeira forte aumenta o risco de tombar. Vem do inclinômetro."
+};
+function q(t){ return `<span class="qmark" title="${t}">?</span>`; }
+function setCenario(which,btn){
+  if(btn){ document.querySelectorAll('#op .selector button').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
+  const d=CENARIOS[which], cor=COR[d.classe];
+  const sc=document.getElementById('opScore'); sc.textContent=d.score; sc.style.color=cor;
+  updGauge('gauge',d.score,cor);
+  const pill=document.getElementById('opPill'); pill.style.background=cor; pill.textContent='Risco '+d.classe;
+  const rec=REC[d.classe], vd=document.getElementById('opVerdict');
+  vd.style.background=cor+'1F'; vd.style.color=cor;
+  vd.innerHTML=`<span class="ic">${rec[0]}</span><span>${rec[1]}</span>`;
+  document.getElementById('opMeta').textContent=`${d.eq} · ${d.modelo} · ${d.regiao} · operação de ${d.op}`;
+  document.getElementById('opReadings').innerHTML=`
+    <div class="reading"><div class="k">Umidade do solo ${q(DICA.umid)}</div><div class="v">${d.umid}<small>%</small></div></div>
+    <div class="reading"><div class="k">Chuva 24h ${q(DICA.chuva)}</div><div class="v">${d.chuva}<small>mm</small></div></div>
+    <div class="reading"><div class="k">Distância da água ${q(DICA.agua)}</div><div class="v">${fmt(d.agua)}<small>m</small></div></div>
+    <div class="reading"><div class="k">Declividade ${q(DICA.decliv)}</div><div class="v">${d.decliv}<small>°</small></div></div>`;
+  document.getElementById('opFactors').innerHTML=d.fatores.map((f,i)=>
+    `<div class="factor f${i+1}"><div class="rank">${i+1}</div><div class="txt">${f}</div></div>`).join('');
+}
+
+/* ===================== GESTOR — simulador "e se?" ===================== */
+/* Aproximacao didatica coerente com risco_utils.py: normaliza cada variavel na
+   direcao do risco, soma ponderada (umidade e distancia da agua com peso maior;
+   chuva e declividade, medio) e uma interacao (solo muito umido + perto da agua
+   eleva bastante). NAO roda o Random Forest — e uma estimativa para planejar. */
+const gsl={umid:'gUmid',chuva:'gChuva',agua:'gAgua',decliv:'gDecliv'};
 function nrm(v,lo,hi,inv){ let z=Math.max(0,Math.min(1,(v-lo)/(hi-lo))); return inv?1-z:z; }
 function simular(){
-  const umid=+document.getElementById(sl.umid).value, chuva=+document.getElementById(sl.chuva).value,
-        agua=+document.getElementById(sl.agua).value, decliv=+document.getElementById(sl.decliv).value;
-  document.getElementById('vUmid').textContent=umid;
-  document.getElementById('vChuva').textContent=chuva;
-  document.getElementById('vAgua').textContent=fmt(agua);
-  document.getElementById('vDecliv').textContent=decliv;
+  const umid=+document.getElementById(gsl.umid).value, chuva=+document.getElementById(gsl.chuva).value,
+        agua=+document.getElementById(gsl.agua).value, decliv=+document.getElementById(gsl.decliv).value;
+  document.getElementById('gvUmid').textContent=umid;
+  document.getElementById('gvChuva').textContent=chuva;
+  document.getElementById('gvAgua').textContent=fmt(agua);
+  document.getElementById('gvDecliv').textContent=decliv;
   const nu=nrm(umid,0,100), nc=nrm(chuva,0,200), na=nrm(agua,5,1500,true), nd=nrm(decliv,0,45);
   const contrib=[
     {f:"Umidade do solo", v:0.30*nu},
@@ -445,23 +548,15 @@ function simular(){
   if(nu>0.6 && na>0.6) s+=0.25;        // solo encharcado + perto da agua
   s=Math.max(0,Math.min(1,s));
   const score=Math.round(s*100), classe=classifica(score), cor=COR[classe];
-  const sc=document.getElementById('opScore'); sc.textContent=score; sc.style.color=cor;
-  updGauge(score,cor);
-  const pill=document.getElementById('opPill'); pill.style.background=cor; pill.textContent='Risco '+classe;
-  const rec=REC[classe], vd=document.getElementById('opVerdict');
+  const sc=document.getElementById('simScore'); sc.textContent=score; sc.style.color=cor;
+  updGauge('simGauge',score,cor);
+  const pill=document.getElementById('simPill'); pill.style.background=cor; pill.textContent='Risco '+classe;
+  const rec=REC[classe], vd=document.getElementById('simVerdict');
   vd.style.background=cor+'1F'; vd.style.color=cor;
   vd.innerHTML=`<span class="ic">${rec[0]}</span><span>${rec[1]}</span>`;
   const top=contrib.slice().sort((x,y)=>y.v-x.v).slice(0,3);
-  document.getElementById('opFactors').innerHTML=top.map((x,i)=>
+  document.getElementById('simFactors').innerHTML=top.map((x,i)=>
     `<div class="factor f${i+1}"><div class="rank">${i+1}</div><div class="txt">${x.f}</div></div>`).join('');
-}
-function preset(which,btn){
-  document.querySelectorAll('.selector button').forEach(b=>b.classList.remove('on'));
-  if(btn) btn.classList.add('on');
-  const p=PRESETS[which];
-  document.getElementById(sl.umid).value=p.umid; document.getElementById(sl.chuva).value=p.chuva;
-  document.getElementById(sl.agua).value=p.agua; document.getElementById(sl.decliv).value=p.decliv;
-  simular();
 }
 
 /* ===================== GESTOR — filtros + agregados ===================== */
@@ -482,6 +577,11 @@ function renderGestor(){
   document.getElementById('kAltoCrit').textContent=fmt(altoCrit);
   document.getElementById('kAltoCritNote').textContent=leituras?`${(altoCrit/leituras*100).toFixed(0)}% das leituras`:'—';
   document.getElementById('kAlertas').textContent=fmt(altoCrit);
+
+  // prejuizo evitavel estimado (recalcula com o filtro)
+  document.getElementById('gEconomia').textContent=economiaFmt(estimarEconomia(altoCrit));
+  document.getElementById('gEconomiaNote').textContent=
+    `${fmt(altoCrit)} alertas Alto/Crítico × R$ 85 mil × 45% (prevenção). Premissas ajustáveis.`;
 
   // risco medio por regiao (media ponderada por leituras)
   const reg={};
@@ -539,6 +639,13 @@ function renderSeg(){
     <div class="vcard" style="background:${COR[v.c]}"><div class="vc">Risco ${v.c}</div>
       <div class="vr">${v.r}%</div><div class="vn">sinistro real</div></div>`).join('');
 
+  // prejuizo evitavel: alertas Alto/Critico da regiao filtrada (amostra de frota)
+  const rReg=document.getElementById('sReg').value;
+  const acReg=FROTA.filter(f=>rReg==='Todas'||f.regiao===rReg).reduce((s,f)=>s+f.a+f.c,0);
+  document.getElementById('sEconomia').textContent=economiaFmt(estimarEconomia(acReg));
+  document.getElementById('sEconomiaNote').textContent=
+    `${fmt(acReg)} alertas Alto/Crítico × R$ 85 mil × 45% (prevenção). Premissas ajustáveis.`;
+
   const al=alertasFiltrados();
   // causas predominantes = contagem de fator nos alertas filtrados
   const tally={};
@@ -568,10 +675,12 @@ document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
 });
 
 /* ===================== Listeners e render inicial ===================== */
-['sUmid','sChuva','sAgua','sDecliv'].forEach(id=>document.getElementById(id).addEventListener('input',simular));
+['gUmid','gChuva','gAgua','gDecliv'].forEach(id=>document.getElementById(id).addEventListener('input',simular));
 ['fReg','fTipo'].forEach(id=>document.getElementById(id).addEventListener('change',renderGestor));
 ['sClasse','sReg'].forEach(id=>document.getElementById(id).addEventListener('change',renderSeg));
-initGauge(); preset('crit',document.querySelector('.selector button')); renderGestor(); renderSeg();
+initGauge('gauge'); initGauge('simGauge');
+setCenario('crit',document.querySelector('#op .selector button'));
+renderGestor(); renderSeg(); simular();
 </script>
 </body>
 </html>

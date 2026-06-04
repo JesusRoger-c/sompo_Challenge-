@@ -47,6 +47,29 @@ ROTULOS = {
     "periodo_dia": "Periodo do dia",
 }
 
+# ---------------------------------------------------------------------------
+# Premissas economicas para estimar o "prejuizo evitavel" (ajustaveis).
+# Sao deliberadamente explicitas e editaveis: a estimativa de R$ depende destes
+# dois numeros, entao quem revisar o projeto pode calibra-los conforme dados
+# reais da Sompo sem cacar constantes espalhadas pelo codigo.
+#   - CUSTO_MEDIO_SINISTRO: quanto custa, em media, um sinistro agricola (R$).
+#   - TAXA_PREVENCAO: fracao dos alertas Alto/Critico que de fato vira prevencao
+#     efetiva (nem todo alerta evita um sinistro; assumimos 45% como premissa).
+# ---------------------------------------------------------------------------
+CUSTO_MEDIO_SINISTRO = 85000   # R$ por sinistro evitado
+TAXA_PREVENCAO = 0.45          # 45% dos alertas viram prevencao efetiva
+
+
+def estimar_economia(n_alertas):
+    """Estima, em R$, o prejuizo evitavel a partir do numero de alertas de risco.
+
+    Formula simples e transparente (e nao uma caixa-preta): cada alerta Alto/
+    Critico representa um sinistro potencial; multiplicamos pela fracao que a
+    prevencao realmente evita e pelo custo medio de um sinistro. Serve para
+    traduzir o risco tecnico em linguagem de negocio (quanto a solucao poupa).
+    """
+    return n_alertas * CUSTO_MEDIO_SINISTRO * TAXA_PREVENCAO
+
 
 def prob_para_score(prob):
     """Probabilidade de sinistro (0-1) -> score de risco inteiro de 0 a 100.

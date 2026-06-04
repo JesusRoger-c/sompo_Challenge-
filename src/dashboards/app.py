@@ -24,10 +24,35 @@ import streamlit as st
 # evitando que dashboard e diagrama divirjam de cor com o tempo.
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
 import tema
+import risco_utils as ru   # premissas economicas (estimar_economia) e rotulos
 
 DB = os.path.join(os.path.dirname(__file__), "..", "database", "somprev_risk.db")
 # Cores do semaforo de risco vindas do tema central (fonte unica de verdade).
 CORES = tema.RISCO
+
+
+def fmt_reais(v):
+    """Formata um valor em R$ de forma compacta (mi/mil) para os cards de KPI."""
+    if v >= 1_000_000:
+        return f"R$ {v/1_000_000:,.1f} mi".replace(",", "X").replace(".", ",").replace("X", ".")
+    if v >= 1_000:
+        return f"R$ {v/1_000:,.0f} mil".replace(",", ".")
+    return f"R$ {v:,.0f}".replace(",", ".")
+
+
+def card_prejuizo_evitavel(n_alertas):
+    """Renderiza o card 'Prejuízo evitável estimado' (destaque vinho/grafite,
+    NÃO no vermelho de risco) com a fórmula em letra pequena."""
+    economia = ru.estimar_economia(n_alertas)
+    custo = f"R$ {ru.CUSTO_MEDIO_SINISTRO/1000:.0f} mil"
+    st.markdown(
+        f"<div style='background:{tema.GRAFITE};color:#fff;padding:16px 18px;border-radius:12px;"
+        f"border-left:5px solid {tema.VERMELHO_ESCURO}'>"
+        f"<div style='font-size:13px;opacity:.85'>Prejuízo evitável estimado</div>"
+        f"<div style='font-family:\"Roboto Mono\",monospace;font-size:32px;font-weight:600;margin:2px 0'>{fmt_reais(economia)}</div>"
+        f"<div style='font-size:11px;opacity:.7'>{n_alertas:,} alertas Alto/Crítico × {custo} × "
+        f"{int(ru.TAXA_PREVENCAO*100)}% (prevenção). Premissas ajustáveis.</div></div>".replace(",", "."),
+        unsafe_allow_html=True)
 RECS = {
     "Baixo": "✅ Operação liberada. Condições dentro do esperado.",
     "Medio": "⚠️ Operação com atenção. Reduza a velocidade e evite áreas úmidas.",
@@ -152,6 +177,9 @@ def view_gestor(df):
     k[2].metric("Risco Alto/Crítico", f"{alto:,}".replace(",", "."))
     k[3].metric("Score médio", f"{df['score_risco'].mean():.1f}")
 
+    card_prejuizo_evitavel(int(alto))  # recalcula conforme os filtros ativos
+    st.markdown("")
+
     c1, c2 = st.columns(2)
     with c1:
         st.markdown("**Risco médio por região**")
@@ -189,6 +217,10 @@ def view_seguradora(df):
             f"<div style='font-size:12px'>sinistro real</div></div>", unsafe_allow_html=True)
     st.info("Leituras de risco Baixo quase não viram sinistro; as de risco Crítico quase sempre. "
             "Essa separação comprova a confiabilidade do score.")
+
+    alto = int(df["classe_risco"].isin(["Alto", "Critico"]).sum())
+    card_prejuizo_evitavel(alto)  # recalcula conforme os filtros ativos
+    st.markdown("")
 
     st.markdown("**Trilha de auditoria — alertas de maior risco**")
     audit = (df[df["classe_risco"].isin(["Alto", "Critico"])]
