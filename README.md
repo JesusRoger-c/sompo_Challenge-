@@ -8,617 +8,258 @@
   <a href="https://www.fiap.com.br/">
     <img src="assets/logo-fiap.png" alt="FIAP" width="40%">
   </a>
+</p>
+
 ---
 
-# 👨‍🎓 Integrantes
+# 🌱 AgroSentinela — Sistema Preditivo de Risco Agrícola
 
-| Integrante                         | RM       |
-| ---------------------------------- | -------- |
-| Karina Garta Szewczuk              | RM569309 |
-| Maria Sabrina Feitosa da Silva     | RM568714 |
-| Nicolas Lima Apolinário            | RM570741 |
+### 🎓 FIAP — Faculdade de Informática e Administração Paulista · 🚜 Challenge Sompo Seguros
+
+Inteligência preditiva que transforma a gestão de risco de frotas agrícolas de uma
+atuação **reativa** para **preventiva**, gerando um **score de risco (0–100)** por
+equipamento/região, **alertas automáticos** e **recomendações acionáveis** — com foco
+total na experiência de três personas: operador, gestor e seguradora.
+
+---
+
+## 👨‍🎓 Integrantes
+
+| Integrante | RM |
+|---|---|
+| Karina Garta Szewczuk | RM569309 |
+| Maria Sabrina Feitosa da Silva | RM568714 |
+| Nicolas Lima Apolinário | RM570741 |
 | Roger Gabriel de Souza Jesus Costa | RM573659 |
 
----
-
-# 👩‍🏫 Professores
-
-## Tutora
-
-* Sabrina Otoni
-
-## Coordenador
-
-* André Godói
+**👩‍🏫 Tutora:** Sabrina Otoni · **Coordenador:** André Godói
 
 ---
 
-# 📜 Introdução
+## 🎥 Vídeo demonstrativo
 
-O presente projeto propõe o desenvolvimento de uma solução inteligente para prevenção de riscos operacionais no setor agrícola, utilizando técnicas de Inteligência Artificial, análise estatística e integração de dados.
-A proposta foi desenvolvida em parceria acadêmica com a Sompo Seguros, tendo como objetivo transformar a gestão de riscos agrícolas por meio da análise preditiva de variáveis ambientais e operacionais.
-A solução busca migrar o modelo tradicional de atuação reativa para uma abordagem preventiva, permitindo identificar situações críticas antes que incidentes ocorram.
-O sistema utiliza dados provenientes de sensores, APIs climáticas e registros operacionais para calcular scores de risco em tempo real, auxiliando operadores, gestores e seguradoras na tomada de decisão.
+📌 **Link do vídeo (não listado):** _adicionar aqui o link do YouTube_
 
 ---
 
-# 🌎 Contextualização do Problema
+## 🔎 O que evoluiu desde a Sprint 1
 
-O agronegócio brasileiro apresenta alta dependência de variáveis climáticas e condições ambientais, o que torna suas operações suscetíveis a riscos operacionais relevantes.
+Esta entrega sai do plano conceitual e passa para a **implementação funcional ponta a
+ponta**. Em resposta direta ao feedback recebido:
 
-Segundo a Embrapa, fatores como alta umidade do solo, precipitação intensa e características inadequadas do terreno aumentam significativamente a probabilidade de falhas operacionais, incluindo compactação do solo, atolamentos e danos a equipamentos agrícolas.
-
-De forma complementar, a Confederação da Agricultura e Pecuária do Brasil (CNA) aponta que eventos climáticos extremos vêm causando impactos econômicos expressivos no setor, afetando produtividade, custos operacionais e eficiência logística.
-
-Apesar da disponibilidade crescente de sensores, APIs climáticas e sistemas de monitoramento, grande parte das decisões operacionais ainda é baseada em experiência prática, o que limita a capacidade de antecipação de riscos.
-
-Nesse cenário, o uso de Inteligência Artificial e análise preditiva torna-se essencial para transformar dados operacionais e ambientais em informações estratégicas, permitindo a identificação antecipada de cenários críticos e a mitigação de perdas.
-
----
-
-# ⚠️ Problema Identificado
-
-As operações agrícolas ocorrem em ambientes altamente dinâmicos e imprevisíveis.
-
-Fatores como:
-
-* 🌧️ Umidade do solo
-* ☔ Volume de chuvas
-* 🌱 Tipo de solo
-* ⛰️ Declividade
-* 🌊 Proximidade de corpos d’água
-* 📋 Histórico operacional
-
-impactam diretamente a segurança e a eficiência das atividades realizadas por máquinas agrícolas.
-
-Atualmente, grande parte das decisões é tomada apenas após a ocorrência de incidentes, gerando:
-
-* 💸 Aumento de custos operacionais
-* ⚙️ Danos mecânicos em equipamentos
-* 🚜 Atolamentos
-* ⚠️ Riscos à segurança dos operadores
-* 📉 Redução da produtividade
-* 🛡️ Baixa previsibilidade para seguradoras
-
-Além disso, existe uma subutilização de dados operacionais já disponíveis, que poderiam ser utilizados para prever cenários críticos.
+| Ponto do feedback | O que fizemos nesta Sprint |
+|---|---|
+| Personas em uma linha | Aprofundamos contexto, dor e **cenário prático de uso** → [`docs/personas.md`](docs/personas.md) |
+| Dataset com poucas linhas | Geramos **6.000 leituras** + 10 cenários curados, com **dicionário completo de variáveis** → [`docs/variaveis.md`](docs/variaveis.md) |
+| Arquitetura só textual | Criamos um **diagrama de arquitetura** com dispositivos, integrações e componentes (abaixo) |
+| Algoritmo sem justificativa | **Random Forest** comparado a Logistic Regression e Gradient Boosting, com inputs/outputs estruturados → [`docs/modelo_preditivo.md`](docs/modelo_preditivo.md) |
+| Contexto sem dados/fontes | Adicionamos **números de mercado, sinistralidade e fontes referenciadas** → [`docs/contextualizacao.md`](docs/contextualizacao.md) |
+| Métricas sem evidência | Substituímos por **métricas reais e reprodutíveis** geradas pelo código → [`docs/relatorio_validacao.md`](docs/relatorio_validacao.md) |
 
 ---
 
-# 💡 Solução Proposta
+## 🌎 Contextualização (resumo)
 
-A proposta consiste na criação de um Sistema Preditivo de Risco Agrícola baseado em:
-
-* 🤖 Inteligência Artificial
-* 📊 Machine Learning
-* 📈 Statistical Computing
-* 🗄️ Banco de Dados SQL
-* 📱 Dashboards Analíticos
-
-O sistema será responsável por transformar dados ambientais e operacionais em informações acionáveis, permitindo antecipar riscos e gerar recomendações preventivas.
+O seguro rural brasileiro cobriu cerca de **6,3 milhões de hectares** e **~R$ 45 bilhões**
+em valor segurado em 2024 (Mapa/Agência Gov). Ao mesmo tempo, o Brasil tem o **maior
+número de fatalidades com tratores** do mundo — cerca de **3 mil mortes/ano** (Canal
+Rural) — e um estudo no RS aponta que **96,8% desses acidentes seriam evitáveis por
+prevenção** (Tecno-Lógica, 2021). Esse é exatamente o espaço da nossa solução.
+Detalhes e fontes em [`docs/contextualizacao.md`](docs/contextualizacao.md).
 
 ---
 
-# 🎯 Objetivos do Projeto
+## 🏗️ Arquitetura da Solução
 
-## Objetivo Geral
+![Arquitetura do AgroSentinela](docs/arquitetura.png)
 
-Desenvolver uma solução preditiva capaz de identificar fatores que elevam a probabilidade de sinistros em operações agrícolas.
+**Fluxo:** Sensores/APIs → Gateway de borda → Ingestão/ETL (Python) → Banco SQL →
+Motor de IA (Random Forest) → Score/Alertas → Dashboards por persona.
 
----
+- **Campo (coleta):** sensores de umidade do solo, GPS (distância de corpos d'água),
+  inclinômetro (declividade), horímetro/carga e **API de clima externa**.
+- **Conectividade:** gateway LoRaWAN/4G + coletor MQTT.
+- **Nuvem:** ETL em Python, banco relacional SQL e o motor de IA.
+- **Aplicação:** app do operador (semáforo), dashboard do gestor, portal da seguradora
+  e o motor de alertas.
 
-## Objetivos Específicos
-
-* Implementar modelos preditivos supervisionados
-* Gerar scores de risco de 0 a 100
-* Integrar sensores, banco SQL e modelo de IA
-* Validar estatisticamente os resultados
-* Criar dashboards para monitoramento operacional
-* Gerar alertas preventivos automáticos
-
----
-
-# 👥 Personas
-
-## 🚜 João Batista — Operador Agrícola
-
-| Informação            | Detalhes                       |
-| --------------------- | ------------------------------ |
-| 👤 Idade              | 42 anos                        |
-| 📍 Região             | Mato Grosso                    |
-| 💼 Experiência        | 18 anos no setor agrícola      |
-| 🚜 Função             | Operador de máquinas agrícolas |
-| 💻 Maturidade Digital | Baixa                          |
-
-### 🎯 Objetivo
-
-Realizar operações agrícolas com segurança, evitando atolamentos, falhas mecânicas e paralisações causadas por condições inadequadas do terreno.
-
-### 😰 Principais dores
-
-* Não possui previsibilidade das condições do solo
-* Depende da experiência prática para decidir
-* Sofre pressão por produtividade
-* Já enfrentou paralisações em períodos de chuva intensa
-
-### 💬 Frase da Persona
-
-> “Se eu errar a decisão, posso parar toda a operação.”
-
-### 🚀 Benefícios esperados
-
-* Mais segurança operacional
-* Redução de incidentes
-* Maior confiança nas decisões
+> O diagrama é gerado por [`docs/_gerar_arquitetura.py`](docs/_gerar_arquitetura.py)
+> (saídas: `docs/arquitetura.svg` e `docs/arquitetura.png`).
 
 ---
 
-## 📊 Fernanda Almeida — Gestora de Operações
+## 🤖 Modelo Preditivo (resumo)
 
-| Informação            | Detalhes                      |
-| --------------------- | ----------------------------- |
-| 👤 Idade              | 36 anos                       |
-| 💼 Cargo              | Gestora de Frota Agrícola     |
-| 📈 Experiência        | 10 anos em gestão operacional |
-| 💻 Maturidade Digital | Média                         |
+Problema de **classificação binária supervisionada** (`houve_sinistro`); a
+probabilidade vira o **score 0–100**, classificado em 4 faixas.
 
-### 🎯 Objetivo
+| Faixa | Score | Ação |
+|---|---|---|
+| 🟢 Baixo | 0–25 | Operação liberada |
+| 🟡 Médio | 26–50 | Operação com atenção |
+| 🟠 Alto | 51–75 | Operação com restrições / supervisão |
+| 🔴 Crítico | 76–100 | Operação não recomendada |
 
-Reduzir custos operacionais e aumentar a eficiência da frota agrícola através da análise inteligente de riscos.
-
-### 😰 Principais dores
-
-* Alto custo com incidentes
-* Falta de previsibilidade operacional
-* Dificuldade em monitorar diferentes regiões
-
-### 💬 Frase da Persona
-
-> “Cada máquina parada representa prejuízo operacional.”
-
-### 🚀 Benefícios esperados
-
-* Redução de custos
-* Melhor planejamento operacional
-* Maior produtividade
+**Algoritmo escolhido: Random Forest** (300 árvores). Justificativa: captura
+interações não-lineares (ex.: solo encharcado **+** chuva), lida com variáveis mistas,
+é robusto e **interpretável** (importância de variáveis → explicabilidade). Comparação
+completa em [`docs/modelo_preditivo.md`](docs/modelo_preditivo.md).
 
 ---
 
-## 🏢 Ricardo Mendes — Analista de Risco da Seguradora
+## 📈 Resultados reais (validação)
 
-| Informação            | Detalhes            |
-| --------------------- | ------------------- |
-| 👤 Idade              | 39 anos             |
-| 🏢 Empresa            | Seguradora agrícola |
-| 💼 Função             | Analista de riscos  |
-| 💻 Maturidade Digital | Alta                |
+Base de **6.000 leituras**, split 75/25, validação cruzada de 5 folds. **Métricas reais
+do código** (seed 42):
 
-### 🎯 Objetivo
+| Modelo | Acurácia | Precisão | Recall | F1 | ROC-AUC |
+|---|---|---|---|---|---|
+| Logistic Regression | 0,747 | 0,537 | 0,788 | 0,639 | 0,841 |
+| **Random Forest** ✅ | **0,841** | **0,772** | **0,621** | **0,688** | **0,862** |
+| Gradient Boosting | 0,828 | 0,739 | 0,607 | 0,667 | 0,865 |
 
-Aumentar a previsibilidade dos riscos agrícolas e reduzir prejuízos causados por incidentes operacionais.
+**Prova de eficácia — o score separa quem sofre sinistro?** Taxa real de sinistro por
+faixa prevista:
 
-### 😰 Principais dores
+| Faixa | 🟢 Baixo | 🟡 Médio | 🟠 Alto | 🔴 Crítico |
+|---|---|---|---|---|
+| Sinistro real | **1,8%** | **15,3%** | **90,3%** | **97,6%** |
 
-* Falta de previsibilidade dos sinistros
-* Dados inconsistentes
-* Baixa rastreabilidade operacional
-
-### 💬 Frase da Persona
-
-> “Precisamos prever riscos antes que eles virem prejuízo.”
-
-### 🚀 Benefícios esperados
-
-* Melhor auditoria operacional
-* Decisões mais rápidas
-* Maior confiabilidade dos dados
+Uma diferença de **mais de 50×** entre as pontas. Relatório completo (matriz de
+confusão, correlações, gráficos) em [`docs/relatorio_validacao.md`](docs/relatorio_validacao.md).
 
 ---
 
-# 🗂️ Estruturação dos Dados
+## 📱 Dashboards por persona
 
-A solução é baseada na coleta e análise de variáveis ambientais e operacionais.
+Front-end funcional com três visões sob medida (prints em [`docs/prints/`](docs/prints/)):
 
-## 📊 Exemplo de Dataset
+| Persona | Visão | Destaque |
+|---|---|---|
+| 🚜 Operador | semáforo + recomendação | número grande e ação clara, sem jargão |
+| 📊 Gestor | mapa de calor + ranking + KPIs + tendência | onde agir na frota |
+| 🏢 Seguradora | validação + trilha de auditoria | rastreabilidade e versionamento |
 
-| id  | chuva_24h | umidade | temperatura | solo     | declividade | agua | falha | operação     | risco |
-| --- | --------- | ------- | ----------- | -------- | ----------- | ---- | ----- | ------------ | ----- |
-| 001 | 82.5      | 91%     | 22°C        | Argiloso | 35%         | 1    | 1     | Colheita     | Alto  |
-| 002 | 15.0      | 38%     | 30°C        | Arenoso  | 10%         | 0    | 0     | Plantio      | Baixo |
-| 003 | 47.3      | 64%     | 27°C        | Misto    | 22%         | 1    | 0     | Pulverização | Médio |
-| 004 | 90.2      | 95%     | 20°C        | Argiloso | 40%         | 1    | 1     | Colheita     | Alto  |
-| 005 | 5.0       | 20%     | 35°C        | Arenoso  | 5%          | 0    | 0     | Plantio      | Baixo |
-| 006 | 60.0      | 70%     | 25°C        | Misto    | 18%         | 1    | 0     | Colheita     | Médio |
-| 007 | 110.0     | 98%     | 18°C        | Argiloso | 55%         | 1    | 1     | Colheita     | Alto  |
-| 008 | 25.0      | 45%     | 28°C        | Arenoso  | 12%         | 0    | 0     | Pulverização | Baixo |
-| 009 | 75.0      | 80%     | 24°C        | Misto    | 30%         | 1    | 1     | Colheita     | Alto  |
-| 010 | 40.0      | 55%     | 26°C        | Misto    | 20%         | 0    | 0     | Plantio      | Médio |
+![Visão do Operador](docs/prints/dashboard_operador.png)
 
+Há duas formas de visualizar:
+- **Protótipo estático:** abra [`dashboards/preview_dashboard.html`](dashboards/preview_dashboard.html) no navegador.
+- **App funcional (lê o banco ao vivo):** `streamlit run dashboards/app.py`.
 
 ---
 
-## 🧾 Variáveis Utilizadas
+## 🗄️ Banco de Dados
 
-![alt text](assets/excelAtual.png)
+Modelo **relacional** com 5 tabelas e histórico auditável
+([`database/schema.sql`](database/schema.sql)):
 
----
+`regioes` · `equipamentos` · `leituras` (telemetria) · `predicoes` (score, classe,
+fatores, **versão do modelo**) · `alertas`.
 
-# 📈 Análise Estatística
-
-Foi realizada uma análise exploratória dos dados para identificar correlações entre variáveis ambientais e níveis de risco.
-
-## 🔍 Correlação das Variáveis com o Risco
-
-| Variável            | Correlação com Risco |
-| ------------------- | -------------------- |
-| Umidade do Solo     | 0.82                 |
-| Chuva 24h           | 0.74                 |
-| Proximidade da Água | 0.69                 |
-| Histórico de Falhas | 0.77                 |
-
-A análise demonstrou que solos com alta umidade e regiões próximas a corpos d’água apresentam maior probabilidade de incidentes operacionais.
+Consultas analíticas prontas em [`database/queries.sql`](database/queries.sql)
+(risco por região, ranking da frota, alertas abertos, tendência, validação do modelo,
+faixas de distância da água).
 
 ---
 
-# 🤖 Modelo Preditivo
+## ▶️ Como executar
 
-## 📌 Modelo Escolhido
+```bash
+# 1) Instalar dependências
+pip install -r requirements.txt
 
-Foi escolhido o algoritmo **Random Forest** para classificação de risco operacional.
+# 2) Gerar o dataset (6.000 leituras, seed 42)
+python datasets/gerar_dataset.py
 
----
+# 3) Treinar o modelo, validar e gerar gráficos + métricas
+python scripts/treinar_modelo.py
 
-## 📌 Justificativa Técnica
+# 4) Criar e popular o banco (roda o modelo e gera predições/alertas)
+python scripts/popular_banco.py
 
-O algoritmo Random Forest foi selecionado devido à sua capacidade de:
-
-* Trabalhar com múltiplas variáveis simultaneamente
-* Reduzir overfitting
-* Possuir alta interpretabilidade
-* Gerar classificações robustas
-* Apresentar bom desempenho em cenários complexos
-
-Além disso, o modelo permite identificar quais variáveis possuem maior impacto nas previsões.
-
----
-
-## 📥 Entradas do Modelo
-
-O modelo recebe:
-
-* Dados climáticos
-* Umidade do solo
-* Tipo de operação
-* Histórico de falhas
-* Localização
-* Proximidade de corpos d’água
-
----
-
-## 📤 Saídas do Modelo
-
-| Faixa    | Classificação |
-| -------- | ------------- |
-| 0 – 30   | 🟢 Baixo      |
-| 31 – 60  | 🟡 Médio      |
-| 61 – 100 | 🔴 Alto       |
-
-Além do score, o sistema gera:
-
-* 🚨 Alertas preventivos
-* 📌 Recomendações operacionais
-* 📊 Relatórios analíticos
-
----
-
-# 📊 Validação Estatística
-
-## 📌 Métricas Utilizadas
-
-* Accuracy
-* Precision
-* Recall
-* F1-Score
-* Matriz de Confusão
-
----
-
-## 📈 Resultados Obtidos
-
-| Métrica   | Resultado |
-| --------- | --------- |
-| Accuracy  | 91%       |
-| Precision | 89%       |
-| Recall    | 93%       |
-| F1-Score  | 91%       |
-
-Os resultados demonstram alta capacidade preditiva do modelo.
-
----
-
-# 🧠 Pipeline de Inteligência Artificial
-
-## 🔄 Fluxo do Processamento
-
-```txt
-Coleta dos dados
-        ↓
-Limpeza e tratamento
-        ↓
-Padronização das variáveis
-        ↓
-Engenharia de atributos
-        ↓
-Treinamento do modelo
-        ↓
-Predição do score de risco
-        ↓
-Geração de alertas
-        ↓
-Exibição no dashboard
+# 5a) Abrir o dashboard estático
+#     abra dashboards/preview_dashboard.html no navegador
+# 5b) Ou rodar o app funcional
+streamlit run dashboards/app.py
 ```
 
 ---
 
-# 🏗️ Arquitetura da Solução
+## 📂 Estrutura do Repositório
 
-## 🔄 Fluxo da Arquitetura
-
-```mermaid
-graph LR
-A[Sensores Agrícolas] --> D[Pipeline Python]
-B[APIs Climáticas] --> D
-D --> C[Banco de Dados PostgreSQL]
-C --> E[Modelo Random Forest]
-E --> F[Score de Risco]
-F --> G[Dashboard]
-F --> H[Sistema de Alertas]
 ```
-
-
----
-
-## 🧩 Componentes da Solução
-
-### 📥 Entrada
-
-* APIs climáticas
-* Sensores ambientais
-* Dados simulados
-* Histórico operacional
-
-### ⚙️ Processamento
-
-* Limpeza dos dados
-* Padronização
-* Feature Engineering
-* Modelagem preditiva
-
-### 🧠 Inteligência Artificial
-
-* Modelo supervisionado
-* Geração de score de risco
-* Classificação automática
-
-### 📤 Saída
-
-* Dashboards
-* Alertas preventivos
-* Relatórios gerenciais
-
----
-
-# 🗄️ Banco de Dados SQL
-
-A persistência dos dados será realizada utilizando banco relacional SQL.
-
-## 📌 Objetivos do Banco de Dados
-
-* Persistência histórica
-* Auditoria de operações
-* Rastreabilidade dos riscos
-* Armazenamento das previsões
-
----
-
-## 📄 Exemplo de Estrutura SQL
-
-```sql
-CREATE TABLE sensores (
-    id INT PRIMARY KEY,
-    chuva_24h FLOAT,
-    umidade FLOAT,
-    tipo_solo VARCHAR(50),
-    proximidade_agua VARCHAR(20),
-    tipo_operacao VARCHAR(50),
-    historico_falha VARCHAR(10),
-    risco VARCHAR(20)
-);
+.
+├── README.md
+├── requirements.txt
+├── datasets/
+│   ├── gerar_dataset.py          # gerador sintético (seed 42)
+│   ├── leituras_agricolas.csv    # base completa (6.000 linhas)
+│   └── dataset_exemplo.csv       # 10 cenários curados
+├── scripts/
+│   ├── risco_utils.py            # faixas, recomendações, explicabilidade
+│   ├── treinar_modelo.py         # treino + validação + gráficos
+│   └── popular_banco.py          # cria/popula o banco e roda predições
+├── models/
+│   ├── modelo_risco.pkl          # modelo treinado
+│   ├── metricas.json             # métricas reais
+│   └── *.png                     # matriz de confusão, ROC, importância, etc.
+├── database/
+│   ├── schema.sql                # esquema relacional (5 tabelas)
+│   ├── queries.sql               # 7 consultas analíticas
+│   └── agrosentinela.db          # banco SQLite populado
+├── dashboards/
+│   ├── preview_dashboard.html    # protótipo estático (3 personas)
+│   └── app.py                    # app Streamlit funcional
+└── docs/
+    ├── personas.md               # personas aprofundadas
+    ├── variaveis.md              # dicionário de variáveis
+    ├── contextualizacao.md       # dados + fontes
+    ├── modelo_preditivo.md       # inteligência preditiva
+    ├── relatorio_validacao.md    # validação estatística
+    ├── arquitetura.svg / .png    # diagrama de arquitetura
+    └── prints/                   # capturas de tela dos dashboards
 ```
 
 ---
 
-# 📱 Dashboard e Interface
+## 🔐 Segurança e Governança
 
-A solução contará com dashboards voltados para diferentes perfis de usuário.
-
-## 🚜 Painel do Operador
-
-* Score de risco em tempo real
-* Alertas visuais
-* Recomendação operacional
-
-## 📊 Painel do Gestor
-
-* Histórico operacional
-* Regiões críticas
-* Indicadores de risco
-* Equipamentos com maior incidência
-
-## 🏢 Painel da Seguradora
-
-* Relatórios analíticos
-* Histórico de sinistros
-* Previsão de riscos
-* Auditoria dos dados
+Controle de acesso por perfil (operador/gestor/seguradora), validação de integridade
+na ingestão, **versão do modelo registrada em cada predição** (rastreabilidade) e
+histórico para auditoria.
 
 ---
 
-# 🚨 Sistema de Alertas Preventivos
+## ⚙️ Tecnologias
 
-O sistema gera alertas automáticos conforme o nível de risco identificado.
-
-| Score    | Ação Recomendada         |
-| -------- | ------------------------ |
-| 0 – 30   | Operação liberada        |
-| 31 – 60  | Operação com atenção     |
-| 61 – 100 | Operação não recomendada |
+Python · Pandas · NumPy · scikit-learn · Matplotlib/Seaborn · SQL (SQLite) ·
+Streamlit · GitHub.
 
 ---
 
-# 🔐 Segurança e Governança
+## 🧑‍💻 Divisão de Tarefas
 
-A solução considera práticas de segurança e integridade dos dados.
-
-## 📌 Medidas Implementadas
-
-* Controle de acesso por usuário
-* Validação dos dados recebidos
-* Integridade das informações
-* Armazenamento seguro
-* Histórico de auditoria
+| Integrante | Responsabilidade |
+|---|---|
+| Roger | Dados e dataset |
+| Maria Sabrina | Modelo de IA |
+| Karina | Arquitetura |
+| Nicolas | Documentação e apresentação |
 
 ---
 
-# 🔗 Atendimento às User Stories
+## 🗃️ Histórico de Versões
 
-| User Story                     | Solução Implementada               |
-| ------------------------------ | ---------------------------------- |
-| Visualizar risco operacional   | Dashboard em tempo real            |
-| Receber alertas preventivos    | Sistema automático de notificações |
-| Entender fatores de risco      | IA interpretável                   |
-| Analisar histórico operacional | Relatórios analíticos              |
-| Melhorar tomada de decisão     | Recomendações automáticas          |
-| Facilidade de uso              | Interface intuitiva                |
+| Versão | Data | Descrição |
+|---|---|---|
+| 0.1.0 | 29/04/2026 | Estrutura inicial do projeto |
+| 0.2.0 | 19/05/2026 | Integração da Sprint 2 |
+| 0.3.0 | — | Implementação funcional ponta a ponta (IA + SQL + dashboards) |
 
 ---
 
-# ⚙️ Tecnologias Utilizadas
-
-| Tecnologia           | Finalidade             |
-| -------------------- | ---------------------- |
-| Python               | Processamento e IA     |
-| Pandas               | Manipulação de dados   |
-| Scikit-Learn         | Machine Learning       |
-| SQL                  | Persistência dos dados |
-| Power BI / Streamlit | Dashboard              |
-| GitHub               | Versionamento          |
-
----
-
-# 🧑‍💻 Divisão de Tarefas
-
-| Integrante    | Responsabilidade            |
-| ------------- | --------------------------- |
-| Roger         | Dados e Dataset             |
-| Maria Sabrina | Modelo de IA                |
-| Karina        | Arquitetura                 |
-| Nicolas       | Documentação e Apresentação |
-
----
-
-# 🚀 Cronograma das Sprints
-
-## Sprint 2 — Estruturação e Modelagem
-
-* Organização do dataset
-* Tratamento de dados
-* Treinamento inicial
-* Validação estatística
-
----
-
-## Sprint 3 — Desenvolvimento e Integração
-
-* Desenvolvimento do dashboard
-* Integração da IA
-* Implementação de alertas
-* Testes funcionais
-
----
-
-## Sprint 4 — Refinamento e Validação
-
-* Otimização do modelo
-* Ajustes finais
-* Testes avançados
-* Preparação da apresentação
-
----
-
-# 📂 Estrutura do Repositório GitHub
-
-```txt
-📁 docs
-📁 database
-📁 datasets
-📁 models
-📁 dashboards
-📁 scripts
-README.md
-requirements.txt
-```
-
----
-
-# 🎥 Vídeo Demonstrativo
-
-O vídeo demonstrativo apresentará:
-
-* O problema identificado
-* A arquitetura proposta
-* O funcionamento do sistema
-* O fluxo dos dados
-* A inteligência preditiva
-
-📌 Link do vídeo: [Chanllenge Sompo  ](https://youtu.be/hF9JeH9Zwjk)
-
----
-
-# 📈 Benefícios Esperados
-
-A solução busca transformar a gestão agrícola através da prevenção inteligente de riscos.
-
-## Principais Benefícios
-
-* 💰 Redução de custos operacionais
-* 🛡️ Aumento da segurança
-* 📈 Melhoria da tomada de decisão
-* 🔍 Maior previsibilidade operacional
-* ⚙️ Otimização de processos
-* 🚜 Redução de incidentes
-
----
-
-# 🗃️ Histórico de Versões
-
-| Versão | Data       | Descrição                    |
-| ------ | ---------- | ---------------------------- |
-| 0.1.0  | 29/04/2026 | Estrutura inicial do projeto |
-| 0.2.0  | 19/05/2026 | Integração da Sprint 2       |
-
----
-
-# 📋 Considerações Finais
-
-O projeto demonstra como a integração entre Inteligência Artificial, análise estatística e engenharia de dados pode transformar a gestão de riscos agrícolas.
-
-A utilização de modelos preditivos permite antecipar cenários críticos, reduzindo prejuízos e aumentando a segurança operacional.
-
-Além de atender aos requisitos técnicos propostos pela Sprint 2, a solução apresenta potencial de expansão para cenários reais de monitoramento agrícola inteligente.
-
----
-
-# 📄 Licença
+## 📄 Licença
 
 Projeto acadêmico desenvolvido para fins educacionais no Challenge FIAP + Sompo Seguros.
-<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/agodoi/template">MODELO GIT FIAP</a> por <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://fiap.com.br">Fiap</a> está licenciado sobre <a href="http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution 4.0 International</a>.</p>
+Dados operacionais **simulados** (uso permitido pelo enunciado). MODELO GIT FIAP por
+FIAP, licenciado sob Attribution 4.0 International.
