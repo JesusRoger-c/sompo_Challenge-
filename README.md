@@ -1,265 +1,110 @@
-# 🎓 FIAP - Faculdade de Informática e Administração Paulista
-
-# 🚜 Challenge Sompo Seguros
-
-# 🌱 Sistema Preditivo de Risco Agrícola
-
 <p align="center">
   <a href="https://www.fiap.com.br/">
     <img src="assets/logo-fiap.png" alt="FIAP" width="40%">
   </a>
 </p>
 
----
+# AgroSentinela — Sistema Preditivo de Risco Agrícola
 
-# 🌱 AgroSentinela — Sistema Preditivo de Risco Agrícola
+## Challenge FIAP + Sompo Seguros
 
-### 🎓 FIAP — Faculdade de Informática e Administração Paulista · 🚜 Challenge Sompo Seguros
-
-Inteligência preditiva que transforma a gestão de risco de frotas agrícolas de uma
-atuação **reativa** para **preventiva**, gerando um **score de risco (0–100)** por
-equipamento/região, **alertas automáticos** e **recomendações acionáveis** — com foco
-total na experiência de três personas: operador, gestor e seguradora.
-
----
+Inteligência preditiva que transforma a gestão de risco de frotas agrícolas de uma atuação **reativa** para **preventiva**: calcula um **score de risco de 0 a 100** por equipamento/região, classifica em quatro faixas (Baixo, Médio, Alto, Crítico) e gera **alertas e recomendações acionáveis** antes do incidente.
 
 ## 👨‍🎓 Integrantes
 
-| Integrante | RM |
-|---|---|
-| Karina Garta Szewczuk | RM569309 |
-| Maria Sabrina Feitosa da Silva | RM568714 |
-| Nicolas Lima Apolinário | RM570741 |
-| Roger Gabriel de Souza Jesus Costa | RM573659 |
+- Karina Garta Szewczuk — RM569309
+- Maria Sabrina Feitosa da Silva — RM568714
+- Nicolas Lima Apolinário — RM570741
+- Roger Gabriel de Souza Jesus Costa — RM573659
 
-**👩‍🏫 Tutora:** Sabrina Otoni · **Coordenador:** André Godói
+## 👩‍🏫 Professores
 
----
+### Tutora
+
+- Sabrina Otoni
+
+### Coordenador
+
+- André Godói
 
 ## 🎥 Vídeo demonstrativo
 
-📌 **Link do vídeo (não listado):** _adicionar aqui o link do YouTube_
+Link (não listado): [LINK DO VIDEO]
 
----
+## 📜 Descrição
 
-## 🔎 O que evoluiu desde a Sprint 1
+O **AgroSentinela** é uma solução de inteligência preditiva desenvolvida no Challenge FIAP + Sompo Seguros para transformar a gestão de risco de frotas agrícolas de um modelo **reativo** para um modelo **preventivo**. A proposta calcula, para cada equipamento e região, um **score de risco operacional de 0 a 100**, classifica esse risco em quatro faixas (Baixo, Médio, Alto e Crítico) e gera **alertas e recomendações acionáveis** antes que o incidente aconteça.
 
-Esta entrega sai do plano conceitual e passa para a **implementação funcional ponta a
-ponta**. Em resposta direta ao feedback recebido:
+**O problema.** O agronegócio brasileiro opera em ambientes dinâmicos, nos quais umidade do solo, chuva, declividade e proximidade de corpos d'água elevam o risco de atolamentos, tombamentos e danos mecânicos. O contexto justifica a urgência: o seguro rural cobriu cerca de **6,3 milhões de hectares** e **~R$ 45 bilhões** em valor segurado em 2024 (Mapa/Agência Gov), e o Brasil é líder mundial em fatalidades com tratores — cerca de **3 mil mortes por ano** (Canal Rural). Um estudo no Rio Grande do Sul aponta que **96,8% desses acidentes seriam evitáveis por prevenção** (Tecno-Lógica, 2021) — exatamente a lacuna que a solução ataca.
 
-| Ponto do feedback | O que fizemos nesta Sprint |
-|---|---|
-| Personas em uma linha | Aprofundamos contexto, dor e **cenário prático de uso** → [`docs/personas.md`](docs/personas.md) |
-| Dataset com poucas linhas | Geramos **6.000 leituras** + 10 cenários curados, com **dicionário completo de variáveis** → [`docs/variaveis.md`](docs/variaveis.md) |
-| Arquitetura só textual | Criamos um **diagrama de arquitetura** com dispositivos, integrações e componentes (abaixo) |
-| Algoritmo sem justificativa | **Random Forest** comparado a Logistic Regression e Gradient Boosting, com inputs/outputs estruturados → [`docs/modelo_preditivo.md`](docs/modelo_preditivo.md) |
-| Contexto sem dados/fontes | Adicionamos **números de mercado, sinistralidade e fontes referenciadas** → [`docs/contextualizacao.md`](docs/contextualizacao.md) |
-| Métricas sem evidência | Substituímos por **métricas reais e reprodutíveis** geradas pelo código → [`docs/relatorio_validacao.md`](docs/relatorio_validacao.md) |
+**A solução.** A partir de dados de sensores e telemetria (umidade do solo, precipitação, declividade, distância de corpos d'água, tipo de solo, idade e manutenção do equipamento, entre outros), um modelo de **Machine Learning supervisionado** estima a probabilidade de sinistro e a converte no score de risco. Cada predição informa os **três principais fatores** que elevaram o risco, apoiando a decisão.
 
----
+**Inteligência preditiva.** Foram comparados três algoritmos (Logistic Regression, Random Forest e Gradient Boosting). O escolhido foi o **Random Forest**, pela melhor acurácia, robustez e interpretabilidade. Sobre uma base de 6.000 leituras (split 75/25 e validação cruzada de 5 folds), o modelo atingiu **acurácia de 84,1% e ROC-AUC de 0,862**. A validação mais relevante mostra que o score separa o risco na prática: leituras classificadas como Baixo viraram sinistro em apenas **1,8%** dos casos, contra **97,6%** nas classificadas como Crítico.
 
-## 🌎 Contextualização (resumo)
+**Arquitetura e dados.** O pipeline integra coleta (sensores e API de clima) → ingestão/ETL em Python → **banco de dados SQL relacional** (histórico auditável e versionamento do modelo) → motor de IA → **dashboards por persona**: o Operador vê um semáforo simples com recomendação direta; o Gestor acompanha mapa de calor por região, ranking da frota e tendências; o Analista da Seguradora dispõe de validação estatística e trilha de auditoria rastreável.
 
-O seguro rural brasileiro cobriu cerca de **6,3 milhões de hectares** e **~R$ 45 bilhões**
-em valor segurado em 2024 (Mapa/Agência Gov). Ao mesmo tempo, o Brasil tem o **maior
-número de fatalidades com tratores** do mundo — cerca de **3 mil mortes/ano** (Canal
-Rural) — e um estudo no RS aponta que **96,8% desses acidentes seriam evitáveis por
-prevenção** (Tecno-Lógica, 2021). Esse é exatamente o espaço da nossa solução.
-Detalhes e fontes em [`docs/contextualizacao.md`](docs/contextualizacao.md).
+> Os dados operacionais são **simulados** (uso permitido pelo enunciado), porém calibrados para refletir o comportamento descrito pelas fontes citadas. Fontes completas em `document/contextualizacao.md`.
 
----
+## 📁 Estrutura de pastas
 
-## 🏗️ Arquitetura da Solução
+- **.github**: arquivos de configuração do GitHub.
+- **assets**: imagens e elementos não estruturados (ex.: logo da FIAP).
+- **config**: arquivos de configuração do projeto, incluindo `requirements.txt`.
+- **document**: documentação do projeto — personas, dicionário de variáveis, contextualização com fontes, documentação da inteligência preditiva, relatório de validação, diagrama de arquitetura e a subpasta `prints/` com capturas de tela. Documentos complementares em `document/other`.
+- **scripts**: scripts auxiliares de tarefa (deploy, manutenção, etc.).
+- **src**: todo o código-fonte — `src/datasets` (geração de dados), `src/scripts` (treino, banco e geração do diagrama), `src/models` (modelo treinado e métricas), `src/database` (schema, queries e banco SQLite) e `src/dashboards` (app Streamlit e protótipo HTML).
+- **README.md**: este guia geral do projeto.
 
-![Arquitetura do AgroSentinela](docs/arquitetura.png)
+## 🔧 Como executar o código
 
-**Fluxo:** Sensores/APIs → Gateway de borda → Ingestão/ETL (Python) → Banco SQL →
-Motor de IA (Random Forest) → Score/Alertas → Dashboards por persona.
-
-- **Campo (coleta):** sensores de umidade do solo, GPS (distância de corpos d'água),
-  inclinômetro (declividade), horímetro/carga e **API de clima externa**.
-- **Conectividade:** gateway LoRaWAN/4G + coletor MQTT.
-- **Nuvem:** ETL em Python, banco relacional SQL e o motor de IA.
-- **Aplicação:** app do operador (semáforo), dashboard do gestor, portal da seguradora
-  e o motor de alertas.
-
-> O diagrama é gerado por [`docs/_gerar_arquitetura.py`](docs/_gerar_arquitetura.py)
-> (saídas: `docs/arquitetura.svg` e `docs/arquitetura.png`).
-
----
-
-## 🤖 Modelo Preditivo (resumo)
-
-Problema de **classificação binária supervisionada** (`houve_sinistro`); a
-probabilidade vira o **score 0–100**, classificado em 4 faixas.
-
-| Faixa | Score | Ação |
-|---|---|---|
-| 🟢 Baixo | 0–25 | Operação liberada |
-| 🟡 Médio | 26–50 | Operação com atenção |
-| 🟠 Alto | 51–75 | Operação com restrições / supervisão |
-| 🔴 Crítico | 76–100 | Operação não recomendada |
-
-**Algoritmo escolhido: Random Forest** (300 árvores). Justificativa: captura
-interações não-lineares (ex.: solo encharcado **+** chuva), lida com variáveis mistas,
-é robusto e **interpretável** (importância de variáveis → explicabilidade). Comparação
-completa em [`docs/modelo_preditivo.md`](docs/modelo_preditivo.md).
-
----
-
-## 📈 Resultados reais (validação)
-
-Base de **6.000 leituras**, split 75/25, validação cruzada de 5 folds. **Métricas reais
-do código** (seed 42):
-
-| Modelo | Acurácia | Precisão | Recall | F1 | ROC-AUC |
-|---|---|---|---|---|---|
-| Logistic Regression | 0,747 | 0,537 | 0,788 | 0,639 | 0,841 |
-| **Random Forest** ✅ | **0,841** | **0,772** | **0,621** | **0,688** | **0,862** |
-| Gradient Boosting | 0,828 | 0,739 | 0,607 | 0,667 | 0,865 |
-
-**Prova de eficácia — o score separa quem sofre sinistro?** Taxa real de sinistro por
-faixa prevista:
-
-| Faixa | 🟢 Baixo | 🟡 Médio | 🟠 Alto | 🔴 Crítico |
-|---|---|---|---|---|
-| Sinistro real | **1,8%** | **15,3%** | **90,3%** | **97,6%** |
-
-Uma diferença de **mais de 50×** entre as pontas. Relatório completo (matriz de
-confusão, correlações, gráficos) em [`docs/relatorio_validacao.md`](docs/relatorio_validacao.md).
-
----
-
-## 📱 Dashboards por persona
-
-Front-end funcional com três visões sob medida (prints em [`docs/prints/`](docs/prints/)):
-
-| Persona | Visão | Destaque |
-|---|---|---|
-| 🚜 Operador | semáforo + recomendação | número grande e ação clara, sem jargão |
-| 📊 Gestor | mapa de calor + ranking + KPIs + tendência | onde agir na frota |
-| 🏢 Seguradora | validação + trilha de auditoria | rastreabilidade e versionamento |
-
-![Visão do Operador](docs/prints/dashboard_operador.png)
-
-Há duas formas de visualizar:
-- **Protótipo estático:** abra [`dashboards/preview_dashboard.html`](dashboards/preview_dashboard.html) no navegador.
-- **App funcional (lê o banco ao vivo):** `streamlit run dashboards/app.py`.
-
----
-
-## 🗄️ Banco de Dados
-
-Modelo **relacional** com 5 tabelas e histórico auditável
-([`database/schema.sql`](database/schema.sql)):
-
-`regioes` · `equipamentos` · `leituras` (telemetria) · `predicoes` (score, classe,
-fatores, **versão do modelo**) · `alertas`.
-
-Consultas analíticas prontas em [`database/queries.sql`](database/queries.sql)
-(risco por região, ranking da frota, alertas abertos, tendência, validação do modelo,
-faixas de distância da água).
-
----
-
-## ▶️ Como executar
+**Pré-requisitos:** Python 3.10+ e pip. Recomendado criar um ambiente virtual.
 
 ```bash
-# 1) Instalar dependências
-pip install -r requirements.txt
+# 1) Dependências
+pip install -r config/requirements.txt
 
-# 2) Gerar o dataset (6.000 leituras, seed 42)
-python datasets/gerar_dataset.py
+# 2) Gerar a base de dados (6.000 leituras, seed fixa = reprodutível)
+python src/datasets/gerar_dataset.py
 
-# 3) Treinar o modelo, validar e gerar gráficos + métricas
-python scripts/treinar_modelo.py
+# 3) Treinar e validar o modelo (gera métricas e gráficos)
+python src/scripts/treinar_modelo.py
 
-# 4) Criar e popular o banco (roda o modelo e gera predições/alertas)
-python scripts/popular_banco.py
+# 4) Criar e popular o banco SQL (roda o modelo, gera predições e alertas)
+python src/scripts/popular_banco.py
 
-# 5a) Abrir o dashboard estático
-#     abra dashboards/preview_dashboard.html no navegador
-# 5b) Ou rodar o app funcional
-streamlit run dashboards/app.py
+# 5) (opcional) Regerar o diagrama de arquitetura
+python src/scripts/_gerar_arquitetura.py
+
+# 6a) Dashboard estático: abra no navegador
+#     src/dashboards/preview_dashboard.html
+# 6b) Dashboard funcional (lê o banco ao vivo):
+streamlit run src/dashboards/app.py
 ```
 
----
+### Arquitetura da solução
 
-## 📂 Estrutura do Repositório
+![Arquitetura do AgroSentinela](document/arquitetura.png)
 
-```
-.
-├── README.md
-├── requirements.txt
-├── datasets/
-│   ├── gerar_dataset.py          # gerador sintético (seed 42)
-│   ├── leituras_agricolas.csv    # base completa (6.000 linhas)
-│   └── dataset_exemplo.csv       # 10 cenários curados
-├── scripts/
-│   ├── risco_utils.py            # faixas, recomendações, explicabilidade
-│   ├── treinar_modelo.py         # treino + validação + gráficos
-│   └── popular_banco.py          # cria/popula o banco e roda predições
-├── models/
-│   ├── modelo_risco.pkl          # modelo treinado
-│   ├── metricas.json             # métricas reais
-│   └── *.png                     # matriz de confusão, ROC, importância, etc.
-├── database/
-│   ├── schema.sql                # esquema relacional (5 tabelas)
-│   ├── queries.sql               # 7 consultas analíticas
-│   └── agrosentinela.db          # banco SQLite populado
-├── dashboards/
-│   ├── preview_dashboard.html    # protótipo estático (3 personas)
-│   └── app.py                    # app Streamlit funcional
-└── docs/
-    ├── personas.md               # personas aprofundadas
-    ├── variaveis.md              # dicionário de variáveis
-    ├── contextualizacao.md       # dados + fontes
-    ├── modelo_preditivo.md       # inteligência preditiva
-    ├── relatorio_validacao.md    # validação estatística
-    ├── arquitetura.svg / .png    # diagrama de arquitetura
-    └── prints/                   # capturas de tela dos dashboards
-```
+### Resultados reais (Random Forest)
 
----
-
-## 🔐 Segurança e Governança
-
-Controle de acesso por perfil (operador/gestor/seguradora), validação de integridade
-na ingestão, **versão do modelo registrada em cada predição** (rastreabilidade) e
-histórico para auditoria.
-
----
-
-## ⚙️ Tecnologias
-
-Python · Pandas · NumPy · scikit-learn · Matplotlib/Seaborn · SQL (SQLite) ·
-Streamlit · GitHub.
-
----
-
-## 🧑‍💻 Divisão de Tarefas
-
-| Integrante | Responsabilidade |
+| Métrica | Valor |
 |---|---|
-| Roger | Dados e dataset |
-| Maria Sabrina | Modelo de IA |
-| Karina | Arquitetura |
-| Nicolas | Documentação e apresentação |
+| Acurácia | 0,841 |
+| Precisão | 0,772 |
+| Recall | 0,621 |
+| F1 | 0,688 |
+| ROC-AUC | 0,862 |
 
----
+Taxa real de sinistro por faixa prevista: 🟢 Baixo **1,8%** · 🟡 Médio **15,3%** · 🟠 Alto **90,3%** · 🔴 Crítico **97,6%**. Relatório completo em `document/relatorio_validacao.md`.
 
-## 🗃️ Histórico de Versões
+## 🗃 Histórico de lançamentos
 
-| Versão | Data | Descrição |
-|---|---|---|
-| 0.1.0 | 29/04/2026 | Estrutura inicial do projeto |
-| 0.2.0 | 19/05/2026 | Integração da Sprint 2 |
-| 0.3.0 | — | Implementação funcional ponta a ponta (IA + SQL + dashboards) |
+- 0.3.0 — Implementação funcional ponta a ponta (IA + SQL + dashboards) e adequação ao template FIAP
+- 0.2.0 — Integração da Sprint 2
+- 0.1.0 — Estrutura inicial do projeto
 
----
+## 📋 Licença
 
-## 📄 Licença
+![CC](https://mirrors.creativecommons.org/presskit/icons/cc.svg) ![BY](https://mirrors.creativecommons.org/presskit/icons/by.svg)
 
-Projeto acadêmico desenvolvido para fins educacionais no Challenge FIAP + Sompo Seguros.
-Dados operacionais **simulados** (uso permitido pelo enunciado). MODELO GIT FIAP por
-FIAP, licenciado sob Attribution 4.0 International.
+[MODELO GIT FIAP](https://github.com/agodoi/template) por [FIAP](https://fiap.com.br) está licenciado sobre [Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/?ref=chooser-v1).

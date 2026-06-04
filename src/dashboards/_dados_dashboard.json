@@ -1,0 +1,237 @@
+{
+  "regioes": [
+    {
+      "regiao": "Sorriso",
+      "estado": "MT",
+      "score": 33.1,
+      "alto": 310
+    },
+    {
+      "regiao": "Barreiras",
+      "estado": "BA",
+      "score": 31.8,
+      "alto": 276
+    },
+    {
+      "regiao": "Rio Verde",
+      "estado": "GO",
+      "score": 31.7,
+      "alto": 254
+    },
+    {
+      "regiao": "Cascavel",
+      "estado": "PR",
+      "score": 30.8,
+      "alto": 260
+    },
+    {
+      "regiao": "Lucas do Rio Verde",
+      "estado": "MT",
+      "score": 30.8,
+      "alto": 264
+    },
+    {
+      "regiao": "Nao-Me-Toque",
+      "estado": "RS",
+      "score": 30.4,
+      "alto": 260
+    }
+  ],
+  "ranking": [
+    {
+      "eq": "EQ-017",
+      "modelo": "John Deere 6110J",
+      "tipo": "Trator",
+      "score": 35.6,
+      "crit": 31
+    },
+    {
+      "eq": "EQ-033",
+      "modelo": "John Deere S780",
+      "tipo": "Colheitadeira",
+      "score": 35.0,
+      "crit": 33
+    },
+    {
+      "eq": "EQ-034",
+      "modelo": "Case IH Axial-Flow 8250",
+      "tipo": "Colheitadeira",
+      "score": 34.9,
+      "crit": 20
+    },
+    {
+      "eq": "EQ-005",
+      "modelo": "New Holland T7",
+      "tipo": "Trator",
+      "score": 34.6,
+      "crit": 31
+    },
+    {
+      "eq": "EQ-003",
+      "modelo": "John Deere 6110J",
+      "tipo": "Trator",
+      "score": 34.6,
+      "crit": 27
+    },
+    {
+      "eq": "EQ-016",
+      "modelo": "John Deere S780",
+      "tipo": "Colheitadeira",
+      "score": 33.5,
+      "crit": 25
+    }
+  ],
+  "dist": {
+    "Alto": 703,
+    "Baixo": 3740,
+    "Critico": 921,
+    "Medio": 636
+  },
+  "trend": [
+    {
+      "dia": "2026-05-06",
+      "score": 29.6
+    },
+    {
+      "dia": "2026-05-07",
+      "score": 27.8
+    },
+    {
+      "dia": "2026-05-08",
+      "score": 29.9
+    },
+    {
+      "dia": "2026-05-09",
+      "score": 34.4
+    },
+    {
+      "dia": "2026-05-10",
+      "score": 39.0
+    },
+    {
+      "dia": "2026-05-11",
+      "score": 39.5
+    },
+    {
+      "dia": "2026-05-12",
+      "score": 35.5
+    },
+    {
+      "dia": "2026-05-13",
+      "score": 26.5
+    },
+    {
+      "dia": "2026-05-14",
+      "score": 27.9
+    },
+    {
+      "dia": "2026-05-15",
+      "score": 35.5
+    },
+    {
+      "dia": "2026-05-16",
+      "score": 23.7
+    },
+    {
+      "dia": "2026-05-17",
+      "score": 35.6
+    },
+    {
+      "dia": "2026-05-18",
+      "score": 30.4
+    },
+    {
+      "dia": "2026-05-19",
+      "score": 26.4
+    }
+  ],
+  "fatores": [
+    {
+      "fator": "Proximidade de corpo d'agua",
+      "n": 813
+    },
+    {
+      "fator": "Umidade do solo",
+      "n": 659
+    },
+    {
+      "fator": "Tipo de solo",
+      "n": 100
+    },
+    {
+      "fator": "Declividade do terreno",
+      "n": 27
+    },
+    {
+      "fator": "Tipo de operacao",
+      "n": 15
+    }
+  ],
+  "validacao": {
+    "Alto": 90.3,
+    "Baixo": 1.8,
+    "Critico": 97.6,
+    "Medio": 15.3
+  },
+  "alertas": [
+    {
+      "eq": "EQ-003",
+      "regiao": "Cascavel",
+      "score": 98,
+      "classe": "Critico",
+      "f1": "Proximidade de corpo d'agua",
+      "f2": "Umidade do solo"
+    },
+    {
+      "eq": "EQ-011",
+      "regiao": "Barreiras",
+      "score": 97,
+      "classe": "Critico",
+      "f1": "Proximidade de corpo d'agua",
+      "f2": "Umidade do solo"
+    },
+    {
+      "eq": "EQ-004",
+      "regiao": "Sorriso",
+      "score": 96,
+      "classe": "Critico",
+      "f1": "Proximidade de corpo d'agua",
+      "f2": "Tipo de solo"
+    },
+    {
+      "eq": "EQ-017",
+      "regiao": "Cascavel",
+      "score": 96,
+      "classe": "Critico",
+      "f1": "Proximidade de corpo d'agua",
+      "f2": "Umidade do solo"
+    },
+    {
+      "eq": "EQ-027",
+      "regiao": "Nao-Me-Toque",
+      "score": 96,
+      "classe": "Critico",
+      "f1": "Umidade do solo",
+      "f2": "Proximidade de corpo d'agua"
+    }
+  ],
+  "operador": {
+    "eq": "EQ-003",
+    "regiao": "Cascavel",
+    "score": 98,
+    "classe": "Critico",
+    "f1": "Proximidade de corpo d'agua",
+    "f2": "Umidade do solo",
+    "f3": "Tipo de solo",
+    "umid": 62.9,
+    "chuva": 90.6,
+    "agua": 337.0,
+    "decliv": 6.5
+  },
+  "kpis": {
+    "total": 6000,
+    "alto": 1624,
+    "alertas_abertos": 1624,
+    "score_medio": 31.4
+  }
+}

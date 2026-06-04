@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroSentinela — Painel de Risco Operacional</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#13241C; --paper:#F6F4EC; --card:#FFFFFF; --line:#E3DECB;
+    --g-dark:#0B3D2E; --g:#0B6E4F; --g-soft:#E3EFE7;
+    --amber:#C77D34; --amber-soft:#F5E7D3; --blue:#3E6E8E; --blue-soft:#E2ECF2;
+    --baixo:#1B9E4B; --medio:#E8B800; --alto:#E8761B; --critico:#D62828;
+    --mono:'IBM Plex Mono',monospace; --sans:'IBM Plex Sans',system-ui,sans-serif;
+    --disp:'Bricolage Grotesque',var(--sans);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--paper);color:var(--ink);
+    background-image:radial-gradient(circle at 12% 8%,rgba(11,110,79,.05),transparent 45%),
+                     radial-gradient(circle at 88% 92%,rgba(199,125,52,.05),transparent 45%);
+    min-height:100vh;line-height:1.5}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 20px 60px}
+
+  /* Header */
+  header{background:linear-gradient(100deg,var(--g-dark),var(--g));color:#fff;
+    padding:22px 0 0;box-shadow:0 6px 24px rgba(11,61,46,.18)}
+  .hd{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;
+    justify-content:space-between;flex-wrap:wrap;gap:14px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:46px;height:46px;border:2.5px solid #fff;border-radius:50%;
+    display:grid;place-items:center;position:relative;flex-shrink:0}
+  .logo::before{content:"";position:absolute;width:24px;height:2.5px;background:#fff}
+  .logo::after{content:"";position:absolute;height:24px;width:2.5px;background:#fff}
+  .brand h1{font-family:var(--disp);font-size:25px;font-weight:800;letter-spacing:-.5px}
+  .brand p{font-size:12.5px;color:#CFE8DC;margin-top:2px}
+  .stamp{font-family:var(--mono);font-size:11px;color:#CFE8DC;text-align:right}
+  .stamp b{color:#fff}
+  /* Tabs */
+  nav{max-width:1120px;margin:18px auto 0;padding:0 20px;display:flex;gap:6px}
+  .tab{flex:1;background:rgba(255,255,255,.10);color:#EaF5EF;border:none;cursor:pointer;
+    font-family:var(--sans);font-size:14px;font-weight:600;padding:13px 10px;
+    border-radius:12px 12px 0 0;transition:.15s;display:flex;gap:8px;align-items:center;
+    justify-content:center}
+  .tab:hover{background:rgba(255,255,255,.20)}
+  .tab.on{background:var(--paper);color:var(--g-dark)}
+  .tab small{font-weight:400;opacity:.7;font-size:11px}
+
+  section{display:none;padding-top:26px;animation:fade .35s ease}
+  section.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .row{display:flex;gap:18px;flex-wrap:wrap}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:0 2px 10px rgba(19,36,28,.04)}
+  .card h3{font-family:var(--disp);font-size:16px;font-weight:700;margin-bottom:4px}
+  .card .sub{font-size:12px;color:#6f7a72;margin-bottom:16px}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+    color:var(--g);font-weight:600;margin-bottom:8px}
+
+  /* ---- OPERADOR ---- */
+  .op-grid{display:grid;grid-template-columns:340px 1fr;gap:18px}
+  .selector{display:flex;gap:8px;margin-bottom:16px}
+  .selector button{flex:1;background:var(--g-soft);border:1.5px solid transparent;border-radius:10px;
+    padding:10px;cursor:pointer;font-family:var(--sans);font-weight:600;font-size:13px;color:var(--g-dark);transition:.15s}
+  .selector button.on{border-color:var(--g);background:#fff}
+  .gauge-wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .scoreNum{font-family:var(--mono);font-weight:600;font-size:54px;line-height:1;margin-top:-8px}
+  .classe-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:30px;
+    font-weight:700;font-size:15px;color:#fff;margin-top:6px}
+  .verdict{margin-top:18px;border-radius:12px;padding:16px;font-weight:600;font-size:14.5px;
+    display:flex;gap:12px;align-items:flex-start}
+  .verdict .ic{font-size:22px;line-height:1.1}
+  .readings{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+  .reading{background:var(--paper);border-radius:10px;padding:12px 14px}
+  .reading .k{font-size:11.5px;color:#6f7a72}
+  .reading .v{font-family:var(--mono);font-size:20px;font-weight:600;margin-top:3px}
+  .reading .v small{font-size:12px;color:#8a948c}
+  .factors{margin-top:16px}
+  .factor{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;
+    background:var(--paper);margin-bottom:8px}
+  .factor .rank{font-family:var(--mono);font-weight:600;color:#fff;background:var(--alto);
+    width:24px;height:24px;border-radius:6px;display:grid;place-items:center;font-size:12px;flex-shrink:0}
+  .factor.f1 .rank{background:var(--critico)} .factor.f2 .rank{background:var(--alto)}
+  .factor.f3 .rank{background:var(--medio)}
+  .factor .txt{font-weight:600;font-size:13.5px}
+
+  /* ---- KPIs ---- */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;
+    position:relative;overflow:hidden}
+  .kpi::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--g)}
+  .kpi.amber::after{background:var(--amber)} .kpi.red::after{background:var(--critico)}
+  .kpi .label{font-size:12px;color:#6f7a72}
+  .kpi .num{font-family:var(--mono);font-size:30px;font-weight:600;margin-top:4px}
+  .kpi .note{font-size:11px;color:#8a948c;margin-top:2px}
+
+  /* heatmap bars */
+  .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:11px}
+  .bar-row .lbl{width:150px;font-size:13px;font-weight:500;flex-shrink:0}
+  .bar-row .lbl span{color:#8a948c;font-size:11px;font-family:var(--mono)}
+  .track{flex:1;background:var(--paper);border-radius:8px;height:26px;position:relative;overflow:hidden}
+  .fill{height:100%;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;
+    padding-right:8px;color:#fff;font-family:var(--mono);font-size:12px;font-weight:600;min-width:40px}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;font-family:var(--mono);font-size:10.5px;letter-spacing:.8px;text-transform:uppercase;
+    color:#8a948c;padding:8px 10px;border-bottom:2px solid var(--line)}
+  td{padding:10px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:none}
+  .eq{font-family:var(--mono);font-weight:600}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;color:#fff}
+
+  /* distribution stacked */
+  .stack{display:flex;height:34px;border-radius:9px;overflow:hidden;margin-top:6px}
+  .stack div{display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--mono);
+    font-size:11.5px;font-weight:600}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;font-size:12px}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .dot{width:11px;height:11px;border-radius:3px}
+
+  /* validation big stat */
+  .valid-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .vcard{border-radius:14px;padding:16px;color:#fff;text-align:center}
+  .vcard .vc{font-size:12.5px;font-weight:600;opacity:.92}
+  .vcard .vr{font-family:var(--mono);font-size:34px;font-weight:600;margin:6px 0 2px}
+  .vcard .vn{font-size:11px;opacity:.85}
+  .insight{background:var(--g-soft);border-left:4px solid var(--g);border-radius:0 10px 10px 0;
+    padding:14px 16px;margin-top:16px;font-size:13.5px}
+  .insight b{color:var(--g-dark)}
+  footer{margin-top:30px;text-align:center;font-size:11.5px;color:#8a948c;font-family:var(--mono)}
+  @media(max-width:760px){.op-grid{grid-template-columns:1fr}.kpis,.valid-grid{grid-template-columns:1fr 1fr}
+    .brand h1{font-size:21px}.bar-row .lbl{width:110px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hd">
+    <div class="brand">
+      <div class="logo"></div>
+      <div><h1>AgroSentinela</h1><p>Inteligência preditiva de risco para frotas agrícolas · Sompo Seguros</p></div>
+    </div>
+    <div class="stamp">modelo <b>rf-v1.0</b><br>Random Forest · AUC <b>0.862</b><br>6.000 leituras monitoradas</div>
+  </div>
+  <nav>
+    <button class="tab on" data-t="op">🚜 Operador <small>· em campo</small></button>
+    <button class="tab" data-t="ge">📊 Gestor <small>· frota</small></button>
+    <button class="tab" data-t="se">🏢 Seguradora <small>· auditoria</small></button>
+  </nav>
+</header>
+
+<div class="wrap">
+
+  <!-- ============ OPERADOR ============ -->
+  <section class="on" id="op">
+    <div class="op-grid">
+      <div class="card">
+        <div class="eyebrow">Status do equipamento</div>
+        <div class="selector">
+          <button class="on" onclick="setOp('crit',this)">EQ-009 · agora</button>
+          <button onclick="setOp('safe',this)">EQ-036 · agora</button>
+        </div>
+        <div class="gauge-wrap">
+          <svg width="240" height="140" viewBox="0 0 240 140" id="gauge"></svg>
+          <div class="scoreNum" id="opScore">82</div>
+          <div class="classe-pill" id="opPill"></div>
+        </div>
+        <div class="verdict" id="opVerdict"></div>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:18px">
+          <h3>Leitura atual dos sensores</h3>
+          <div class="sub" id="opMeta">Valtra BH180 · Sorriso (MT) · operação de Plantio</div>
+          <div class="readings" id="opReadings"></div>
+        </div>
+        <div class="card">
+          <h3>Por que esse risco? <span style="font-weight:400;font-size:13px;color:#6f7a72">(top fatores)</span></h3>
+          <div class="sub">O modelo é interpretável: ele aponta o que mais pesou nesta leitura.</div>
+          <div class="factors" id="opFactors"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GESTOR ============ -->
+  <section id="ge">
+    <div class="kpis">
+      <div class="kpi"><div class="label">Frota monitorada</div><div class="num">40</div><div class="note">equipamentos · 6 regiões</div></div>
+      <div class="kpi"><div class="label">Leituras processadas</div><div class="num">6.000</div><div class="note">últimos 90 dias</div></div>
+      <div class="kpi amber"><div class="label">Em risco Alto/Crítico</div><div class="num">1.624</div><div class="note">27% das leituras</div></div>
+      <div class="kpi red"><div class="label">Alertas abertos</div><div class="num">1.624</div><div class="note">aguardando ação</div></div>
+    </div>
+    <div class="row">
+      <div class="card" style="flex:1;min-width:340px">
+        <h3>Risco médio por região</h3>
+        <div class="sub">Onde concentrar atenção — score médio 0–100 por região.</div>
+        <div id="regBars"></div>
+      </div>
+      <div class="card" style="flex:1;min-width:340px">
+        <h3>Tendência do risco · 14 dias</h3>
+        <div class="sub">Picos acompanham janelas de chuva — antecipe o replanejamento.</div>
+        <svg width="100%" height="190" viewBox="0 0 460 190" id="trend" preserveAspectRatio="none"></svg>
+      </div>
+    </div>
+    <div class="row" style="margin-top:18px">
+      <div class="card" style="flex:1.3;min-width:360px">
+        <h3>Ranking da frota por risco</h3>
+        <div class="sub">Equipamentos que mais exigem manutenção preventiva e supervisão.</div>
+        <table id="rankTable"><thead><tr><th>Equip.</th><th>Modelo</th><th>Tipo</th><th>Score médio</th><th>Leit. críticas</th></tr></thead><tbody></tbody></table>
+      </div>
+      <div class="card" style="flex:1;min-width:300px">
+        <h3>Distribuição das leituras</h3>
+        <div class="sub">Como as 6.000 leituras se dividem entre as faixas de risco.</div>
+        <div class="stack" id="distStack"></div>
+        <div class="legend" id="distLegend"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SEGURADORA ============ -->
+  <section id="se">
+    <div class="card" style="margin-bottom:18px">
+      <div class="eyebrow">Validação do modelo · prova de eficácia</div>
+      <h3>O score realmente separa quem sofre sinistro?</h3>
+      <div class="sub">Taxa real de sinistro observada nos dados históricos, agrupada pela faixa de risco que o modelo previu. Quanto maior a faixa, maior a sinistralidade real — exatamente o esperado.</div>
+      <div class="valid-grid" id="validGrid"></div>
+      <div class="insight">📈 <b>Leitura de risco Baixo → apenas 1,8% viraram sinistro. Crítico → 97,6%.</b> Uma separação de mais de 50× entre as pontas comprova que o score é confiável para embasar decisões de subscrição e precificação.</div>
+    </div>
+    <div class="row">
+      <div class="card" style="flex:1;min-width:320px">
+        <h3>Causas predominantes dos alertas</h3>
+        <div class="sub">Fator principal apontado nas leituras de risco Alto/Crítico.</div>
+        <div id="factorBars"></div>
+      </div>
+      <div class="card" style="flex:1.2;min-width:360px">
+        <h3>Trilha de auditoria · alertas recentes</h3>
+        <div class="sub">Cada predição guarda equipamento, score, fatores e versão do modelo (rastreabilidade).</div>
+        <table id="auditTable"><thead><tr><th>Equip.</th><th>Região</th><th>Score</th><th>Classe</th><th>Fator principal</th><th>Modelo</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <footer>AgroSentinela · protótipo acadêmico · dados simulados com comportamento estatístico realista · Challenge FIAP + Sompo Seguros</footer>
+</div>
+
+<script>
+const COR={Baixo:'#1B9E4B',Medio:'#E8B800',Alto:'#E8761B',Critico:'#D62828'};
+const DATA={
+  op:{
+    crit:{eq:'EQ-009',modelo:'Valtra BH180',regiao:'Sorriso (MT)',op:'Plantio',score:82,classe:'Critico',
+      umid:86.7,chuva:39.5,agua:30,decliv:23.4,
+      fatores:["Proximidade de corpo d'água","Umidade do solo","Tipo de solo (encharcado)"]},
+    safe:{eq:'EQ-036',modelo:'Jacto Uniport 3030',regiao:'Sorriso (MT)',op:'Pulverização',score:1,classe:'Baixo',
+      umid:33.1,chuva:29.1,agua:1078,decliv:7.6,
+      fatores:["Tipo de solo","Umidade do solo","Proximidade de corpo d'água"]}
+  },
+  regioes:[{regiao:'Sorriso',estado:'MT',score:33.1},{regiao:'Barreiras',estado:'BA',score:31.8},
+    {regiao:'Rio Verde',estado:'GO',score:31.7},{regiao:'Cascavel',estado:'PR',score:30.8},
+    {regiao:'Lucas do Rio Verde',estado:'MT',score:30.8},{regiao:'Não-Me-Toque',estado:'RS',score:30.4}],
+  ranking:[{eq:'EQ-017',modelo:'John Deere 6110J',tipo:'Trator',score:35.6,crit:31},
+    {eq:'EQ-033',modelo:'John Deere S780',tipo:'Colheitadeira',score:35.0,crit:33},
+    {eq:'EQ-034',modelo:'Case IH 8250',tipo:'Colheitadeira',score:34.9,crit:20},
+    {eq:'EQ-005',modelo:'New Holland T7',tipo:'Trator',score:34.6,crit:31},
+    {eq:'EQ-003',modelo:'John Deere 6110J',tipo:'Trator',score:34.6,crit:27},
+    {eq:'EQ-016',modelo:'John Deere S780',tipo:'Colheitadeira',score:33.5,crit:25}],
+  dist:{Baixo:3740,Medio:636,Alto:703,Critico:921},
+  trend:[29.6,27.8,29.9,34.4,39.0,39.5,35.5,26.5,27.9,35.5,23.7,35.6,30.4,26.4],
+  fatores:[{f:"Proximidade de corpo d'água",n:813},{f:"Umidade do solo",n:659},
+    {f:"Tipo de solo",n:100},{f:"Declividade do terreno",n:27},{f:"Tipo de operação",n:15}],
+  validacao:[{c:'Baixo',r:1.8},{c:'Medio',r:15.3},{c:'Alto',r:90.3},{c:'Critico',r:97.6}],
+  alertas:[{eq:'EQ-003',regiao:'Cascavel',score:98,classe:'Critico',f:"Proximidade de corpo d'água"},
+    {eq:'EQ-011',regiao:'Barreiras',score:97,classe:'Critico',f:"Proximidade de corpo d'água"},
+    {eq:'EQ-004',regiao:'Sorriso',score:96,classe:'Critico',f:"Proximidade de corpo d'água"},
+    {eq:'EQ-017',regiao:'Cascavel',score:96,classe:'Critico',f:"Umidade do solo"},
+    {eq:'EQ-027',regiao:'Não-Me-Toque',score:96,classe:'Critico',f:"Umidade do solo"}]
+};
+const REC={
+  Baixo:["✅","Operação liberada. Condições dentro do esperado; siga o plano normal."],
+  Medio:["⚠️","Operação com atenção. Reduza a velocidade e evite as áreas mais úmidas."],
+  Alto:["🟠","Operação com restrições. Exija supervisão e replaneje a rota para longe de áreas alagadas."],
+  Critico:["⛔","Operação NÃO recomendada. Risco elevado de atolamento/tombamento. Suspenda e reavalie."]
+};
+
+/* ---- Gauge (semicírculo) ---- */
+function drawGauge(score,cor){
+  const g=document.getElementById('gauge');
+  const cx=120,cy=120,r=92, a0=Math.PI, a1=Math.PI*(1 - score/100);
+  const x0=cx+r*Math.cos(a0), y0=cy+r*Math.sin(a0);
+  const x1=cx+r*Math.cos(a1), y1=cy+r*Math.sin(a1);
+  const large = (score>50)?0:0;
+  g.innerHTML=`
+    <path d="M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}" fill="none" stroke="#Ece8d8" stroke-width="18" stroke-linecap="round"/>
+    <path d="M ${x0} ${y0} A ${r} ${r} 0 ${large} 1 ${x1} ${y1}" fill="none" stroke="${cor}" stroke-width="18" stroke-linecap="round"/>
+    <text x="${cx-r}" y="138" font-family="var(--mono)" font-size="10" fill="#8a948c">0</text>
+    <text x="${cx+r-6}" y="138" font-family="var(--mono)" font-size="10" fill="#8a948c">100</text>`;
+}
+function setOp(which,btn){
+  if(btn){document.querySelectorAll('.selector button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+  const d=DATA.op[which], cor=COR[d.classe];
+  document.getElementById('opScore').textContent=d.score;
+  document.getElementById('opScore').style.color=cor;
+  drawGauge(d.score,cor);
+  const pill=document.getElementById('opPill');
+  pill.style.background=cor; pill.textContent='Risco '+d.classe;
+  document.getElementById('opMeta').textContent=`${d.modelo} · ${d.regiao} · operação de ${d.op}`;
+  const v=document.getElementById('opVerdict'); const rec=REC[d.classe];
+  v.style.background=cor+'18'; v.style.color=cor;
+  v.innerHTML=`<span class="ic">${rec[0]}</span><span>${rec[1]}</span>`;
+  document.getElementById('opReadings').innerHTML=`
+    <div class="reading"><div class="k">Umidade do solo</div><div class="v">${d.umid}<small>%</small></div></div>
+    <div class="reading"><div class="k">Chuva 24h</div><div class="v">${d.chuva}<small>mm</small></div></div>
+    <div class="reading"><div class="k">Distância da água</div><div class="v">${d.agua}<small>m</small></div></div>
+    <div class="reading"><div class="k">Declividade</div><div class="v">${d.decliv}<small>°</small></div></div>`;
+  document.getElementById('opFactors').innerHTML=d.fatores.map((f,i)=>
+    `<div class="factor f${i+1}"><div class="rank">${i+1}</div><div class="txt">${f}</div></div>`).join('');
+}
+
+/* ---- Gestor ---- */
+function renderGestor(){
+  const max=Math.max(...DATA.regioes.map(r=>r.score));
+  document.getElementById('regBars').innerHTML=DATA.regioes.map(r=>{
+    const cor = r.score>32?COR.Alto:(r.score>31?COR.Medio:COR.Baixo);
+    return `<div class="bar-row"><div class="lbl">${r.regiao} <span>${r.estado}</span></div>
+      <div class="track"><div class="fill" style="width:${r.score/max*100}%;background:${cor}">${r.score}</div></div></div>`;
+  }).join('');
+
+  const t=DATA.trend, W=460,H=190,pad=20, mn=Math.min(...t)-3, mx=Math.max(...t)+3;
+  const pts=t.map((v,i)=>[pad+i*(W-2*pad)/(t.length-1), H-pad-(v-mn)/(mx-mn)*(H-2*pad)]);
+  const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
+  const area=line+` L ${pts[pts.length-1][0].toFixed(1)} ${H-pad} L ${pad} ${H-pad} Z`;
+  document.getElementById('trend').innerHTML=`
+    <defs><linearGradient id="ta" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0B6E4F" stop-opacity=".25"/><stop offset="1" stop-color="#0B6E4F" stop-opacity="0"/></linearGradient></defs>
+    <path d="${area}" fill="url(#ta)"/>
+    <path d="${line}" fill="none" stroke="#0B6E4F" stroke-width="2.5"/>
+    ${pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#0B6E4F"/>`).join('')}`;
+
+  document.querySelector('#rankTable tbody').innerHTML=DATA.ranking.map(r=>`
+    <tr><td class="eq">${r.eq}</td><td>${r.modelo}</td><td>${r.tipo}</td>
+      <td><b style="font-family:var(--mono)">${r.score}</b></td>
+      <td><span class="badge" style="background:${COR.Critico}">${r.crit}</span></td></tr>`).join('');
+
+  const tot=Object.values(DATA.dist).reduce((a,b)=>a+b,0);
+  const order=['Baixo','Medio','Alto','Critico'];
+  document.getElementById('distStack').innerHTML=order.map(k=>{
+    const w=DATA.dist[k]/tot*100; return `<div style="width:${w}%;background:${COR[k]}">${w>7?DATA.dist[k]:''}</div>`;}).join('');
+  document.getElementById('distLegend').innerHTML=order.map(k=>
+    `<span><span class="dot" style="background:${COR[k]}"></span>${k} · ${(DATA.dist[k]/tot*100).toFixed(0)}%</span>`).join('');
+}
+
+/* ---- Seguradora ---- */
+function renderSeg(){
+  document.getElementById('validGrid').innerHTML=DATA.validacao.map(v=>`
+    <div class="vcard" style="background:${COR[v.c]}"><div class="vc">Risco ${v.c}</div>
+      <div class="vr">${v.r}%</div><div class="vn">sinistro real</div></div>`).join('');
+  const max=Math.max(...DATA.fatores.map(f=>f.n));
+  document.getElementById('factorBars').innerHTML=DATA.fatores.map(f=>`
+    <div class="bar-row"><div class="lbl" style="width:170px;font-size:12px">${f.f}</div>
+      <div class="track"><div class="fill" style="width:${f.n/max*100}%;background:#0B6E4F">${f.n}</div></div></div>`).join('');
+  document.querySelector('#auditTable tbody').innerHTML=DATA.alertas.map(a=>`
+    <tr><td class="eq">${a.eq}</td><td>${a.regiao}</td><td><b style="font-family:var(--mono)">${a.score}</b></td>
+      <td><span class="badge" style="background:${COR[a.classe]}">${a.classe}</span></td>
+      <td style="font-size:12px">${a.f}</td><td style="font-family:var(--mono);font-size:11px;color:#8a948c">rf-v1.0</td></tr>`).join('');
+}
+
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
+  t.classList.add('on'); document.getElementById(t.dataset.t).classList.add('on');
+});
+setOp('crit',null); renderGestor(); renderSeg();
+</script>
+</body>
+</html>
