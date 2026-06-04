@@ -35,7 +35,7 @@ RECS = {
     "Critico": "⛔ Operação NÃO recomendada. Suspenda e reavalie as condições.",
 }
 
-st.set_page_config(page_title="SomPrev Risk", page_icon="🟥", layout="wide")
+st.set_page_config(page_title="SomPrev Risk", page_icon="🔎", layout="wide")
 
 
 def aplicar_tema():

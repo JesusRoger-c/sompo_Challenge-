@@ -52,10 +52,8 @@
   .hd{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;
     justify-content:space-between;flex-wrap:wrap;gap:14px}
   .brand{display:flex;align-items:center;gap:14px}
-  .logo{width:46px;height:46px;border:2.5px solid var(--white);border-radius:50%;
-    display:grid;place-items:center;position:relative;flex-shrink:0}
-  .logo::before{content:"";position:absolute;width:24px;height:2.5px;background:var(--white)}
-  .logo::after{content:"";position:absolute;height:24px;width:2.5px;background:var(--white)}
+  .logo{width:46px;height:46px;display:grid;place-items:center;flex-shrink:0;color:var(--white)}
+  .logo svg{display:block}
   .brand h1{font-family:var(--font-display);font-size:30px;font-weight:800;letter-spacing:-.02em;line-height:1.05}
   .brand p{font-size:12.5px;color:var(--on-dark);margin-top:2px}
   .stamp{font-family:var(--font-mono);font-size:11px;color:var(--on-dark);text-align:right}
@@ -89,9 +87,13 @@
     padding:10px;cursor:pointer;font-family:var(--font-body);font-weight:600;font-size:13px;color:var(--g-dark);transition:.15s}
   .selector button.on{border-color:var(--g);background:var(--white)}
   .gauge-wrap{display:flex;flex-direction:column;align-items:center;text-align:center}
-  .scoreNum{font-family:var(--font-mono);font-weight:600;font-size:54px;line-height:1;margin-top:-8px}
+  /* o numero do score fica ABSOLUTO dentro da curva do medidor (sem vao morto) */
+  .gauge-svg{position:relative;width:220px;line-height:0}
+  .gauge-svg svg{display:block;width:100%;height:auto}
+  .scoreNum{position:absolute;left:0;right:0;bottom:6px;text-align:center;
+    font-family:var(--font-mono);font-weight:600;font-size:48px;line-height:1}
   .classe-pill{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:30px;
-    font-weight:700;font-size:15px;color:var(--white);margin-top:6px}
+    font-weight:700;font-size:15px;color:var(--white);margin-top:12px}
   .verdict{margin-top:18px;border-radius:12px;padding:16px;font-weight:600;font-size:14.5px;
     display:flex;gap:12px;align-items:flex-start}
   .verdict .ic{font-size:22px;line-height:1.1}
@@ -186,7 +188,12 @@
 <header>
   <div class="hd">
     <div class="brand">
-      <div class="logo"></div>
+      <div class="logo" aria-label="SomPrev Risk">
+        <svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+          <circle cx="19" cy="19" r="12" stroke="currentColor" stroke-width="2.6"/>
+          <line x1="27.5" y1="27.5" x2="38" y2="38" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
       <div><h1>SomPrev Risk</h1><p>Inteligência preditiva de risco para frotas agrícolas · Sompo Seguros</p></div>
     </div>
     <div class="stamp">modelo <b>rf-v1.0</b><br>Random Forest · AUC <b>0.862</b><br>6.000 leituras monitoradas</div>
@@ -210,8 +217,10 @@
           <button onclick="preset('safe',this)">Cenário seguro · EQ-036</button>
         </div>
         <div class="gauge-wrap">
-          <svg width="240" height="140" viewBox="0 0 240 140" id="gauge"></svg>
-          <div class="scoreNum" id="opScore">0</div>
+          <div class="gauge-svg">
+            <svg viewBox="0 0 240 124" id="gauge"></svg>
+            <div class="scoreNum" id="opScore">0</div>
+          </div>
           <div class="classe-pill" id="opPill"></div>
         </div>
         <div class="verdict" id="opVerdict"></div>
@@ -400,15 +409,17 @@ function classifica(s){ return s<=25?'Baixo':s<=50?'Medio':s<=75?'Alto':'Critico
    eleva bastante). NAO e o Random Forest — e uma estimativa para o operador. */
 const sl={umid:'sUmid',chuva:'sChuva',agua:'sAgua',decliv:'sDecliv'};
 const PRESETS={ crit:{umid:87,chuva:40,agua:30,decliv:23}, safe:{umid:33,chuva:29,agua:1078,decliv:8} };
-const GR=92, GLEN=Math.PI*GR;
+const GR=96, GLEN=Math.PI*GR;
 function initGauge(){
-  const cx=120,cy=120,r=GR, d=`M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}`;
+  // cy baixo (112) deixa a cupula alta e o miolo livre para o numero do score;
+  // os rotulos 0/100 ficam junto das pontas do arco.
+  const cx=120,cy=112,r=GR, d=`M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}`;
   document.getElementById('gauge').innerHTML=`
     <path d="${d}" fill="none" stroke="${C_TRACK}" stroke-width="18" stroke-linecap="round"/>
     <path id="gaugeFill" d="${d}" fill="none" stroke="${COR.Baixo}" stroke-width="18" stroke-linecap="round"
           stroke-dasharray="0 ${GLEN}" style="transition:stroke-dasharray .3s ease, stroke .3s ease"/>
-    <text x="${cx-r}" y="138" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">0</text>
-    <text x="${cx+r-6}" y="138" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">100</text>`;
+    <text x="${cx-r+2}" y="122" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">0</text>
+    <text x="${cx+r-8}" y="122" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">100</text>`;
 }
 function updGauge(score,cor){
   const f=document.getElementById('gaugeFill');
