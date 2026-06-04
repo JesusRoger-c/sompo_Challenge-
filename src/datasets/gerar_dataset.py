@@ -81,7 +81,14 @@ def _norm(x, lo, hi, inverter=False):
 
 
 def gerar_features(n):
-    """Sorteia as variaveis de entrada com distribuicoes plausiveis de campo."""
+    """Sorteia as variaveis de entrada com distribuicoes plausiveis de campo.
+
+    Por que distribuicoes diferentes por variavel (normal, gamma)? Para imitar
+    o formato real de cada grandeza: umidade/temperatura oscilam em torno de uma
+    media (normal), enquanto chuva, declividade e horas-de-manutencao sao
+    assimetricas — quase sempre baixas, com cauda longa de eventos extremos
+    (gamma). Dados realistas evitam que o modelo aprenda um padrao artificial.
+    """
     df = pd.DataFrame()
 
     # --- Ambientais -------------------------------------------------------
@@ -159,7 +166,10 @@ def calcular_probabilidade_sinistro(df):
     logito += 2.2 * ((c_decliv > 0.6) & (c_carga > 0.6)).astype(float) # declive + carga -> tombamento
     logito += 1.8 * ((c_manut > 0.6) & (c_idade > 0.6)).astype(float)  # manutencao atrasada + maquina velha
 
-    # Centraliza para uma taxa-base de sinistro realista (~30%) e adiciona ruido baixo
+    # Por que subtrair uma constante? Para ancorar a taxa-base de sinistro em
+    # um valor realista (~30%); sem isso quase tudo viraria sinistro. Por que
+    # somar ruido? Para que nem mesmo o "modelo perfeito" acerte 100% — assim a
+    # validacao fica honesta e as metricas tem um teto realista (e nao suspeito).
     logito = logito - 7.4
     logito = logito + rng.normal(0, 0.40, len(df))   # ruido = teto de acuracia realista
 

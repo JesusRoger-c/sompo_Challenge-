@@ -14,12 +14,20 @@ Como rodar (a partir da raiz do repositorio):
 """
 
 import os
+import sys
 import sqlite3
 import pandas as pd
 import streamlit as st
 
+# O app vive em src/dashboards/, mas o tema central esta em src/scripts/.
+# Adicionamos essa pasta ao path para reaproveitar a MESMA paleta do diagrama,
+# evitando que dashboard e diagrama divirjam de cor com o tempo.
+sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
+import tema
+
 DB = os.path.join(os.path.dirname(__file__), "..", "database", "somprev_risk.db")
-CORES = {"Baixo": "#1B9E4B", "Medio": "#E8B800", "Alto": "#E8761B", "Critico": "#D62828"}
+# Cores do semaforo de risco vindas do tema central (fonte unica de verdade).
+CORES = tema.RISCO
 RECS = {
     "Baixo": "✅ Operação liberada. Condições dentro do esperado.",
     "Medio": "⚠️ Operação com atenção. Reduza a velocidade e evite áreas úmidas.",
@@ -30,8 +38,12 @@ RECS = {
 st.set_page_config(page_title="SomPrev Risk", page_icon="🌱", layout="wide")
 
 
+# @st.cache_data: lemos o banco uma vez e reaproveitamos — sem reconsultar o
+# SQLite a cada clique de aba, deixando a navegacao instantanea.
 @st.cache_data
 def carregar():
+    # Um JOIN unico ja traz leitura + regiao + predicao: cada linha vira "leitura
+    # com seu score e fatores", que e a unidade que as 3 telas precisam.
     con = sqlite3.connect(DB)
     leituras = pd.read_sql("""
         SELECT l.*, r.nome AS regiao_nome, r.estado,

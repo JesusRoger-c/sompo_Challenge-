@@ -8,10 +8,17 @@ Centraliza tudo que treino, banco e dashboard precisam compartilhar:
   - texto de recomendacao por faixa (experiencia do usuario);
   - explicabilidade: top fatores que mais elevaram o risco de uma leitura.
 
-Manter isso num so lugar evita divergencia de regra entre os modulos.
+Manter isso num so lugar evita divergencia de regra entre os modulos: treino,
+banco e dashboard usam exatamente a mesma definicao de faixa e de recomendacao.
 """
 
-# Variaveis de entrada do modelo (alinhadas ao gerador de dataset)
+# As cores das faixas vivem no tema central (tema.py), nao aqui: assim a
+# identidade visual tem uma unica fonte de verdade em todo o projeto.
+import tema
+
+# Variaveis de entrada do modelo (alinhadas ao gerador de dataset).
+# Separamos numericas de categoricas DE PROPOSITO: no treino cada grupo recebe
+# um tratamento diferente (padronizacao nas numericas, One-Hot nas categoricas).
 FEATURES_NUM = [
     "umidade_solo_pct", "precipitacao_24h_mm", "temperatura_c",
     "declividade_graus", "distancia_corpo_dagua_m",
@@ -22,7 +29,9 @@ FEATURES_CAT = ["tipo_solo", "tipo_operacao", "periodo_dia"]
 FEATURES = FEATURES_NUM + FEATURES_CAT
 ALVO = "houve_sinistro"
 
-# Nomes amigaveis para mostrar ao usuario (explicabilidade)
+# Nomes amigaveis para mostrar ao usuario (explicabilidade).
+# Traduzir o nome tecnico da coluna para linguagem humana e o que permite o
+# dashboard dizer "Umidade do solo" em vez de "umidade_solo_pct".
 ROTULOS = {
     "umidade_solo_pct": "Umidade do solo",
     "precipitacao_24h_mm": "Chuva nas ultimas 24h",
@@ -40,28 +49,48 @@ ROTULOS = {
 
 
 def prob_para_score(prob):
-    """Probabilidade de sinistro (0-1) -> score de risco inteiro de 0 a 100."""
+    """Probabilidade de sinistro (0-1) -> score de risco inteiro de 0 a 100.
+
+    Por que converter a probabilidade em um numero de 0 a 100? Porque "score"
+    e uma linguagem que o operador e o gestor entendem sem precisar saber o que
+    e probabilidade. A informacao e a mesma; muda so a apresentacao.
+    """
     return int(round(float(prob) * 100))
+
+
+# Emojis do semaforo por faixa (a COR vem do tema central, nao e duplicada aqui).
+_EMOJI = {"Baixo": "🟢", "Medio": "🟡", "Alto": "🟠", "Critico": "🔴"}
 
 
 def classificar_risco(score):
     """
-    Converte o score em faixa de risco. Sistema de 4 niveis, alinhado ao
-    exemplo do enunciado (distancia da agua: 500/200/50 m -> baixo a critico).
-    Retorna (classe, emoji, cor_hex).
+    Converte o score em faixa de risco. Retorna (classe, emoji, cor_hex).
+
+    Por que 4 faixas (e nao 2 ou 3)? Duas faixas (liberado/bloqueado) jogam
+    fora nuance: o campo precisa do meio-termo "pode operar, mas com cautela".
+    Quatro niveis dao acao pratica distinta em cada um (liberar / atencao /
+    restringir / suspender) sem virar uma escala dificil de interpretar. Os
+    cortes em 25/50/75 dividem o score 0-100 em quartos iguais e estao alinhados
+    ao exemplo do enunciado (distancia da agua 500/200/50 m -> baixo a critico).
     """
     if score <= 25:
-        return "Baixo", "🟢", "#1B9E4B"
+        classe = "Baixo"
     elif score <= 50:
-        return "Medio", "🟡", "#E8B800"
+        classe = "Medio"
     elif score <= 75:
-        return "Alto", "🟠", "#E8761B"
+        classe = "Alto"
     else:
-        return "Critico", "🔴", "#D62828"
+        classe = "Critico"
+    # A cor sai do tema central -> consistencia garantida com diagrama e app.
+    return classe, _EMOJI[classe], tema.RISCO[classe]
 
 
 def recomendacao(classe):
-    """Texto de acao recomendada por faixa - foco na experiencia do usuario."""
+    """Texto de acao recomendada por faixa - foco na experiencia do usuario.
+
+    A predicao so vira valor quando o usuario sabe O QUE FAZER com ela; por isso
+    cada faixa carrega uma instrucao direta, e nao apenas um rotulo de risco.
+    """
     return {
         "Baixo":  "Operacao liberada. Condicoes dentro do esperado; siga o plano normal.",
         "Medio":  "Operacao com atencao. Reduza a velocidade, evite as areas mais umidas "
@@ -79,8 +108,17 @@ def top_fatores(linha, n=3):
     Calcula, para UMA leitura, o quanto cada variavel se aproxima do pior caso e
     devolve os n fatores que mais puxaram o risco para cima, em linguagem humana.
 
+    Por que mostrar os "top 3 fatores"? Um score sozinho e uma caixa-preta:
+    dizer "risco 82" nao ajuda o operador a agir. Apontar "umidade alta +
+    proximidade de agua" transforma o numero em causa acionavel e gera confianca
+    no modelo (a seguradora tambem exige essa rastreabilidade do porque).
+    Usamos uma aproximacao por proximidade-do-pior-caso, intencionalmente simples
+    e deterministica, para que a explicacao seja sempre reproduzivel e auditavel.
+
     'linha' = dict/Series com as features.
     """
+    # Normaliza cada variavel para [0,1] na direcao do risco (inv=True quando
+    # o risco cresce conforme o valor DIMINUI, como a distancia ate a agua).
     def n_(v, lo, hi, inv=False):
         z = max(0.0, min(1.0, (float(v) - lo) / (hi - lo)))
         return (1 - z) if inv else z

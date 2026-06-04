@@ -4,6 +4,7 @@ Uso (a partir da raiz do repositorio): python src/scripts/_gerar_arquitetura.py
 As saidas sao gravadas em document/ (template FIAP).
 """
 import os
+import sys
 import cairosvg
 
 # Raiz do repositorio: este script vive em src/scripts/.
@@ -11,12 +12,20 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 DOCUMENT_DIR = os.path.join(ROOT_DIR, "document")
 os.makedirs(DOCUMENT_DIR, exist_ok=True)
 
-# Paleta agritech
-INK = "#13241C"; PAPER = "#F6F4EC"; LINE = "#C9C2AE"
-G_DARK = "#0B3D2E"; G = "#0B6E4F"; G_SOFT = "#E3EFE7"
-AMBER = "#C77D34"; AMBER_SOFT = "#F3E4CF"
-BLUE = "#3E6E8E"; BLUE_SOFT = "#E0EAF0"
-RISKS = {"Baixo": "#1B9E4B", "Medio": "#E8B800", "Alto": "#E8761B", "Critico": "#D62828"}
+# As cores vem do tema central (src/scripts/tema.py) em vez de hex repetidos
+# aqui: trocar a identidade visual passa a ser editar um arquivo so. Adicionamos
+# o diretorio deste script ao path para conseguir importar o modulo ao rodar
+# da raiz do repositorio.
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+import tema
+
+# Apelidos locais curtos (mantem o resto do desenho legivel) apontando para a
+# fonte unica de verdade. Os valores sao exatamente os mesmos de antes.
+INK = tema.TINTA; PAPER = tema.OFF_WHITE; LINE = tema.LINHA
+G_DARK = tema.VERDE_ESCURO; G = tema.VERDE; G_SOFT = tema.VERDE_SUAVE
+AMBER = tema.AMBAR; AMBER_SOFT = tema.AMBAR_SUAVE
+BLUE = tema.AZUL; BLUE_SOFT = tema.AZUL_SUAVE
+RISKS = tema.RISCO
 
 W, H = 1180, 660
 

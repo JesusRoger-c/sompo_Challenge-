@@ -52,6 +52,7 @@ import joblib
 import sys, os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import risco_utils as ru
+import tema  # paleta central: cores das faixas de risco vem daqui
 
 # Caminhos robustos relativos a src/: o script vive em src/scripts/, logo
 # SRC_DIR e a pasta src/ e datasets/models ficam em src/datasets e src/models.
@@ -68,7 +69,18 @@ PALETA = {"rf": "#0B6E4F", "lr": "#6C8EBF", "gb": "#E8761B"}
 
 
 def construir_preprocessador():
-    """One-Hot nas categoricas; padronizacao nas numericas."""
+    """One-Hot nas categoricas; padronizacao nas numericas.
+
+    Por que tratar os dois grupos diferente?
+      - Numericas: padronizamos (media 0, desvio 1) porque elas estao em escalas
+        muito diferentes (mm de chuva vs. graus de declividade). Sem isso,
+        modelos sensiveis a escala (ex.: Regressao Logistica) dao peso indevido
+        a variavel de numeros maiores.
+      - Categoricas: One-Hot porque 'tipo_solo' nao tem ordem numerica — tratar
+        Arenoso=1, Misto=2... inventaria uma hierarquia falsa. One-Hot cria uma
+        coluna 0/1 por categoria, sem sugerir ordem inexistente.
+    'handle_unknown=ignore' evita quebrar se aparecer uma categoria nova em producao.
+    """
     return ColumnTransformer([
         ("num", StandardScaler(), ru.FEATURES_NUM),
         ("cat", OneHotEncoder(handle_unknown="ignore"), ru.FEATURES_CAT),
@@ -79,8 +91,14 @@ def avaliar(nome, modelo, X_tr, X_te, y_tr, y_te, cv):
     """Treina, mede no teste e roda validacao cruzada. Devolve dict de metricas."""
     modelo.fit(X_tr, y_tr)
     y_pred = modelo.predict(X_te)
+    # Usamos a PROBABILIDADE da classe positiva (coluna 1), nao so o 0/1: e ela
+    # que vira o score 0-100 e que permite calcular a ROC-AUC.
     y_prob = modelo.predict_proba(X_te)[:, 1]
 
+    # Por que validacao cruzada ALEM do hold-out? O hold-out mede o desempenho em
+    # UMA unica divisao treino/teste — pode ter dado sorte (ou azar) na amostra.
+    # A CV de 5 folds treina/avalia 5 vezes em particoes diferentes; a media +-
+    # desvio mostra se o resultado e estavel ou fruto do acaso daquele split.
     auc_cv = cross_val_score(modelo, X_tr, y_tr, cv=cv, scoring="roc_auc")
 
     m = {
@@ -109,10 +127,19 @@ def main():
     y = df[ru.ALVO]
     print(f"Base: {len(df)} leituras | taxa de sinistro: {y.mean():.1%}")
 
+    # stratify=y mantem a mesma proporcao de sinistros no treino e no teste —
+    # essencial com classes desbalanceadas (~30% positivos), senao o teste
+    # poderia ficar com poucos sinistros e distorcer as metricas.
+    # random_state=42 fixa a divisao: todo mundo reproduz exatamente os numeros.
     X_tr, X_te, y_tr, y_te = train_test_split(
         X, y, test_size=0.25, random_state=42, stratify=y)
     cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 
+    # Por que comparar 3 algoritmos em vez de ja escolher um? Para justificar a
+    # escolha com evidencia, e nao por gosto: um baseline linear (Regressao
+    # Logistica) e dois modelos de arvore (Random Forest e Gradient Boosting).
+    # class_weight='balanced' compensa o desbalanceamento, fazendo o modelo dar
+    # peso justo a classe minoritaria (os sinistros, que sao o que importa prever).
     pre = construir_preprocessador()
     modelos = {
         "Logistic Regression": Pipeline([("pre", pre),
@@ -133,7 +160,11 @@ def main():
         preds[nome] = yp
         probs[nome] = ypb
 
-    # ---- Escolha: Random Forest (justificado no cabecalho/docs) ----------
+    # ---- Escolha: Random Forest ------------------------------------------
+    # Por que o RF e nao o de maior AUC? O Gradient Boosting tem AUC quase igual,
+    # mas o RF entrega a melhor ACURACIA, e robusto, treina rapido em paralelo e
+    # oferece importancia de variaveis pronta — a explicabilidade que gestor e
+    # seguradora exigem. Empate tecnico decidido pela interpretabilidade.
     escolhido = "Random Forest"
     modelo_final = modelos[escolhido]
     print(f"\n[2] Modelo escolhido: {escolhido}")
@@ -190,11 +221,15 @@ def main():
     print(f"[OK] {MODELS_DIR}/curva_roc.png")
 
     # 2.4 Distribuicao do score por faixa de risco
+    # Por que a probabilidade vira score 0-100? Multiplicamos por 100 para entregar
+    # ao usuario um numero intuitivo (uma "nota de risco") em vez de uma
+    # probabilidade entre 0 e 1 — mesma informacao, leitura mais facil em campo.
     score_te = (probs[escolhido] * 100)
-    cores_faixa = ["#1B9E4B", "#E8B800", "#E8761B", "#D62828"]
+    # Cores das faixas vindas do tema central (sem hex duplicado neste script).
+    cores_faixa = [tema.RISCO["Baixo"], tema.RISCO["Medio"], tema.RISCO["Alto"], tema.RISCO["Critico"]]
     faixas = [(0, 25, "Baixo"), (26, 50, "Medio"), (51, 75, "Alto"), (76, 100, "Critico")]
     fig, ax = plt.subplots(figsize=(7.2, 4.6))
-    ax.hist(score_te, bins=25, color="#0B6E4F", alpha=0.85, edgecolor="white")
+    ax.hist(score_te, bins=25, color=tema.VERDE, alpha=0.85, edgecolor="white")
     for (lo, hi, _), c in zip(faixas, cores_faixa):
         ax.axvspan(lo, hi, color=c, alpha=0.10)
     for x in [25, 50, 75]:
