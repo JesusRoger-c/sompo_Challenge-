@@ -5,7 +5,7 @@ As saidas sao gravadas em document/ (template FIAP).
 """
 import os
 import sys
-import cairosvg
+import cairosvg  # type: ignore[reportMissingImports]  # dependencia externa (ver config/requirements.txt)
 
 # Raiz do repositorio: este script vive em src/scripts/.
 ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
