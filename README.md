@@ -29,7 +29,7 @@ Inteligência preditiva que transforma a gestão de risco de frotas agrícolas d
 
 ## 🎥 Vídeo demonstrativo
 
-Link (não listado): https://youtu.be/q7YVjxpytPo
+Link (não listado): https://youtu.be/4I2BDATtBKc
 
 ## 📜 Descrição
 
