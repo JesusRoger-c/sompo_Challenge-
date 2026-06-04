@@ -58,7 +58,7 @@ para apoiar decisões — vale mais que a acurácia isolada. (Query em
 | Variável | \|correlação\| com `houve_sinistro` |
 |---|---|
 | Umidade do solo | 0,317 |
-| Proximidade de corpo d'água | 0,289 |
+| Distância da água | 0,289 |
 | Chuva 24h | 0,142 |
 | Declividade do terreno | 0,098 |
 | Horas desde a manutenção | 0,094 |

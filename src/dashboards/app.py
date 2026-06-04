@@ -66,16 +66,46 @@ def carregar():
     # Um JOIN unico ja traz leitura + regiao + predicao: cada linha vira "leitura
     # com seu score e fatores", que e a unidade que as 3 telas precisam.
     con = sqlite3.connect(DB)
+    # JOIN tambem com equipamentos para trazer o TIPO (Trator/Colheitadeira/
+    # Pulverizador), necessario para o filtro por tipo de equipamento na sidebar.
     leituras = pd.read_sql("""
         SELECT l.*, r.nome AS regiao_nome, r.estado,
+               e.tipo AS equip_tipo, e.modelo AS equip_modelo,
                p.score_risco, p.classe_risco, p.prob_sinistro,
                p.fator_1, p.fator_2, p.fator_3, p.modelo_versao
         FROM leituras l
-        JOIN regioes r   ON r.regiao_id  = l.regiao_id
-        JOIN predicoes p ON p.leitura_id = l.leitura_id
+        JOIN regioes r       ON r.regiao_id      = l.regiao_id
+        JOIN equipamentos e  ON e.equipamento_id = l.equipamento_id
+        JOIN predicoes p     ON p.leitura_id     = l.leitura_id
     """, con)
     con.close()
     return leituras
+
+
+def filtros_sidebar(df):
+    """Filtros globais (região, tipo de equipamento, classe de risco) aplicados
+    às TRÊS visões. Padrão 'Todos' = sem filtro. Retorna o df já filtrado.
+
+    Por que na sidebar e globais? Para que o gestor/seguradora analise um recorte
+    (ex.: só Colheitadeiras de Barreiras em risco Crítico) com KPIs, gráficos e
+    tabelas sempre coerentes entre si — todos leem do mesmo df filtrado.
+    """
+    st.sidebar.markdown("### Filtros")
+    regioes = ["Todas"] + sorted(df["regiao_nome"].dropna().unique().tolist())
+    tipos = ["Todos"] + sorted(df["equip_tipo"].dropna().unique().tolist())
+    classes = ["Todas", "Baixo", "Medio", "Alto", "Critico"]
+    f_reg = st.sidebar.selectbox("Região", regioes)
+    f_tipo = st.sidebar.selectbox("Tipo de equipamento", tipos)
+    f_classe = st.sidebar.selectbox("Classe de risco", classes)
+
+    out = df
+    if f_reg != "Todas":
+        out = out[out["regiao_nome"] == f_reg]
+    if f_tipo != "Todos":
+        out = out[out["equip_tipo"] == f_tipo]
+    if f_classe != "Todas":
+        out = out[out["classe_risco"] == f_classe]
+    return out
 
 
 def cabecalho():
@@ -150,10 +180,12 @@ def view_seguradora(df):
              .reindex(["Baixo", "Medio", "Alto", "Critico"]).reset_index())
     cols = st.columns(4)
     for col, (_, r) in zip(cols, val.iterrows()):
+        # com filtro de classe, faixas ausentes ficam sem leitura -> mostra "—"
+        taxa = "—" if pd.isna(r["taxa_sinistro_real"]) else f"{r['taxa_sinistro_real']}%"
         col.markdown(
             f"<div style='background:{CORES[r['classe_risco']]};color:#fff;padding:14px;"
             f"border-radius:12px;text-align:center'><div>Risco {r['classe_risco']}</div>"
-            f"<div style='font-size:30px;font-weight:700'>{r['taxa_sinistro_real']}%</div>"
+            f"<div style='font-size:30px;font-weight:700'>{taxa}</div>"
             f"<div style='font-size:12px'>sinistro real</div></div>", unsafe_allow_html=True)
     st.info("Leituras de risco Baixo quase não viram sinistro; as de risco Crítico quase sempre. "
             "Essa separação comprova a confiabilidade do score.")
@@ -171,10 +203,18 @@ def main():
     if not os.path.exists(DB):
         st.error("Banco não encontrado. Rode antes:  python src/scripts/popular_banco.py")
         return
-    df = carregar()
+    df_total = carregar()
     aba = st.sidebar.radio("Perfil de acesso", ["🚜 Operador", "📊 Gestor", "🏢 Seguradora"])
     st.sidebar.markdown("---")
-    st.sidebar.caption(f"Modelo: {df['modelo_versao'].iloc[0]}  ·  {len(df):,} leituras".replace(",", "."))
+    df = filtros_sidebar(df_total)  # filtros globais aplicados às 3 visões
+    st.sidebar.markdown("---")
+    st.sidebar.caption(
+        f"Modelo: {df_total['modelo_versao'].iloc[0]}  ·  "
+        f"{len(df):,}/{len(df_total):,} leituras".replace(",", "."))
+
+    if df.empty:
+        st.warning("Nenhuma leitura para os filtros selecionados. Ajuste os filtros na barra lateral.")
+        return
     if aba.endswith("Operador"):
         view_operador(df)
     elif aba.endswith("Gestor"):

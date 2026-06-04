@@ -153,8 +153,33 @@
     padding:14px 16px;margin-top:16px;font-size:13.5px}
   .insight b{color:var(--g-dark)}
   footer{margin-top:30px;text-align:center;font-size:11.5px;color:var(--muted-2);font-family:var(--font-mono)}
+
+  /* ---- Simulador (sliders) ---- */
+  .sim-badge{display:inline-block;background:var(--g);color:var(--white);font-size:10px;font-weight:700;
+    padding:2px 8px;border-radius:20px;font-family:var(--font-mono);letter-spacing:.5px;text-transform:uppercase;
+    vertical-align:middle;margin-left:6px}
+  .sim-note{font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.45}
+  .slider-row{margin-bottom:14px}
+  .slider-row .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+  .slider-row .lab{font-size:13px;font-weight:500}
+  .slider-row .val{font-family:var(--font-mono);font-size:14px;font-weight:600;color:var(--g-dark)}
+  input[type=range]{width:100%;accent-color:var(--g);cursor:pointer;height:22px}
+  .help{cursor:help;border-bottom:1px dotted var(--muted-2)}
+  .factor{transition:background .2s ease;animation:fade .3s ease}
+
+  /* ---- Filtros ---- */
+  .filters{display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end;margin-bottom:18px}
+  .filters .fgroup{display:flex;flex-direction:column;gap:4px}
+  .filters label{font-size:11px;font-family:var(--font-mono);letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+  .filters select{font-family:var(--font-body);font-size:13px;padding:8px 10px;border:1px solid var(--line);
+    border-radius:8px;background:var(--card);color:var(--ink);min-width:150px}
+  .clearbtn{background:var(--g-soft);border:1px solid var(--g);color:var(--g-dark);border-radius:8px;
+    padding:9px 14px;cursor:pointer;font-family:var(--font-body);font-size:12.5px;font-weight:600}
+  .clearbtn:hover{background:var(--white)}
+  .empty{font-size:13px;color:var(--muted);padding:14px 0}
+
   @media(max-width:760px){.op-grid{grid-template-columns:1fr}.kpis,.valid-grid{grid-template-columns:1fr 1fr}
-    .brand h1{font-size:21px}.bar-row .lbl{width:110px}}
+    .brand h1{font-size:21px}.bar-row .lbl{width:110px}.filters select{min-width:120px}}
 </style>
 </head>
 <body>
@@ -179,27 +204,45 @@
   <section class="on" id="op">
     <div class="op-grid">
       <div class="card">
-        <div class="eyebrow">Status do equipamento</div>
+        <div class="eyebrow">Simulador <span class="sim-badge">estimativa</span></div>
         <div class="selector">
-          <button class="on" onclick="setOp('crit',this)">EQ-009 · agora</button>
-          <button onclick="setOp('safe',this)">EQ-036 · agora</button>
+          <button class="on" onclick="preset('crit',this)">Cenário crítico · EQ-009</button>
+          <button onclick="preset('safe',this)">Cenário seguro · EQ-036</button>
         </div>
         <div class="gauge-wrap">
           <svg width="240" height="140" viewBox="0 0 240 140" id="gauge"></svg>
-          <div class="scoreNum" id="opScore">82</div>
+          <div class="scoreNum" id="opScore">0</div>
           <div class="classe-pill" id="opPill"></div>
         </div>
         <div class="verdict" id="opVerdict"></div>
+        <div class="sim-note">Estimativa didática a partir de 4 variáveis. O modelo
+          <b>Random Forest</b> treinado usa todas as variáveis e roda no servidor — aqui você
+          vê, de forma aproximada, como cada fator move o risco.</div>
       </div>
       <div>
         <div class="card" style="margin-bottom:18px">
-          <h3>Leitura atual dos sensores</h3>
-          <div class="sub" id="opMeta">Valtra BH180 · Sorriso (MT) · operação de Plantio</div>
-          <div class="readings" id="opReadings"></div>
+          <h3>Ajuste as condições</h3>
+          <div class="sub">Arraste os controles — o score recalcula em tempo real.</div>
+          <div class="slider-row">
+            <div class="top"><span class="lab"><span class="help" title="Umidade atual do solo; quanto mais úmido, menos firme fica o terreno.">Umidade do solo</span></span><span class="val"><span id="vUmid">55</span> %</span></div>
+            <input type="range" id="sUmid" min="0" max="100" step="1" value="55">
+          </div>
+          <div class="slider-row">
+            <div class="top"><span class="lab"><span class="help" title="Precipitação acumulada nas últimas 24 horas.">Chuva 24h</span></span><span class="val"><span id="vChuva">30</span> mm</span></div>
+            <input type="range" id="sChuva" min="0" max="200" step="1" value="30">
+          </div>
+          <div class="slider-row">
+            <div class="top"><span class="lab"><span class="help" title="Distância até o rio/açude mais próximo; quanto mais perto, mais instável o terreno.">Distância da água</span></span><span class="val"><span id="vAgua">800</span> m</span></div>
+            <input type="range" id="sAgua" min="5" max="2000" step="5" value="800">
+          </div>
+          <div class="slider-row">
+            <div class="top"><span class="lab"><span class="help" title="Inclinação do terreno em graus; mais íngreme = maior risco de tombamento.">Declividade</span></span><span class="val"><span id="vDecliv">15</span> °</span></div>
+            <input type="range" id="sDecliv" min="0" max="45" step="1" value="15">
+          </div>
         </div>
         <div class="card">
           <h3>Por que esse risco? <span style="font-weight:400;font-size:13px;color:var(--muted)">(top fatores)</span></h3>
-          <div class="sub">O modelo é interpretável: ele aponta o que mais pesou nesta leitura.</div>
+          <div class="sub">O modelo é interpretável: a lista reordena conforme o que mais pesa na sua simulação.</div>
           <div class="factors" id="opFactors"></div>
         </div>
       </div>
@@ -208,11 +251,25 @@
 
   <!-- ============ GESTOR ============ -->
   <section id="ge">
+    <div class="filters">
+      <div class="fgroup"><label for="fReg">Região</label>
+        <select id="fReg">
+          <option value="Todas">Todas as regiões</option>
+          <option>Sorriso</option><option>Rio Verde</option><option>Lucas do Rio Verde</option>
+          <option>Cascavel</option><option>Barreiras</option><option>Não-Me-Toque</option>
+        </select></div>
+      <div class="fgroup"><label for="fTipo">Tipo de equipamento</label>
+        <select id="fTipo">
+          <option value="Todos">Todos os tipos</option>
+          <option>Trator</option><option>Colheitadeira</option><option>Pulverizador</option>
+        </select></div>
+      <button class="clearbtn" onclick="limparGestor()">Limpar filtros</button>
+    </div>
     <div class="kpis">
-      <div class="kpi"><div class="label">Frota monitorada</div><div class="num">40</div><div class="note">equipamentos · 6 regiões</div></div>
-      <div class="kpi"><div class="label">Leituras processadas</div><div class="num">6.000</div><div class="note">últimos 90 dias</div></div>
-      <div class="kpi amber"><div class="label">Em risco Alto/Crítico</div><div class="num">1.624</div><div class="note">27% das leituras</div></div>
-      <div class="kpi red"><div class="label">Alertas abertos</div><div class="num">1.624</div><div class="note">aguardando ação</div></div>
+      <div class="kpi"><div class="label">Frota monitorada</div><div class="num" id="kFrota">14</div><div class="note" id="kFrotaNote">equipamentos</div></div>
+      <div class="kpi"><div class="label">Leituras processadas</div><div class="num" id="kLeituras">6.000</div><div class="note">últimos 90 dias</div></div>
+      <div class="kpi amber"><div class="label">Em risco Alto/Crítico</div><div class="num" id="kAltoCrit">1.624</div><div class="note" id="kAltoCritNote">das leituras</div></div>
+      <div class="kpi red"><div class="label">Alertas abertos</div><div class="num" id="kAlertas">1.624</div><div class="note">aguardando ação</div></div>
     </div>
     <div class="row">
       <div class="card" style="flex:1;min-width:340px">
@@ -250,10 +307,24 @@
       <div class="valid-grid" id="validGrid"></div>
       <div class="insight">📈 <b>Leitura de risco Baixo → apenas 1,8% viraram sinistro. Crítico → 97,6%.</b> Uma separação de mais de 50× entre as pontas comprova que o score é confiável para embasar decisões de subscrição e precificação.</div>
     </div>
+    <div class="filters">
+      <div class="fgroup"><label for="sClasse">Classe de risco</label>
+        <select id="sClasse">
+          <option value="Todas">Todas as classes</option>
+          <option>Baixo</option><option>Medio</option><option>Alto</option><option>Critico</option>
+        </select></div>
+      <div class="fgroup"><label for="sReg">Região</label>
+        <select id="sReg">
+          <option value="Todas">Todas as regiões</option>
+          <option>Sorriso</option><option>Rio Verde</option><option>Lucas do Rio Verde</option>
+          <option>Cascavel</option><option>Barreiras</option><option>Não-Me-Toque</option>
+        </select></div>
+      <button class="clearbtn" onclick="limparSeg()">Limpar filtros</button>
+    </div>
     <div class="row">
       <div class="card" style="flex:1;min-width:320px">
         <h3>Causas predominantes dos alertas</h3>
-        <div class="sub">Fator principal apontado nas leituras de risco Alto/Crítico.</div>
+        <div class="sub">Fator principal apontado nos alertas filtrados.</div>
         <div id="factorBars"></div>
       </div>
       <div class="card" style="flex:1.2;min-width:360px">
@@ -274,88 +345,148 @@
 const _CSS=getComputedStyle(document.documentElement), V=n=>_CSS.getPropertyValue(n).trim();
 const COR={Baixo:V('--baixo'),Medio:V('--medio'),Alto:V('--alto'),Critico:V('--critico')};
 const C_VERDE=V('--g'), C_TRACK=V('--gauge-track'), C_MUTE=V('--muted-2');
-const DATA={
-  op:{
-    crit:{eq:'EQ-009',modelo:'Valtra BH180',regiao:'Sorriso (MT)',op:'Plantio',score:82,classe:'Critico',
-      umid:86.7,chuva:39.5,agua:30,decliv:23.4,
-      fatores:["Proximidade de corpo d'água","Umidade do solo","Tipo de solo (encharcado)"]},
-    safe:{eq:'EQ-036',modelo:'Jacto Uniport 3030',regiao:'Sorriso (MT)',op:'Pulverização',score:1,classe:'Baixo',
-      umid:33.1,chuva:29.1,agua:1078,decliv:7.6,
-      fatores:["Tipo de solo","Umidade do solo","Proximidade de corpo d'água"]}
-  },
-  regioes:[{regiao:'Sorriso',estado:'MT',score:33.1},{regiao:'Barreiras',estado:'BA',score:31.8},
-    {regiao:'Rio Verde',estado:'GO',score:31.7},{regiao:'Cascavel',estado:'PR',score:30.8},
-    {regiao:'Lucas do Rio Verde',estado:'MT',score:30.8},{regiao:'Não-Me-Toque',estado:'RS',score:30.4}],
-  ranking:[{eq:'EQ-017',modelo:'John Deere 6110J',tipo:'Trator',score:35.6,crit:31},
-    {eq:'EQ-033',modelo:'John Deere S780',tipo:'Colheitadeira',score:35.0,crit:33},
-    {eq:'EQ-034',modelo:'Case IH 8250',tipo:'Colheitadeira',score:34.9,crit:20},
-    {eq:'EQ-005',modelo:'New Holland T7',tipo:'Trator',score:34.6,crit:31},
-    {eq:'EQ-003',modelo:'John Deere 6110J',tipo:'Trator',score:34.6,crit:27},
-    {eq:'EQ-016',modelo:'John Deere S780',tipo:'Colheitadeira',score:33.5,crit:25}],
-  dist:{Baixo:3740,Medio:636,Alto:703,Critico:921},
-  trend:[29.6,27.8,29.9,34.4,39.0,39.5,35.5,26.5,27.9,35.5,23.7,35.6,30.4,26.4],
-  fatores:[{f:"Proximidade de corpo d'água",n:813},{f:"Umidade do solo",n:659},
-    {f:"Tipo de solo",n:100},{f:"Declividade do terreno",n:27},{f:"Tipo de operação",n:15}],
-  validacao:[{c:'Baixo',r:1.8},{c:'Medio',r:15.3},{c:'Alto',r:90.3},{c:'Critico',r:97.6}],
-  alertas:[{eq:'EQ-003',regiao:'Cascavel',score:98,classe:'Critico',f:"Proximidade de corpo d'água"},
-    {eq:'EQ-011',regiao:'Barreiras',score:97,classe:'Critico',f:"Proximidade de corpo d'água"},
-    {eq:'EQ-004',regiao:'Sorriso',score:96,classe:'Critico',f:"Proximidade de corpo d'água"},
-    {eq:'EQ-017',regiao:'Cascavel',score:96,classe:'Critico',f:"Umidade do solo"},
-    {eq:'EQ-027',regiao:'Não-Me-Toque',score:96,classe:'Critico',f:"Umidade do solo"}]
-};
+
+/* Amostra de frota do prototipo (14 equipamentos). As contagens por classe somam
+   exatamente o total global (6.000 leituras: 3740/636/703/921), entao com "todos"
+   os filtros os KPIs batem com os numeros gerais; ao filtrar, tudo e recalculado
+   sobre o subconjunto. */
+const FROTA=[
+ {eq:"EQ-003",modelo:"Valtra BH180",tipo:"Trator",regiao:"Cascavel",estado:"PR",score:45.0,crit:98,leituras:383,b:164,m:45,a:76,c:98},
+ {eq:"EQ-011",modelo:"Case IH 8250",tipo:"Colheitadeira",regiao:"Barreiras",estado:"BA",score:43.5,crit:98,leituras:402,b:183,m:45,a:76,c:98},
+ {eq:"EQ-004",modelo:"Valtra BH180",tipo:"Trator",regiao:"Sorriso",estado:"MT",score:42.1,crit:98,leituras:415,b:200,m:45,a:72,c:98},
+ {eq:"EQ-017",modelo:"Case IH Magnum 340",tipo:"Trator",regiao:"Cascavel",estado:"PR",score:39.9,crit:92,leituras:419,b:217,m:45,a:65,c:92},
+ {eq:"EQ-027",modelo:"Jacto Uniport 3030",tipo:"Pulverizador",regiao:"Não-Me-Toque",estado:"RS",score:37.7,crit:83,leituras:419,b:231,m:45,a:60,c:83},
+ {eq:"EQ-033",modelo:"Case IH 8250",tipo:"Colheitadeira",regiao:"Rio Verde",estado:"GO",score:35.7,crit:75,leituras:418,b:243,m:45,a:55,c:75},
+ {eq:"EQ-005",modelo:"Case IH Magnum 340",tipo:"Trator",regiao:"Lucas do Rio Verde",estado:"MT",score:33.6,crit:67,leituras:420,b:258,m:45,a:50,c:67},
+ {eq:"EQ-034",modelo:"John Deere S780",tipo:"Colheitadeira",regiao:"Barreiras",estado:"BA",score:32.1,crit:61,leituras:419,b:267,m:45,a:46,c:61},
+ {eq:"EQ-016",modelo:"Case IH 8250",tipo:"Colheitadeira",regiao:"Sorriso",estado:"MT",score:30.6,crit:55,leituras:420,b:277,m:46,a:42,c:55},
+ {eq:"EQ-021",modelo:"New Holland T7",tipo:"Trator",regiao:"Rio Verde",estado:"GO",score:29.1,crit:49,leituras:420,b:286,m:46,a:39,c:49},
+ {eq:"EQ-009",modelo:"Case IH Magnum 340",tipo:"Trator",regiao:"Sorriso",estado:"MT",score:28.1,crit:45,leituras:420,b:293,m:46,a:36,c:45},
+ {eq:"EQ-028",modelo:"Jacto Uniport 3030",tipo:"Pulverizador",regiao:"Cascavel",estado:"PR",score:26.5,crit:39,leituras:420,b:303,m:46,a:32,c:39},
+ {eq:"EQ-036",modelo:"Jacto Uniport 3030",tipo:"Pulverizador",regiao:"Sorriso",estado:"MT",score:25.0,crit:33,leituras:420,b:313,m:46,a:28,c:33},
+ {eq:"EQ-040",modelo:"Valtra BH180",tipo:"Trator",regiao:"Não-Me-Toque",estado:"RS",score:20.5,crit:28,leituras:605,b:505,m:46,a:26,c:28}
+];
+const TREND=[29.6,27.8,29.9,34.4,39.0,39.5,35.5,26.5,27.9,35.5,23.7,35.6,30.4,26.4];
+const VALIDACAO=[{c:'Baixo',r:1.8},{c:'Medio',r:15.3},{c:'Alto',r:90.3},{c:'Critico',r:97.6}];
+/* ~12 alertas variados por regiao/classe/fator (trilha de auditoria do prototipo) */
+const ALERTAS=[
+ {eq:"EQ-003",regiao:"Cascavel",score:98,classe:"Critico",f:"Distância da água"},
+ {eq:"EQ-011",regiao:"Barreiras",score:95,classe:"Critico",f:"Distância da água"},
+ {eq:"EQ-004",regiao:"Sorriso",score:93,classe:"Critico",f:"Umidade do solo"},
+ {eq:"EQ-017",regiao:"Cascavel",score:88,classe:"Critico",f:"Distância da água"},
+ {eq:"EQ-027",regiao:"Não-Me-Toque",score:84,classe:"Critico",f:"Umidade do solo"},
+ {eq:"EQ-033",regiao:"Rio Verde",score:72,classe:"Alto",f:"Declividade do terreno"},
+ {eq:"EQ-005",regiao:"Lucas do Rio Verde",score:68,classe:"Alto",f:"Distância da água"},
+ {eq:"EQ-034",regiao:"Barreiras",score:63,classe:"Alto",f:"Tipo de solo"},
+ {eq:"EQ-016",regiao:"Sorriso",score:58,classe:"Alto",f:"Umidade do solo"},
+ {eq:"EQ-021",regiao:"Rio Verde",score:47,classe:"Medio",f:"Chuva nas últimas 24h"},
+ {eq:"EQ-009",regiao:"Sorriso",score:41,classe:"Medio",f:"Declividade do terreno"},
+ {eq:"EQ-028",regiao:"Cascavel",score:22,classe:"Baixo",f:"Tipo de solo"}
+];
 const REC={
   Baixo:["✅","Operação liberada. Condições dentro do esperado; siga o plano normal."],
   Medio:["⚠️","Operação com atenção. Reduza a velocidade e evite as áreas mais úmidas."],
   Alto:["🟠","Operação com restrições. Exija supervisão e replaneje a rota para longe de áreas alagadas."],
   Critico:["⛔","Operação NÃO recomendada. Risco elevado de atolamento/tombamento. Suspenda e reavalie."]
 };
+const ORDER=['Baixo','Medio','Alto','Critico'];
+const fmt=n=>n.toLocaleString('pt-BR');
+function classifica(s){ return s<=25?'Baixo':s<=50?'Medio':s<=75?'Alto':'Critico'; }
 
-/* ---- Gauge (semicírculo) ---- */
-function drawGauge(score,cor){
-  const g=document.getElementById('gauge');
-  const cx=120, cy=120, r=92;
-  // mesmo path para trilho e preenchimento: semicírculo da esquerda (180°) à direita (0°)
-  const d=`M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}`;
-  const comprimento=Math.PI*r;                 // comprimento do semicírculo
-  const preenchido=(Math.max(0,Math.min(100,score))/100)*comprimento;
-  g.innerHTML=`
+/* ===================== OPERADOR — simulador ===================== */
+/* Aproximacao didatica coerente com risco_utils.py: normaliza cada variavel na
+   direcao do risco, soma ponderada (umidade e distancia da agua tem peso maior;
+   chuva e declividade, medio) e uma interacao (solo muito umido + perto da agua
+   eleva bastante). NAO e o Random Forest — e uma estimativa para o operador. */
+const sl={umid:'sUmid',chuva:'sChuva',agua:'sAgua',decliv:'sDecliv'};
+const PRESETS={ crit:{umid:87,chuva:40,agua:30,decliv:23}, safe:{umid:33,chuva:29,agua:1078,decliv:8} };
+const GR=92, GLEN=Math.PI*GR;
+function initGauge(){
+  const cx=120,cy=120,r=GR, d=`M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}`;
+  document.getElementById('gauge').innerHTML=`
     <path d="${d}" fill="none" stroke="${C_TRACK}" stroke-width="18" stroke-linecap="round"/>
-    <path d="${d}" fill="none" stroke="${cor}" stroke-width="18" stroke-linecap="round"
-          stroke-dasharray="${preenchido} ${comprimento}"/>
+    <path id="gaugeFill" d="${d}" fill="none" stroke="${COR.Baixo}" stroke-width="18" stroke-linecap="round"
+          stroke-dasharray="0 ${GLEN}" style="transition:stroke-dasharray .3s ease, stroke .3s ease"/>
     <text x="${cx-r}" y="138" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">0</text>
     <text x="${cx+r-6}" y="138" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">100</text>`;
 }
-function setOp(which,btn){
-  if(btn){document.querySelectorAll('.selector button').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
-  const d=DATA.op[which], cor=COR[d.classe];
-  document.getElementById('opScore').textContent=d.score;
-  document.getElementById('opScore').style.color=cor;
-  drawGauge(d.score,cor);
-  const pill=document.getElementById('opPill');
-  pill.style.background=cor; pill.textContent='Risco '+d.classe;
-  document.getElementById('opMeta').textContent=`${d.modelo} · ${d.regiao} · operação de ${d.op}`;
-  const v=document.getElementById('opVerdict'); const rec=REC[d.classe];
-  v.style.background=cor+'18'; v.style.color=cor;
-  v.innerHTML=`<span class="ic">${rec[0]}</span><span>${rec[1]}</span>`;
-  document.getElementById('opReadings').innerHTML=`
-    <div class="reading"><div class="k">Umidade do solo</div><div class="v">${d.umid}<small>%</small></div></div>
-    <div class="reading"><div class="k">Chuva 24h</div><div class="v">${d.chuva}<small>mm</small></div></div>
-    <div class="reading"><div class="k">Distância da água</div><div class="v">${d.agua}<small>m</small></div></div>
-    <div class="reading"><div class="k">Declividade</div><div class="v">${d.decliv}<small>°</small></div></div>`;
-  document.getElementById('opFactors').innerHTML=d.fatores.map((f,i)=>
-    `<div class="factor f${i+1}"><div class="rank">${i+1}</div><div class="txt">${f}</div></div>`).join('');
+function updGauge(score,cor){
+  const f=document.getElementById('gaugeFill');
+  f.setAttribute('stroke-dasharray',`${Math.max(0,Math.min(100,score))/100*GLEN} ${GLEN}`);
+  f.setAttribute('stroke',cor);
+}
+function nrm(v,lo,hi,inv){ let z=Math.max(0,Math.min(1,(v-lo)/(hi-lo))); return inv?1-z:z; }
+function simular(){
+  const umid=+document.getElementById(sl.umid).value, chuva=+document.getElementById(sl.chuva).value,
+        agua=+document.getElementById(sl.agua).value, decliv=+document.getElementById(sl.decliv).value;
+  document.getElementById('vUmid').textContent=umid;
+  document.getElementById('vChuva').textContent=chuva;
+  document.getElementById('vAgua').textContent=fmt(agua);
+  document.getElementById('vDecliv').textContent=decliv;
+  const nu=nrm(umid,0,100), nc=nrm(chuva,0,200), na=nrm(agua,5,1500,true), nd=nrm(decliv,0,45);
+  const contrib=[
+    {f:"Umidade do solo", v:0.30*nu},
+    {f:"Distância da água", v:0.28*na},
+    {f:"Chuva nas últimas 24h", v:0.18*nc},
+    {f:"Declividade do terreno", v:0.14*nd}
+  ];
+  let s=contrib.reduce((acc,x)=>acc+x.v,0);
+  if(nu>0.6 && na>0.6) s+=0.25;        // solo encharcado + perto da agua
+  s=Math.max(0,Math.min(1,s));
+  const score=Math.round(s*100), classe=classifica(score), cor=COR[classe];
+  const sc=document.getElementById('opScore'); sc.textContent=score; sc.style.color=cor;
+  updGauge(score,cor);
+  const pill=document.getElementById('opPill'); pill.style.background=cor; pill.textContent='Risco '+classe;
+  const rec=REC[classe], vd=document.getElementById('opVerdict');
+  vd.style.background=cor+'1F'; vd.style.color=cor;
+  vd.innerHTML=`<span class="ic">${rec[0]}</span><span>${rec[1]}</span>`;
+  const top=contrib.slice().sort((x,y)=>y.v-x.v).slice(0,3);
+  document.getElementById('opFactors').innerHTML=top.map((x,i)=>
+    `<div class="factor f${i+1}"><div class="rank">${i+1}</div><div class="txt">${x.f}</div></div>`).join('');
+}
+function preset(which,btn){
+  document.querySelectorAll('.selector button').forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  const p=PRESETS[which];
+  document.getElementById(sl.umid).value=p.umid; document.getElementById(sl.chuva).value=p.chuva;
+  document.getElementById(sl.agua).value=p.agua; document.getElementById(sl.decliv).value=p.decliv;
+  simular();
 }
 
-/* ---- Gestor ---- */
+/* ===================== GESTOR — filtros + agregados ===================== */
+function frotaFiltrada(){
+  const r=document.getElementById('fReg').value, t=document.getElementById('fTipo').value;
+  return FROTA.filter(f=>(r==='Todas'||f.regiao===r)&&(t==='Todos'||f.tipo===t));
+}
+function limparGestor(){ document.getElementById('fReg').value='Todas'; document.getElementById('fTipo').value='Todos'; renderGestor(); }
 function renderGestor(){
-  const max=Math.max(...DATA.regioes.map(r=>r.score));
-  document.getElementById('regBars').innerHTML=DATA.regioes.map(r=>{
-    const cor = r.score>32?COR.Alto:(r.score>31?COR.Medio:COR.Baixo);
-    return `<div class="bar-row"><div class="lbl">${r.regiao} <span>${r.estado}</span></div>
-      <div class="track"><div class="fill" style="width:${r.score/max*100}%;background:${cor}">${r.score}</div></div></div>`;
-  }).join('');
+  const fr=frotaFiltrada();
+  const leituras=fr.reduce((s,f)=>s+f.leituras,0);
+  const dist={Baixo:0,Medio:0,Alto:0,Critico:0};
+  fr.forEach(f=>{dist.Baixo+=f.b;dist.Medio+=f.m;dist.Alto+=f.a;dist.Critico+=f.c;});
+  const altoCrit=dist.Alto+dist.Critico;
+  document.getElementById('kFrota').textContent=fr.length;
+  document.getElementById('kFrotaNote').textContent=`${new Set(fr.map(f=>f.regiao)).size} região(ões)`;
+  document.getElementById('kLeituras').textContent=fmt(leituras);
+  document.getElementById('kAltoCrit').textContent=fmt(altoCrit);
+  document.getElementById('kAltoCritNote').textContent=leituras?`${(altoCrit/leituras*100).toFixed(0)}% das leituras`:'—';
+  document.getElementById('kAlertas').textContent=fmt(altoCrit);
 
-  const t=DATA.trend, W=460,H=190,pad=20, mn=Math.min(...t)-3, mx=Math.max(...t)+3;
+  // risco medio por regiao (media ponderada por leituras)
+  const reg={};
+  fr.forEach(f=>{ (reg[f.regiao]=reg[f.regiao]||{estado:f.estado,sw:0,w:0}); reg[f.regiao].sw+=f.score*f.leituras; reg[f.regiao].w+=f.leituras; });
+  const regArr=Object.entries(reg).map(([nome,o])=>({regiao:nome,estado:o.estado,score:+(o.sw/o.w).toFixed(1)}))
+                 .sort((x,y)=>y.score-x.score);
+  const rb=document.getElementById('regBars');
+  if(!regArr.length){ rb.innerHTML='<div class="empty">Nenhum equipamento para o filtro selecionado.</div>'; }
+  else{
+    const max=Math.max(...regArr.map(r=>r.score),1);
+    rb.innerHTML=regArr.map(r=>`<div class="bar-row"><div class="lbl">${r.regiao} <span>${r.estado}</span></div>
+      <div class="track"><div class="fill" style="width:${r.score/max*100}%;background:${COR[classifica(r.score)]}">${r.score}</div></div></div>`).join('');
+  }
+
+  // tendencia (visao global do periodo — nao depende do filtro)
+  const t=TREND, W=460,H=190,pad=20, mn=Math.min(...t)-3, mx=Math.max(...t)+3;
   const pts=t.map((v,i)=>[pad+i*(W-2*pad)/(t.length-1), H-pad-(v-mn)/(mx-mn)*(H-2*pad)]);
   const line=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' ');
   const area=line+` L ${pts[pts.length-1][0].toFixed(1)} ${H-pad} L ${pad} ${H-pad} Z`;
@@ -366,40 +497,70 @@ function renderGestor(){
     <path d="${line}" fill="none" stroke="${C_VERDE}" stroke-width="2.5"/>
     ${pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="${C_VERDE}"/>`).join('')}`;
 
-  document.querySelector('#rankTable tbody').innerHTML=DATA.ranking.map(r=>`
+  // ranking da frota filtrada
+  const rank=fr.slice().sort((x,y)=>y.score-x.score).slice(0,10);
+  const tb=document.querySelector('#rankTable tbody');
+  tb.innerHTML=rank.length?rank.map(r=>`
     <tr><td class="eq">${r.eq}</td><td>${r.modelo}</td><td>${r.tipo}</td>
       <td><b style="font-family:var(--font-mono)">${r.score}</b></td>
-      <td><span class="badge" style="background:${COR.Critico}">${r.crit}</span></td></tr>`).join('');
+      <td><span class="badge" style="background:${COR.Critico}">${fmt(r.crit)}</span></td></tr>`).join('')
+    :'<tr><td colspan="5" class="empty">Sem equipamentos para o filtro.</td></tr>';
 
-  const tot=Object.values(DATA.dist).reduce((a,b)=>a+b,0);
-  const order=['Baixo','Medio','Alto','Critico'];
-  document.getElementById('distStack').innerHTML=order.map(k=>{
-    const w=DATA.dist[k]/tot*100; return `<div style="width:${w}%;background:${COR[k]}">${w>7?DATA.dist[k]:''}</div>`;}).join('');
-  document.getElementById('distLegend').innerHTML=order.map(k=>
-    `<span><span class="dot" style="background:${COR[k]}"></span>${k} · ${(DATA.dist[k]/tot*100).toFixed(0)}%</span>`).join('');
+  // distribuicao por faixa (do subconjunto)
+  const tot=ORDER.reduce((s,k)=>s+dist[k],0);
+  const ds=document.getElementById('distStack'), dl=document.getElementById('distLegend');
+  if(!tot){ ds.innerHTML=''; dl.innerHTML='<div class="empty">Sem leituras.</div>'; }
+  else{
+    ds.innerHTML=ORDER.map(k=>{const w=dist[k]/tot*100;return `<div style="width:${w}%;background:${COR[k]}">${w>7?fmt(dist[k]):''}</div>`;}).join('');
+    dl.innerHTML=ORDER.map(k=>`<span><span class="dot" style="background:${COR[k]}"></span>${k} · ${(dist[k]/tot*100).toFixed(0)}%</span>`).join('');
+  }
 }
 
-/* ---- Seguradora ---- */
+/* ===================== SEGURADORA — filtros ===================== */
+function alertasFiltrados(){
+  const c=document.getElementById('sClasse').value, r=document.getElementById('sReg').value;
+  return ALERTAS.filter(a=>(c==='Todas'||a.classe===c)&&(r==='Todas'||a.regiao===r));
+}
+function limparSeg(){ document.getElementById('sClasse').value='Todas'; document.getElementById('sReg').value='Todas'; renderSeg(); }
 function renderSeg(){
-  document.getElementById('validGrid').innerHTML=DATA.validacao.map(v=>`
+  // grade de validacao: fixa (prova de eficacia do modelo, nao depende de filtro)
+  document.getElementById('validGrid').innerHTML=VALIDACAO.map(v=>`
     <div class="vcard" style="background:${COR[v.c]}"><div class="vc">Risco ${v.c}</div>
       <div class="vr">${v.r}%</div><div class="vn">sinistro real</div></div>`).join('');
-  const max=Math.max(...DATA.fatores.map(f=>f.n));
-  document.getElementById('factorBars').innerHTML=DATA.fatores.map(f=>`
-    <div class="bar-row"><div class="lbl" style="width:170px;font-size:12px">${f.f}</div>
-      <div class="track"><div class="fill" style="width:${f.n/max*100}%;background:${C_VERDE}">${f.n}</div></div></div>`).join('');
-  document.querySelector('#auditTable tbody').innerHTML=DATA.alertas.map(a=>`
+
+  const al=alertasFiltrados();
+  // causas predominantes = contagem de fator nos alertas filtrados
+  const tally={};
+  al.forEach(a=>{ tally[a.f]=(tally[a.f]||0)+1; });
+  const causas=Object.entries(tally).map(([f,n])=>({f,n})).sort((x,y)=>y.n-x.n);
+  const fb=document.getElementById('factorBars');
+  if(!causas.length){ fb.innerHTML='<div class="empty">Nenhum alerta para o filtro selecionado.</div>'; }
+  else{
+    const max=Math.max(...causas.map(c=>c.n));
+    fb.innerHTML=causas.map(c=>`<div class="bar-row"><div class="lbl" style="width:180px;font-size:12px">${c.f}</div>
+      <div class="track"><div class="fill" style="width:${c.n/max*100}%;background:${C_VERDE}">${c.n}</div></div></div>`).join('');
+  }
+  // trilha de auditoria filtrada
+  const tb=document.querySelector('#auditTable tbody');
+  tb.innerHTML=al.length?al.map(a=>`
     <tr><td class="eq">${a.eq}</td><td>${a.regiao}</td><td><b style="font-family:var(--font-mono)">${a.score}</b></td>
       <td><span class="badge" style="background:${COR[a.classe]}">${a.classe}</span></td>
-      <td style="font-size:12px">${a.f}</td><td style="font-family:var(--font-mono);font-size:11px;color:${C_MUTE}">rf-v1.0</td></tr>`).join('');
+      <td style="font-size:12px">${a.f}</td><td style="font-family:var(--font-mono);font-size:11px;color:${C_MUTE}">rf-v1.0</td></tr>`).join('')
+    :'<tr><td colspan="6" class="empty">Nenhum alerta para o filtro selecionado.</td></tr>';
 }
 
+/* ===================== Navegacao por abas ===================== */
 document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
   document.querySelectorAll('section').forEach(x=>x.classList.remove('on'));
   t.classList.add('on'); document.getElementById(t.dataset.t).classList.add('on');
 });
-setOp('crit',null); renderGestor(); renderSeg();
+
+/* ===================== Listeners e render inicial ===================== */
+['sUmid','sChuva','sAgua','sDecliv'].forEach(id=>document.getElementById(id).addEventListener('input',simular));
+['fReg','fTipo'].forEach(id=>document.getElementById(id).addEventListener('change',renderGestor));
+['sClasse','sReg'].forEach(id=>document.getElementById(id).addEventListener('change',renderSeg));
+initGauge(); preset('crit',document.querySelector('.selector button')); renderGestor(); renderSeg();
 </script>
 </body>
 </html>

@@ -37,7 +37,7 @@ ROTULOS = {
     "precipitacao_24h_mm": "Chuva nas ultimas 24h",
     "temperatura_c": "Temperatura",
     "declividade_graus": "Declividade do terreno",
-    "distancia_corpo_dagua_m": "Proximidade de corpo d'agua",
+    "distancia_corpo_dagua_m": "Distância da água",
     "idade_equipamento_anos": "Idade do equipamento",
     "horas_desde_manutencao": "Horas desde a ultima manutencao",
     "horas_operacao_dia": "Horas de operacao no dia",
