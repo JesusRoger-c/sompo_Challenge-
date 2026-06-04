@@ -1,5 +1,5 @@
 -- =============================================================================
---  AgroSentinela  |  Esquema do Banco de Dados Relacional (SQLite)
+--  SomPrev Risk  |  Esquema do Banco de Dados Relacional (SQLite)
 --  Challenge FIAP + Sompo Seguros  -  Sprint 2
 -- =============================================================================
 --  Objetivo: persistir leituras de telemetria, as predicoes do modelo e os

@@ -1,10 +1,10 @@
 -- =============================================================================
---  AgroSentinela  |  Consultas Analiticas (SQL)
+--  SomPrev Risk  |  Consultas Analiticas (SQL)
 --  Challenge FIAP + Sompo Seguros  -  Sprint 2
 -- =============================================================================
 --  Estas queries alimentam os dashboards e atendem a auditoria do Analista da
 --  Seguradora. Para rodar uma delas no terminal:
---      sqlite3 database/agrosentinela.db < database/queries.sql
+--      sqlite3 database/somprev_risk.db < database/queries.sql
 --  ou abra o arquivo .db no DBeaver / DB Browser for SQLite.
 -- =============================================================================
 

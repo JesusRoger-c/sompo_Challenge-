@@ -35,7 +35,7 @@ Esses acidentes estão fortemente ligados a **terreno e condições operacionais
   decorrência de **capotamento ou tombamento** da máquina.
 - O mesmo estudo aponta que **96,8% dos acidentes poderiam ter sido evitados por
   prevenção** — o argumento central a favor de uma solução **preventiva** como o
-  AgroSentinela.
+  SomPrev Risk.
 - Em outra caracterização (SciELO/Ciência Rural), o **capotamento respondeu por
   51,7% dos acidentes graves** com tratores.
 - A literatura de segurança (NIOSH, citada pela Revista Cultivar) estima que

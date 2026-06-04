@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# AgroSentinela — Sistema Preditivo de Risco Agrícola
+# SomPrev Risk — Sistema Preditivo de Risco Agrícola
 
 ## Challenge FIAP + Sompo Seguros
 
@@ -33,7 +33,7 @@ Link (não listado): [LINK DO VIDEO]
 
 ## 📜 Descrição
 
-O **AgroSentinela** é uma solução de inteligência preditiva desenvolvida no Challenge FIAP + Sompo Seguros para transformar a gestão de risco de frotas agrícolas de um modelo **reativo** para um modelo **preventivo**. A proposta calcula, para cada equipamento e região, um **score de risco operacional de 0 a 100**, classifica esse risco em quatro faixas (Baixo, Médio, Alto e Crítico) e gera **alertas e recomendações acionáveis** antes que o incidente aconteça.
+O **SomPrev Risk** é uma solução de inteligência preditiva desenvolvida no Challenge FIAP + Sompo Seguros para transformar a gestão de risco de frotas agrícolas de um modelo **reativo** para um modelo **preventivo**. A proposta calcula, para cada equipamento e região, um **score de risco operacional de 0 a 100**, classifica esse risco em quatro faixas (Baixo, Médio, Alto e Crítico) e gera **alertas e recomendações acionáveis** antes que o incidente aconteça.
 
 **O problema.** O agronegócio brasileiro opera em ambientes dinâmicos, nos quais umidade do solo, chuva, declividade e proximidade de corpos d'água elevam o risco de atolamentos, tombamentos e danos mecânicos. O contexto justifica a urgência: o seguro rural cobriu cerca de **6,3 milhões de hectares** e **~R$ 45 bilhões** em valor segurado em 2024 (Mapa/Agência Gov), e o Brasil é líder mundial em fatalidades com tratores — cerca de **3 mil mortes por ano** (Canal Rural). Um estudo no Rio Grande do Sul aponta que **96,8% desses acidentes seriam evitáveis por prevenção** (Tecno-Lógica, 2021) — exatamente a lacuna que a solução ataca.
 
@@ -83,7 +83,7 @@ streamlit run src/dashboards/app.py
 
 ### Arquitetura da solução
 
-![Arquitetura do AgroSentinela](document/arquitetura.png)
+![Arquitetura do SomPrev Risk](document/arquitetura.png)
 
 ### Resultados reais (Random Forest)
 

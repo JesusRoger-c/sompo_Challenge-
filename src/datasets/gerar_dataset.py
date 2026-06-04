@@ -1,6 +1,6 @@
 """
 =============================================================================
- AgroSentinela  |  Gerador de Dataset Sintetico de Risco Operacional Agricola
+ SomPrev Risk  |  Gerador de Dataset Sintetico de Risco Operacional Agricola
  Challenge FIAP + Sompo Seguros  -  Sprint 2
 =============================================================================
 

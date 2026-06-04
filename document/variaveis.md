@@ -1,4 +1,4 @@
-# 🧾 Dicionário de Variáveis — AgroSentinela
+# 🧾 Dicionário de Variáveis — SomPrev Risk
 
 Este documento descreve **todas as variáveis** usadas pelo modelo preditivo, com
 **tipo, unidade, faixa típica e impacto no risco**. Ele substitui a antiga seção

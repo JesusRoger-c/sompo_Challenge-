@@ -1,6 +1,6 @@
 """
 =============================================================================
- AgroSentinela  |  Treino e Validacao do Modelo Preditivo de Risco
+ SomPrev Risk  |  Treino e Validacao do Modelo Preditivo de Risco
  Challenge FIAP + Sompo Seguros  -  Sprint 2
 =============================================================================
 
@@ -101,7 +101,7 @@ def avaliar(nome, modelo, X_tr, X_te, y_tr, y_te, cv):
 
 def main():
     print("=" * 70)
-    print(" AgroSentinela - Treino do Modelo de Risco")
+    print(" SomPrev Risk - Treino do Modelo de Risco")
     print("=" * 70)
 
     df = pd.read_csv(os.path.join(DATASETS_DIR, "leituras_agricolas.csv"))

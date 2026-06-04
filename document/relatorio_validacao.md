@@ -1,4 +1,4 @@
-# 📊 Relatório de Validação Estatística — AgroSentinela
+# 📊 Relatório de Validação Estatística — SomPrev Risk
 
 Resultados **reais e reprodutíveis** (seed = 42) gerados por
 [`src/scripts/treinar_modelo.py`](../src/scripts/treinar_modelo.py) sobre a base de

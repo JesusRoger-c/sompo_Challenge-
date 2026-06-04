@@ -1,6 +1,6 @@
 """
 =============================================================================
- AgroSentinela  |  Modulo compartilhado de regras de risco
+ SomPrev Risk  |  Modulo compartilhado de regras de risco
 =============================================================================
 Centraliza tudo que treino, banco e dashboard precisam compartilhar:
   - listas de variaveis (features) numericas e categoricas;

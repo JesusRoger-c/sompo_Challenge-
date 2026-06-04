@@ -1,4 +1,4 @@
-# 👥 Personas — AgroSentinela
+# 👥 Personas — SomPrev Risk
 
 As personas abaixo aprofundam **contexto, dores e cenário prático de uso**,
 atendendo ao feedback da Sprint 1. Cada persona está conectada a uma **visão

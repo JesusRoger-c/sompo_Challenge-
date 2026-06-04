@@ -1,5 +1,5 @@
 """
-Gera o diagrama de arquitetura do AgroSentinela (SVG + PNG).
+Gera o diagrama de arquitetura do SomPrev Risk (SVG + PNG).
 Uso (a partir da raiz do repositorio): python src/scripts/_gerar_arquitetura.py
 As saidas sao gravadas em document/ (template FIAP).
 """
@@ -60,7 +60,7 @@ svg = [f'''<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">
   <rect x="0" y="0" width="{W}" height="74" fill="url(#hdr)"/>
   <circle cx="40" cy="37" r="15" fill="none" stroke="#fff" stroke-width="2.4"/>
   <path d="M40 27 L40 47 M31 37 L49 37" stroke="#fff" stroke-width="2.4"/>
-  <text x="66" y="33" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#fff">AgroSentinela &#8212; Arquitetura da Solucao</text>
+  <text x="66" y="33" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#fff">SomPrev Risk &#8212; Arquitetura da Solucao</text>
   <text x="66" y="54" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12.5" fill="#CFE8DC">Pipeline de risco agricola | Sensores/APIs &#8594; Processamento (IA) &#8594; Dashboards/Alertas | Challenge FIAP + Sompo</text>
 ''']
 

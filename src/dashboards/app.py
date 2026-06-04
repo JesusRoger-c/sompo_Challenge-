@@ -1,9 +1,9 @@
 """
 =============================================================================
- AgroSentinela  |  Dashboard funcional (Streamlit)
+ SomPrev Risk  |  Dashboard funcional (Streamlit)
  Challenge FIAP + Sompo Seguros  -  Sprint 2
 =============================================================================
-Le o banco src/database/agrosentinela.db AO VIVO e apresenta 3 visoes, uma por
+Le o banco src/database/somprev_risk.db AO VIVO e apresenta 3 visoes, uma por
 persona (Operador / Gestor / Seguradora), com semaforo de risco, mapa de
 calor por regiao, ranking da frota e trilha de auditoria.
 
@@ -18,7 +18,7 @@ import sqlite3
 import pandas as pd
 import streamlit as st
 
-DB = os.path.join(os.path.dirname(__file__), "..", "database", "agrosentinela.db")
+DB = os.path.join(os.path.dirname(__file__), "..", "database", "somprev_risk.db")
 CORES = {"Baixo": "#1B9E4B", "Medio": "#E8B800", "Alto": "#E8761B", "Critico": "#D62828"}
 RECS = {
     "Baixo": "✅ Operação liberada. Condições dentro do esperado.",
@@ -27,7 +27,7 @@ RECS = {
     "Critico": "⛔ Operação NÃO recomendada. Suspenda e reavalie as condições.",
 }
 
-st.set_page_config(page_title="AgroSentinela", page_icon="🌱", layout="wide")
+st.set_page_config(page_title="SomPrev Risk", page_icon="🌱", layout="wide")
 
 
 @st.cache_data
@@ -47,7 +47,7 @@ def carregar():
 
 def cabecalho():
     st.markdown(
-        "<h1 style='margin-bottom:0'>🌱 AgroSentinela</h1>"
+        "<h1 style='margin-bottom:0'>🌱 SomPrev Risk</h1>"
         "<p style='color:#6f7a72;margin-top:2px'>Inteligência preditiva de risco para "
         "frotas agrícolas · Challenge FIAP + Sompo Seguros</p>", unsafe_allow_html=True)
 

@@ -1,4 +1,4 @@
-# AgroSentinela - dependencias
+# SomPrev Risk - dependencias
 # Instale com:  pip install -r config/requirements.txt
 
 pandas>=2.0

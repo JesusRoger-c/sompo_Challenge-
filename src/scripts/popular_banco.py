@@ -1,6 +1,6 @@
 """
 =============================================================================
- AgroSentinela  |  Construcao e Populacao do Banco de Dados
+ SomPrev Risk  |  Construcao e Populacao do Banco de Dados
  Challenge FIAP + Sompo Seguros  -  Sprint 2
 =============================================================================
 
@@ -31,7 +31,7 @@ import risco_utils as ru
 
 # Caminhos robustos relativos a src/: o script vive em src/scripts/.
 SRC_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB_PATH = os.path.join(SRC_DIR, "database", "agrosentinela.db")
+DB_PATH = os.path.join(SRC_DIR, "database", "somprev_risk.db")
 CSV_PATH = os.path.join(SRC_DIR, "datasets", "leituras_agricolas.csv")
 SCHEMA_PATH = os.path.join(SRC_DIR, "database", "schema.sql")
 MODELO_PATH = os.path.join(SRC_DIR, "models", "modelo_risco.pkl")

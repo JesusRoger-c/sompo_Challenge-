@@ -1,4 +1,4 @@
-# 🤖 Documentação da Inteligência Preditiva — AgroSentinela
+# 🤖 Documentação da Inteligência Preditiva — SomPrev Risk
 
 Detalha a abordagem de IA, as entradas e saídas do modelo e a interpretação dos
 resultados. Mantém a rastreabilidade prometida na Sprint 1.
