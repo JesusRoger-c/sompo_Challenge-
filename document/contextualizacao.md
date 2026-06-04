@@ -17,6 +17,14 @@ recuou de **217,9 mil para 107,4 mil** no mesmo período, segundo dados do Comit
 Gestor do Seguro Rural divulgados pelo SindsegSP. Atualmente, **17 seguradoras**
 estão habilitadas a operar no programa.
 
+O peso financeiro do risco fica evidente no volume de pagamentos: as **indenizações
+do seguro rural somaram cerca de R$ 60,3 bilhões em 2024** (CNseg, via Poder360,
+2025) — um patamar que reacende o debate sobre as regras do setor. Ao mesmo tempo,
+a cobertura é baixa: estima-se que **cerca de 85% da área plantada no Brasil esteja
+sem seguro** (CNseg, via Exame, 2023). Esse descompasso — sinistralidade alta e
+penetração baixa — reforça o valor de uma camada **preditiva e preventiva** que ajude
+a reduzir perdas antes que elas aconteçam.
+
 A concentração do risco em poucas culturas amplia a exposição das seguradoras: a
 soja sozinha responde por **29,4% do valor bruto da produção agropecuária**
 brasileira (Revista de Economia e Sociologia Rural, dez. 2024), e enfrenta forte
@@ -52,8 +60,16 @@ Os dados acima sustentam três decisões de projeto:
    mecanismo fatal — está ligado a declividade, umidade do solo e proximidade de
    água, que são exatamente as variáveis centrais do nosso modelo.
 3. **Garantir rastreabilidade para a seguradora.** Em um mercado com R$ 45 bi
-   segurados e poucas operadoras, histórico auditável e previsibilidade reduzem
-   seleção adversa e perdas — daí a tabela `predicoes` versionada no banco.
+   segurados, R$ 60,3 bi em indenizações e poucas operadoras, histórico auditável
+   e previsibilidade reduzem seleção adversa e perdas — daí a tabela `predicoes`
+   versionada no banco.
+
+> **Sobre o "prejuízo evitável".** O indicador em R$ exibido nos painéis do Gestor
+> e da Seguradora é uma **estimativa** baseada em premissas explícitas e ajustáveis
+> (`CUSTO_MEDIO_SINISTRO` e `TAXA_PREVENCAO` em `src/scripts/risco_utils.py`):
+> `nº de alertas Alto/Crítico × custo médio do sinistro × taxa de prevenção`.
+> Não é um valor contábil — serve para traduzir o risco técnico em ordem de grandeza
+> financeira e deve ser recalibrado com dados reais da Sompo.
 
 ## Fontes
 
@@ -62,6 +78,12 @@ Os dados acima sustentam três decisões de projeto:
   https://agenciagov.ebc.com.br/noticias/202412/mapa-fecha-2024-com-maior-plano-safra-da-historia-e-avancos-das-politicas-agricolas-para-o-agro-brasileiro
 - SindsegSP — *Comitê aprova distribuição de R$ 947,5 milhões para seguro rural em 2024*.
   https://www.sindsegsp.org.br/site/noticia-texto.aspx?id=36134
+- CNseg, via Poder360 (2025) — *Seguro rural despenca e reacende debate sobre regras do
+  setor* (indenizações ≈ R$ 60,3 bilhões em 2024).
+  https://www.poder360.com.br/poder-agro/seguro-rural-despenca-e-reacende-debate-sobre-regras-do-setor/
+- CNseg, via Exame (2023) — *Seguro rural paga R$ 2,6 bi; mudanças climáticas* (≈ 85% da
+  área plantada sem seguro).
+  https://exame.com/agro/seguro-rural-paga-26-bi-mudancas-climaticas/
 - Revista de Economia e Sociologia Rural (vol. 63, dez. 2024) — *Seguro agrícola na
   lavoura de soja: fatores de impacto nos resultados das seguradoras*.
   https://doi.org/10.1590/1806-9479.2025.284948
