@@ -35,7 +35,28 @@ RECS = {
     "Critico": "⛔ Operação NÃO recomendada. Suspenda e reavalie as condições.",
 }
 
-st.set_page_config(page_title="SomPrev Risk", page_icon="🌱", layout="wide")
+st.set_page_config(page_title="SomPrev Risk", page_icon="🟥", layout="wide")
+
+
+def aplicar_tema():
+    """Injeta a identidade visual (fontes Roboto + cores Sompo) via CSS custom.
+
+    Por que CSS custom? O Streamlit nao expoe tema de marca diretamente; injetar
+    um <style> e a forma de aplicar a fonte e o vermelho institucional sem
+    reescrever os componentes. As cores vem do tema central (fonte unica).
+    """
+    st.markdown(f"""
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@600;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@500;600&display=swap');
+      html, body, [class*="css"] {{ font-family:'Roboto',Arial,Helvetica,sans-serif; }}
+      h1,h2,h3 {{ font-family:'Roboto Slab',Georgia,serif; letter-spacing:-.01em; }}
+      /* numeros das metricas em monospace -> cara de produto de dados */
+      [data-testid="stMetricValue"] {{ font-family:'Roboto Mono','Courier New',monospace; }}
+      /* acento da marca: barra vermelha no topo e titulo institucional */
+      .block-container {{ border-top:3px solid {tema.VERMELHO_INSTITUCIONAL}; }}
+      h1 {{ color:{tema.VERMELHO_ESCURO}; }}
+    </style>
+    """, unsafe_allow_html=True)
 
 
 # @st.cache_data: lemos o banco uma vez e reaproveitamos — sem reconsultar o
@@ -58,9 +79,10 @@ def carregar():
 
 
 def cabecalho():
+    aplicar_tema()  # fontes Roboto + cores Sompo antes de desenhar o cabecalho
     st.markdown(
-        "<h1 style='margin-bottom:0'>🌱 SomPrev Risk</h1>"
-        "<p style='color:#6f7a72;margin-top:2px'>Inteligência preditiva de risco para "
+        f"<h1 style='margin-bottom:0;color:{tema.VERMELHO_ESCURO}'>SomPrev Risk</h1>"
+        f"<p style='color:{tema.CINZA_MEDIO};margin-top:2px'>Inteligência preditiva de risco para "
         "frotas agrícolas · Challenge FIAP + Sompo Seguros</p>", unsafe_allow_html=True)
 
 

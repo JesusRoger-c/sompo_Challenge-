@@ -20,12 +20,23 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import tema
 
 # Apelidos locais curtos (mantem o resto do desenho legivel) apontando para a
-# fonte unica de verdade. Os valores sao exatamente os mesmos de antes.
-INK = tema.TINTA; PAPER = tema.OFF_WHITE; LINE = tema.LINHA
-G_DARK = tema.VERDE_ESCURO; G = tema.VERDE; G_SOFT = tema.VERDE_SUAVE
-AMBER = tema.AMBAR; AMBER_SOFT = tema.AMBAR_SUAVE
-BLUE = tema.AZUL; BLUE_SOFT = tema.AZUL_SUAVE
+# fonte unica de verdade (tema.py). Marca = vermelho Sompo; colunas de apoio
+# (entrada/saida) em neutro cinza; faixas de risco na escala propria.
+#   G_DARK/G = vermelho da marca (cabecalho, bordas, setas, blocos principais)
+#   AMBER/BLUE = neutros de apoio (colunas de conectividade e aplicacao)
+INK = tema.GRAFITE; PAPER = tema.CINZA_CLARO; LINE = tema.LINHA
+G_DARK = tema.VERMELHO_ESCURO; G = tema.VERMELHO_INSTITUCIONAL; G_SOFT = tema.VERMELHO_SUAVE
+AMBER = tema.CINZA_MEDIO; AMBER_SOFT = tema.GRAFITE_SUAVE
+BLUE = tema.CINZA_MEDIO; BLUE_SOFT = tema.GRAFITE_SUAVE
 RISKS = tema.RISCO
+
+# --- Tipografia do diagrama -------------------------------------------------
+# cairosvg tem suporte limitado a fontes web; por isso cada familia traz um
+# fallback de SISTEMA em cascata, garantindo legibilidade mesmo se a fonte
+# especifica (Roboto*) nao estiver instalada no ambiente de renderizacao.
+FONT_DISPLAY = "Roboto Slab, Georgia, 'Times New Roman', serif"   # titulos
+FONT_SANS = "Roboto, Arial, Helvetica, sans-serif"                # rotulos/labels
+FONT_MONO = "Roboto Mono, 'Courier New', monospace"               # numeros/codigo
 
 W, H = 1180, 660
 
@@ -33,22 +44,22 @@ def box(x, y, w, h, fill, stroke, title, sub, tcol=INK, r=12):
     return f'''
   <g>
     <rect x="{x}" y="{y}" width="{w}" height="{h}" rx="{r}" fill="{fill}" stroke="{stroke}" stroke-width="1.5"/>
-    <text x="{x+16}" y="{y+26}" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="{tcol}">{title}</text>
-    <text x="{x+16}" y="{y+46}" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11.5" fill="{tcol}" opacity="0.78">{sub}</text>
+    <text x="{x+16}" y="{y+26}" font-family="{FONT_SANS}" font-size="15" font-weight="700" fill="{tcol}">{title}</text>
+    <text x="{x+16}" y="{y+46}" font-family="{FONT_SANS}" font-size="11.5" fill="{tcol}" opacity="0.78">{sub}</text>
   </g>'''
 
 def chip(x, y, w, label, fill, stroke):
     return f'''
   <g>
     <rect x="{x}" y="{y}" width="{w}" height="30" rx="15" fill="{fill}" stroke="{stroke}" stroke-width="1.2"/>
-    <text x="{x+w/2}" y="{y+19}" text-anchor="middle" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11.5" font-weight="600" fill="{INK}">{label}</text>
+    <text x="{x+w/2}" y="{y+19}" text-anchor="middle" font-family="{FONT_SANS}" font-size="11.5" font-weight="600" fill="{INK}">{label}</text>
   </g>'''
 
 def col_label(x, w, text, color):
     return f'''
   <g>
     <rect x="{x}" y="104" width="{w}" height="30" rx="8" fill="{color}"/>
-    <text x="{x+w/2}" y="124" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1.5">{text}</text>
+    <text x="{x+w/2}" y="124" text-anchor="middle" font-family="{FONT_MONO}" font-size="12" font-weight="700" fill="#ffffff" letter-spacing="1.5">{text}</text>
   </g>'''
 
 def arrow(x1, y1, x2, y2):
@@ -69,8 +80,8 @@ svg = [f'''<svg viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">
   <rect x="0" y="0" width="{W}" height="74" fill="url(#hdr)"/>
   <circle cx="40" cy="37" r="15" fill="none" stroke="#fff" stroke-width="2.4"/>
   <path d="M40 27 L40 47 M31 37 L49 37" stroke="#fff" stroke-width="2.4"/>
-  <text x="66" y="33" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="20" font-weight="800" fill="#fff">SomPrev Risk &#8212; Arquitetura da Solucao</text>
-  <text x="66" y="54" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="12.5" fill="#CFE8DC">Pipeline de risco agricola | Sensores/APIs &#8594; Processamento (IA) &#8594; Dashboards/Alertas | Challenge FIAP + Sompo</text>
+  <text x="66" y="34" font-family="{FONT_DISPLAY}" font-size="21" font-weight="700" fill="#fff" letter-spacing="-0.4">SomPrev Risk &#8212; Arquitetura da Solucao</text>
+  <text x="66" y="55" font-family="{FONT_SANS}" font-size="12.5" fill="#F3C9C6">Pipeline de risco agricola | Sensores/APIs &#8594; Processamento (IA) &#8594; Dashboards/Alertas | Challenge FIAP + Sompo</text>
 ''']
 
 # Column labels
@@ -98,9 +109,9 @@ svg.append(f'''
   <g>
     <path d="M{cx} {cy+14} a{cw/2} 14 0 0 1 {cw} 0 v{ch-28} a{cw/2} 14 0 0 1 -{cw} 0 z" fill="{G_DARK}"/>
     <ellipse cx="{cx+cw/2}" cy="{cy+14}" rx="{cw/2}" ry="14" fill="{G}"/>
-    <text x="{cx+cw/2}" y="{cy+50}" text-anchor="middle" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="15" font-weight="700" fill="#fff">Banco de Dados SQL</text>
-    <text x="{cx+cw/2}" y="{cy+70}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#CFE8DC">regioes . equipamentos . leituras</text>
-    <text x="{cx+cw/2}" y="{cy+85}" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="#CFE8DC">predicoes . alertas (historico/auditoria)</text>
+    <text x="{cx+cw/2}" y="{cy+50}" text-anchor="middle" font-family="{FONT_SANS}" font-size="15" font-weight="700" fill="#fff">Banco de Dados SQL</text>
+    <text x="{cx+cw/2}" y="{cy+70}" text-anchor="middle" font-family="{FONT_MONO}" font-size="10.5" fill="#F3C9C6">regioes . equipamentos . leituras</text>
+    <text x="{cx+cw/2}" y="{cy+85}" text-anchor="middle" font-family="{FONT_MONO}" font-size="10.5" fill="#F3C9C6">predicoes . alertas (historico/auditoria)</text>
   </g>''')
 svg.append(box(585, 378, 260, 108, G_DARK, G_DARK,
                "Motor de IA - Random Forest", "Classifica sinistro e gera o score 0-100", tcol="#fff"))
@@ -134,10 +145,10 @@ svg.append(f'<path d="M715 346 L715 378" stroke="{G}" stroke-width="2.4" marker-
 # ---- Footer caption ----
 svg.append(f'''
   <rect x="40" y="520" width="1100" height="110" rx="12" fill="#fff" stroke="{LINE}"/>
-  <text x="60" y="548" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="13" font-weight="700" fill="{INK}">Governanca e Seguranca</text>
-  <text x="60" y="572" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="11.5" fill="{INK}" opacity="0.82">Controle de acesso por perfil . Validacao de integridade na ingestao . Versao do modelo registrada em cada predicao . Historico imutavel para auditoria.</text>
-  <text x="60" y="600" font-family="IBM Plex Mono, monospace" font-size="11" fill="{G_DARK}" font-weight="700">FLUXO:  Sensores/APIs  &#8594;  Gateway  &#8594;  ETL  &#8594;  Banco SQL  &#8594;  Random Forest  &#8594;  Score/Alertas  &#8594;  Dashboards por persona</text>
-  <text x="60" y="620" font-family="IBM Plex Sans, Segoe UI, sans-serif" font-size="10.5" fill="{INK}" opacity="0.6">Tecnologias: Python . scikit-learn . SQLite/SQL . Streamlit . GitHub</text>
+  <text x="60" y="548" font-family="{FONT_SANS}" font-size="13" font-weight="700" fill="{INK}">Governanca e Seguranca</text>
+  <text x="60" y="572" font-family="{FONT_SANS}" font-size="11.5" fill="{INK}" opacity="0.82">Controle de acesso por perfil . Validacao de integridade na ingestao . Versao do modelo registrada em cada predicao . Historico imutavel para auditoria.</text>
+  <text x="60" y="600" font-family="{FONT_MONO}" font-size="11" fill="{G_DARK}" font-weight="700">FLUXO:  Sensores/APIs  &#8594;  Gateway  &#8594;  ETL  &#8594;  Banco SQL  &#8594;  Random Forest  &#8594;  Score/Alertas  &#8594;  Dashboards por persona</text>
+  <text x="60" y="620" font-family="{FONT_SANS}" font-size="10.5" fill="{INK}" opacity="0.6">Tecnologias: Python . scikit-learn . SQLite/SQL . Streamlit . GitHub</text>
 ''')
 
 svg.append("</svg>")

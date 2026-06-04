@@ -229,7 +229,7 @@ def main():
     cores_faixa = [tema.RISCO["Baixo"], tema.RISCO["Medio"], tema.RISCO["Alto"], tema.RISCO["Critico"]]
     faixas = [(0, 25, "Baixo"), (26, 50, "Medio"), (51, 75, "Alto"), (76, 100, "Critico")]
     fig, ax = plt.subplots(figsize=(7.2, 4.6))
-    ax.hist(score_te, bins=25, color=tema.VERDE, alpha=0.85, edgecolor="white")
+    ax.hist(score_te, bins=25, color=tema.VERMELHO_INSTITUCIONAL, alpha=0.85, edgecolor="white")
     for (lo, hi, _), c in zip(faixas, cores_faixa):
         ax.axvspan(lo, hi, color=c, alpha=0.10)
     for x in [25, 50, 75]:
