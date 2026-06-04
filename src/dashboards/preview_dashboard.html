@@ -9,10 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;700;800&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
   /* ===================================================================
-     PALETA CENTRAL — fonte unica de cor deste prototipo.
-     Para trocar a identidade visual, edite SOMENTE este bloco :root.
-     Nenhum hex code deve aparecer espalhado no restante do CSS/JS:
-     tudo referencia estas variaveis (o JS le com getComputedStyle).
+     PALETA CENTRAL — fonte unica de cor deste prototipo. As demais regras
+     de cor (CSS e JS) derivam destas variaveis; o JS as obtem em tempo de
+     execucao via getComputedStyle, sem hexadecimais proprios.
      =================================================================== */
   :root{
     /* --- MARCA SOMPO (institucionais) --- */
@@ -406,9 +405,9 @@
 </div>
 
 <script>
-/* As cores tambem saem do :root: lemos as variaveis CSS com getComputedStyle
-   para que o JS (gauge, graficos SVG, badges) nunca tenha hex proprio. Trocar
-   a paleta continua sendo mexer so no :root. */
+/* As cores do JS (gauge, graficos SVG, badges) tambem derivam do :root: sao
+   obtidas via getComputedStyle, evitando hexadecimais proprios e mantendo a
+   paleta concentrada no :root. */
 const _CSS=getComputedStyle(document.documentElement), V=n=>_CSS.getPropertyValue(n).trim();
 const COR={Baixo:V('--baixo'),Medio:V('--medio'),Alto:V('--alto'),Critico:V('--critico')};
 const C_VERDE=V('--g'), C_TRACK=V('--gauge-track'), C_MUTE=V('--muted-2');

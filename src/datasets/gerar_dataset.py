@@ -4,23 +4,23 @@
  Challenge FIAP + Sompo Seguros  -  Sprint 2
 =============================================================================
 
-Por que dados sinteticos?
-    O enunciado permite explicitamente o uso de dados simulados. Como ainda
-    nao temos telemetria real das maquinas seguradas pela Sompo, geramos um
-    dataset que reproduz o COMPORTAMENTO ESTATISTICO esperado em campo: a
-    probabilidade de um sinistro cresce de forma coerente com umidade do solo,
-    chuva, declividade, proximidade de agua, idade do equipamento etc.
+Uso de dados sinteticos:
+    O enunciado permite explicitamente o uso de dados simulados. Na ausencia de
+    telemetria real das maquinas seguradas pela Sompo, o script gera um dataset
+    que reproduz o COMPORTAMENTO ESTATISTICO esperado em campo: a probabilidade
+    de um sinistro cresce de forma coerente com umidade do solo, chuva,
+    declividade, proximidade de agua, idade do equipamento etc.
 
-Como o "sinal" e construido (resumo):
-    1. Sorteamos cada variavel a partir de uma distribuicao plausivel.
-    2. Normalizamos cada variavel para [0, 1] na direcao do risco.
-    3. Combinamos tudo em um "logito de risco" (soma ponderada + ruido).
-    4. Convertemos o logito em probabilidade (funcao logistica).
-    5. Sorteamos o rotulo houve_sinistro ~ Bernoulli(probabilidade).
+Construcao do "sinal" (resumo):
+    1. Sorteio de cada variavel a partir de uma distribuicao plausivel.
+    2. Normalizacao de cada variavel para [0, 1] na direcao do risco.
+    3. Combinacao em um "logito de risco" (soma ponderada + ruido).
+    4. Conversao do logito em probabilidade (funcao logistica).
+    5. Sorteio do rotulo houve_sinistro ~ Bernoulli(probabilidade).
 
     Resultado: um modelo de ML consegue APRENDER o padrao (as metricas nao sao
-    aleatorias), mas o ruido impede acuracia "perfeita" (irreal). Isso e o que
-    queremos para uma validacao estatistica honesta.
+    aleatorias), mas o ruido impede acuracia "perfeita" (irreal). Esse
+    comportamento corresponde a uma validacao estatistica honesta.
 
 Saidas:
     src/datasets/leituras_agricolas.csv  -> base completa para treino (N linhas)

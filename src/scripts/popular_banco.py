@@ -57,16 +57,17 @@ MODELOS_MAQUINA = [
 
 
 def main():
-    # Recriamos o banco do zero a cada execucao para garantir reprodutibilidade:
-    # o resultado depende so do CSV + modelo atuais, sem residuo de rodadas antigas.
+    # O banco e recriado do zero a cada execucao para garantir reprodutibilidade:
+    # o resultado depende apenas do CSV e do modelo atuais, sem residuo de rodadas
+    # anteriores.
     if os.path.exists(DB_PATH):
         os.remove(DB_PATH)
 
     df = pd.read_csv(CSV_PATH)
     modelo = joblib.load(MODELO_PATH)
-    # Lemos a VERSAO do modelo das metricas para gravar junto de cada predicao.
-    # Por que? Rastreabilidade: no futuro, sabendo qual versao gerou cada score,
-    # da para auditar decisoes e comparar o comportamento entre versoes.
+    # A VERSAO do modelo e lida das metricas e gravada junto de cada predicao,
+    # garantindo rastreabilidade: saber qual versao gerou cada score permite
+    # auditar decisoes e comparar o comportamento entre versoes.
     with open(METRICAS_PATH, encoding="utf-8") as f:
         import json
         versao = json.load(f).get("versao_modelo", "rf-v1.0")
@@ -119,8 +120,8 @@ def main():
     print(f"[OK] {len(df_leit)} leituras inseridas.")
 
     # ---- predicoes (rodando o modelo de IA) ------------------------------
-    # Aqui acontece a integracao ponta a ponta: o mesmo modelo treinado roda
-    # sobre as leituras e grava score + classe + top 3 fatores + versao no banco.
+    # Etapa de integracao ponta a ponta: o mesmo modelo treinado e aplicado sobre
+    # as leituras e grava score + classe + top 3 fatores + versao no banco.
     X = df[ru.FEATURES]
     probs = modelo.predict_proba(X)[:, 1]
 
@@ -128,8 +129,8 @@ def main():
     for i, prob in enumerate(probs):
         score = ru.prob_para_score(prob)
         classe, _, _ = ru.classificar_risco(score)
-        # Guardamos os 3 principais fatores junto da predicao para que o "porque"
-        # fique persistido e auditavel, e nao precise ser recalculado depois.
+        # Os 3 principais fatores sao gravados junto da predicao para que o
+        # "porque" fique persistido e auditavel, sem recalculo posterior.
         fatores = ru.top_fatores(df.iloc[i])
         pred_rows.append((
             int(df.iloc[i]["leitura_id"]), score, classe, round(float(prob), 4),
@@ -142,9 +143,9 @@ def main():
     print(f"[OK] {len(pred_rows)} predicoes gravadas.")
 
     # ---- alertas (apenas Alto/Critico) -----------------------------------
-    # So geramos alerta para Alto/Critico de proposito: alertar em tudo viraria
-    # ruido e o operador aprenderia a ignorar (fadiga de alerta). Focar nos casos
-    # que exigem acao preserva a relevancia da notificacao.
+    # O alerta e restrito a Alto/Critico de proposito: notificar todas as leituras
+    # geraria ruido e levaria o operador a ignorar os avisos (fadiga de alerta).
+    # Concentrar nos casos que exigem acao preserva a relevancia da notificacao.
     rows = cur.execute(
         "SELECT predicao_id, classe_risco FROM predicoes "
         "WHERE classe_risco IN ('Alto','Critico')").fetchall()

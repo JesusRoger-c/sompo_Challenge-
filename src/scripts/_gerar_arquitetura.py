@@ -12,10 +12,10 @@ ROOT_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 DOCUMENT_DIR = os.path.join(ROOT_DIR, "document")
 os.makedirs(DOCUMENT_DIR, exist_ok=True)
 
-# As cores vem do tema central (src/scripts/tema.py) em vez de hex repetidos
-# aqui: trocar a identidade visual passa a ser editar um arquivo so. Adicionamos
-# o diretorio deste script ao path para conseguir importar o modulo ao rodar
-# da raiz do repositorio.
+# As cores derivam do tema central (src/scripts/tema.py) em vez de codigos
+# hexadecimais repetidos neste arquivo, o que mantem a identidade visual
+# consistente entre diagrama e dashboard. O diretorio do script e adicionado ao
+# path para permitir o import do modulo quando executado a partir da raiz.
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 import tema
 

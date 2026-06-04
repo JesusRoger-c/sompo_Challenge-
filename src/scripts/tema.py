@@ -3,23 +3,22 @@
  SomPrev Risk  |  Tema visual central (paleta de cores)
 =============================================================================
 
-Por que este arquivo existe?
-    Antes, os mesmos codigos de cor (hex) apareciam repetidos no gerador do
-    diagrama de arquitetura e no app Streamlit. Espalhar cor pelo codigo tem
-    dois problemas: (1) trocar a identidade visual vira uma cacada por hex
-    soltos em varios arquivos e (2) corre-se o risco de o diagrama ficar com
-    uma cor e o dashboard com outra. Centralizar aqui significa que mudar a
-    marca passa a ser editar UM lugar so, com garantia de consistencia.
+Proposito:
+    Ponto unico de definicao das cores usadas pelo gerador do diagrama de
+    arquitetura e pelo app Streamlit. A centralizacao evita a repeticao dos
+    mesmos codigos hexadecimais em varios arquivos e a divergencia de cor entre
+    o diagrama e o dashboard.
 
-    Observacao: o protótipo HTML (preview_dashboard.html) tem seu proprio
-    ponto central equivalente — as variaveis CSS em :root —, porque um arquivo
-    estatico de navegador nao consegue importar este modulo Python. A divisao
-    e proposital: Python (diagrama + app) le daqui; o HTML le do seu :root.
+    O protótipo HTML (preview_dashboard.html) possui um ponto central
+    equivalente — as variaveis CSS em :root —, ja que um arquivo estatico de
+    navegador nao importa este modulo Python. A divisao e intencional: o lado
+    Python (diagrama e app) deriva as cores deste modulo; o HTML deriva do seu
+    proprio :root.
 
-Identidade: cores institucionais da Sompo (vermelho) para a MARCA; uma escala
+Identidade: cores institucionais da Sompo (vermelho) para a MARCA e uma escala
 de risco propria (verde->amarelo->laranja->vermelho) para o SEMAFORO. As duas
-sao mantidas separadas DE PROPOSITO: a cor de marca nunca representa risco, para
-o operador nunca confundir "isto e da Sompo" com "isto e perigoso".
+permanecem separadas de proposito: a cor de marca nunca representa risco, o que
+evita confundir "pertence a Sompo" com "indica perigo".
 """
 
 # --- Cores institucionais (marca Sompo) ------------------------------------
@@ -46,7 +45,7 @@ RISCO = {
     "Critico": "#C20A14",   # 🔴 operacao nao recomendada
 }
 
-# Agrupador opcional: util para quem prefere acessar tudo por um unico dict.
+# Agrupador opcional: reune todas as cores nomeadas em um unico dicionario.
 PALETA = {
     "vermelho_institucional": VERMELHO_INSTITUCIONAL,
     "vermelho_escuro": VERMELHO_ESCURO,

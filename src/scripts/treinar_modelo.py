@@ -23,7 +23,7 @@ Por que Random Forest (justificativa tecnica)?
   - E robusto a outliers e reduz overfitting via bagging (varias arvores).
   - Fornece importancia de variaveis -> sustenta a explicabilidade que o
     Gestor e a Seguradora precisam ("quais fatores elevam o risco").
-  - A probabilidade prevista vira, de forma natural, o nosso SCORE 0-100.
+  - A probabilidade prevista converte-se, de forma natural, no SCORE 0-100.
 
 Uso (a partir da raiz do repositorio):
     python src/scripts/treinar_modelo.py
@@ -71,15 +71,15 @@ PALETA = {"rf": "#0B6E4F", "lr": "#6C8EBF", "gb": "#E8761B"}
 def construir_preprocessador():
     """One-Hot nas categoricas; padronizacao nas numericas.
 
-    Por que tratar os dois grupos diferente?
-      - Numericas: padronizamos (media 0, desvio 1) porque elas estao em escalas
-        muito diferentes (mm de chuva vs. graus de declividade). Sem isso,
-        modelos sensiveis a escala (ex.: Regressao Logistica) dao peso indevido
-        a variavel de numeros maiores.
-      - Categoricas: One-Hot porque 'tipo_solo' nao tem ordem numerica — tratar
-        Arenoso=1, Misto=2... inventaria uma hierarquia falsa. One-Hot cria uma
+    Os dois grupos recebem tratamento distinto:
+      - Numericas: padronizacao (media 0, desvio 1), pois estao em escalas muito
+        diferentes (mm de chuva vs. graus de declividade). Sem isso, modelos
+        sensiveis a escala (ex.: Regressao Logistica) atribuem peso indevido a
+        variavel de numeros maiores.
+      - Categoricas: One-Hot, pois 'tipo_solo' nao tem ordem numerica — tratar
+        Arenoso=1, Misto=2... inventaria uma hierarquia falsa. O One-Hot cria uma
         coluna 0/1 por categoria, sem sugerir ordem inexistente.
-    'handle_unknown=ignore' evita quebrar se aparecer uma categoria nova em producao.
+    'handle_unknown=ignore' evita falha caso surja uma categoria nova em producao.
     """
     return ColumnTransformer([
         ("num", StandardScaler(), ru.FEATURES_NUM),
@@ -91,8 +91,8 @@ def avaliar(nome, modelo, X_tr, X_te, y_tr, y_te, cv):
     """Treina, mede no teste e roda validacao cruzada. Devolve dict de metricas."""
     modelo.fit(X_tr, y_tr)
     y_pred = modelo.predict(X_te)
-    # Usamos a PROBABILIDADE da classe positiva (coluna 1), nao so o 0/1: e ela
-    # que vira o score 0-100 e que permite calcular a ROC-AUC.
+    # A PROBABILIDADE da classe positiva (coluna 1) e usada em vez do rotulo
+    # 0/1: e ela que origina o score 0-100 e permite calcular a ROC-AUC.
     y_prob = modelo.predict_proba(X_te)[:, 1]
 
     # Por que validacao cruzada ALEM do hold-out? O hold-out mede o desempenho em
@@ -220,10 +220,10 @@ def main():
     fig.tight_layout(); fig.savefig(f"{MODELS_DIR}/curva_roc.png"); plt.close(fig)
     print(f"[OK] {MODELS_DIR}/curva_roc.png")
 
-    # 2.4 Distribuicao do score por faixa de risco
-    # Por que a probabilidade vira score 0-100? Multiplicamos por 100 para entregar
-    # ao usuario um numero intuitivo (uma "nota de risco") em vez de uma
-    # probabilidade entre 0 e 1 — mesma informacao, leitura mais facil em campo.
+    # 2.4 Distribuicao do score por faixa de risco.
+    # A probabilidade e multiplicada por 100 para produzir um numero intuitivo
+    # (uma "nota de risco") em vez de um valor entre 0 e 1 — mesma informacao,
+    # com leitura mais direta em campo.
     score_te = (probs[escolhido] * 100)
     # Cores das faixas vindas do tema central (sem hex duplicado neste script).
     cores_faixa = [tema.RISCO["Baixo"], tema.RISCO["Medio"], tema.RISCO["Alto"], tema.RISCO["Critico"]]

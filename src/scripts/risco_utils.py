@@ -12,13 +12,13 @@ Manter isso num so lugar evita divergencia de regra entre os modulos: treino,
 banco e dashboard usam exatamente a mesma definicao de faixa e de recomendacao.
 """
 
-# As cores das faixas vivem no tema central (tema.py), nao aqui: assim a
-# identidade visual tem uma unica fonte de verdade em todo o projeto.
+# As cores das faixas residem no tema central (tema.py), garantindo uma unica
+# fonte de definicao da identidade visual em todo o projeto.
 import tema
 
 # Variaveis de entrada do modelo (alinhadas ao gerador de dataset).
-# Separamos numericas de categoricas DE PROPOSITO: no treino cada grupo recebe
-# um tratamento diferente (padronizacao nas numericas, One-Hot nas categoricas).
+# A separacao entre numericas e categoricas e intencional: no treino cada grupo
+# recebe tratamento diferente (padronizacao nas numericas, One-Hot nas categoricas).
 FEATURES_NUM = [
     "umidade_solo_pct", "precipitacao_24h_mm", "temperatura_c",
     "declividade_graus", "distancia_corpo_dagua_m",
@@ -48,25 +48,25 @@ ROTULOS = {
 }
 
 # ---------------------------------------------------------------------------
-# Premissas economicas para estimar o "prejuizo evitavel" (ajustaveis).
-# Sao deliberadamente explicitas e editaveis: a estimativa de R$ depende destes
-# dois numeros, entao quem revisar o projeto pode calibra-los conforme dados
-# reais da Sompo sem cacar constantes espalhadas pelo codigo.
-#   - CUSTO_MEDIO_SINISTRO: quanto custa, em media, um sinistro agricola (R$).
-#   - TAXA_PREVENCAO: fracao dos alertas Alto/Critico que de fato vira prevencao
-#     efetiva (nem todo alerta evita um sinistro; assumimos 45% como premissa).
+# Premissas economicas do indicador de "prejuizo evitavel" (custo medio de
+# sinistro e taxa de prevencao). As constantes ficam explicitas e isoladas
+# porque a estimativa em R$ depende diretamente delas e admite calibracao com
+# dados reais da Sompo.
+#   - CUSTO_MEDIO_SINISTRO: custo medio de um sinistro agricola (R$).
+#   - TAXA_PREVENCAO: fracao dos alertas Alto/Critico que se converte em prevencao
+#     efetiva (nem todo alerta evita um sinistro; 45% e adotado como premissa).
 # ---------------------------------------------------------------------------
 CUSTO_MEDIO_SINISTRO = 85000   # R$ por sinistro evitado
-TAXA_PREVENCAO = 0.45          # 45% dos alertas viram prevencao efetiva
+TAXA_PREVENCAO = 0.45          # 45% dos alertas convertem-se em prevencao efetiva
 
 
 def estimar_economia(n_alertas):
     """Estima, em R$, o prejuizo evitavel a partir do numero de alertas de risco.
 
-    Formula simples e transparente (e nao uma caixa-preta): cada alerta Alto/
-    Critico representa um sinistro potencial; multiplicamos pela fracao que a
-    prevencao realmente evita e pelo custo medio de um sinistro. Serve para
-    traduzir o risco tecnico em linguagem de negocio (quanto a solucao poupa).
+    A formula e transparente: cada alerta Alto/Critico representa um sinistro
+    potencial; o total e multiplicado pela fracao que a prevencao efetivamente
+    evita e pelo custo medio de um sinistro. O resultado traduz o risco tecnico
+    em ordem de grandeza financeira.
     """
     return n_alertas * CUSTO_MEDIO_SINISTRO * TAXA_PREVENCAO
 
@@ -131,12 +131,12 @@ def top_fatores(linha, n=3):
     Calcula, para UMA leitura, o quanto cada variavel se aproxima do pior caso e
     devolve os n fatores que mais puxaram o risco para cima, em linguagem humana.
 
-    Por que mostrar os "top 3 fatores"? Um score sozinho e uma caixa-preta:
-    dizer "risco 82" nao ajuda o operador a agir. Apontar "umidade alta +
-    proximidade de agua" transforma o numero em causa acionavel e gera confianca
-    no modelo (a seguradora tambem exige essa rastreabilidade do porque).
-    Usamos uma aproximacao por proximidade-do-pior-caso, intencionalmente simples
-    e deterministica, para que a explicacao seja sempre reproduzivel e auditavel.
+    A exibicao dos "top 3 fatores" justifica-se porque um score isolado e uma
+    caixa-preta: "risco 82" nao orienta a acao, ao passo que "umidade alta +
+    proximidade de agua" transforma o numero em causa acionavel e sustenta a
+    rastreabilidade exigida pela seguradora. O calculo emprega uma aproximacao
+    por proximidade-do-pior-caso, intencionalmente simples e deterministica, de
+    modo que a explicacao seja reproduzivel e auditavel.
 
     'linha' = dict/Series com as features.
     """

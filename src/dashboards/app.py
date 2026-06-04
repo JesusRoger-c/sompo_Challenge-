@@ -19,9 +19,9 @@ import sqlite3
 import pandas as pd
 import streamlit as st
 
-# O app vive em src/dashboards/, mas o tema central esta em src/scripts/.
-# Adicionamos essa pasta ao path para reaproveitar a MESMA paleta do diagrama,
-# evitando que dashboard e diagrama divirjam de cor com o tempo.
+# O app reside em src/dashboards/ e o tema central em src/scripts/. Essa pasta e
+# adicionada ao path para reaproveitar a mesma paleta do diagrama, evitando
+# divergencia de cor entre dashboard e diagrama.
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "scripts"))
 import tema
 import risco_utils as ru   # premissas economicas (estimar_economia) e rotulos
@@ -66,9 +66,9 @@ st.set_page_config(page_title="SomPrev Risk", page_icon="🔎", layout="wide")
 def aplicar_tema():
     """Injeta a identidade visual (fontes Roboto + cores Sompo) via CSS custom.
 
-    Por que CSS custom? O Streamlit nao expoe tema de marca diretamente; injetar
-    um <style> e a forma de aplicar a fonte e o vermelho institucional sem
-    reescrever os componentes. As cores vem do tema central (fonte unica).
+    O Streamlit nao expoe um tema de marca diretamente; a injecao de um bloco
+    <style> aplica a fonte e o vermelho institucional sem reescrever os
+    componentes. As cores derivam do tema central (fonte unica de definicao).
     """
     st.markdown(f"""
     <style>
@@ -84,14 +84,14 @@ def aplicar_tema():
     """, unsafe_allow_html=True)
 
 
-# @st.cache_data: lemos o banco uma vez e reaproveitamos — sem reconsultar o
-# SQLite a cada clique de aba, deixando a navegacao instantanea.
+# @st.cache_data: o banco e lido uma unica vez e reaproveitado — sem reconsultar
+# o SQLite a cada troca de aba, o que mantem a navegacao instantanea.
 @st.cache_data
 def carregar():
-    # Um JOIN unico ja traz leitura + regiao + predicao: cada linha vira "leitura
-    # com seu score e fatores", que e a unidade que as 3 telas precisam.
+    # Um unico JOIN reune leitura + regiao + predicao: cada linha equivale a uma
+    # "leitura com seu score e fatores", unidade que as tres telas utilizam.
     con = sqlite3.connect(DB)
-    # JOIN tambem com equipamentos para trazer o TIPO (Trator/Colheitadeira/
+    # O JOIN inclui equipamentos para trazer o TIPO (Trator/Colheitadeira/
     # Pulverizador), necessario para o filtro por tipo de equipamento na sidebar.
     leituras = pd.read_sql("""
         SELECT l.*, r.nome AS regiao_nome, r.estado,
@@ -109,11 +109,11 @@ def carregar():
 
 def filtros_sidebar(df):
     """Filtros globais (região, tipo de equipamento, classe de risco) aplicados
-    às TRÊS visões. Padrão 'Todos' = sem filtro. Retorna o df já filtrado.
+    às três visões. Padrão 'Todos' = sem filtro. Retorna o df já filtrado.
 
-    Por que na sidebar e globais? Para que o gestor/seguradora analise um recorte
-    (ex.: só Colheitadeiras de Barreiras em risco Crítico) com KPIs, gráficos e
-    tabelas sempre coerentes entre si — todos leem do mesmo df filtrado.
+    Os filtros são globais e ficam na barra lateral para que um recorte (ex.: só
+    Colheitadeiras de Barreiras em risco Crítico) mantenha KPIs, gráficos e
+    tabelas coerentes entre si — todos derivam do mesmo df filtrado.
     """
     st.sidebar.markdown("### Filtros")
     regioes = ["Todas"] + sorted(df["regiao_nome"].dropna().unique().tolist())
