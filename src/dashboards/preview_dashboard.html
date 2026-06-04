@@ -313,13 +313,15 @@ const REC={
 /* ---- Gauge (semicírculo) ---- */
 function drawGauge(score,cor){
   const g=document.getElementById('gauge');
-  const cx=120,cy=120,r=92, a0=Math.PI, a1=Math.PI*(1 - score/100);
-  const x0=cx+r*Math.cos(a0), y0=cy+r*Math.sin(a0);
-  const x1=cx+r*Math.cos(a1), y1=cy+r*Math.sin(a1);
-  const large = (score>50)?0:0;
+  const cx=120, cy=120, r=92;
+  // mesmo path para trilho e preenchimento: semicírculo da esquerda (180°) à direita (0°)
+  const d=`M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}`;
+  const comprimento=Math.PI*r;                 // comprimento do semicírculo
+  const preenchido=(Math.max(0,Math.min(100,score))/100)*comprimento;
   g.innerHTML=`
-    <path d="M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}" fill="none" stroke="${C_TRACK}" stroke-width="18" stroke-linecap="round"/>
-    <path d="M ${x0} ${y0} A ${r} ${r} 0 ${large} 1 ${x1} ${y1}" fill="none" stroke="${cor}" stroke-width="18" stroke-linecap="round"/>
+    <path d="${d}" fill="none" stroke="${C_TRACK}" stroke-width="18" stroke-linecap="round"/>
+    <path d="${d}" fill="none" stroke="${cor}" stroke-width="18" stroke-linecap="round"
+          stroke-dasharray="${preenchido} ${comprimento}"/>
     <text x="${cx-r}" y="138" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">0</text>
     <text x="${cx+r-6}" y="138" font-family="var(--font-mono)" font-size="10" fill="${C_MUTE}">100</text>`;
 }
