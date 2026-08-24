@@ -18,6 +18,9 @@ import sys
 import sqlite3
 import pandas as pd
 import streamlit as st
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # O app reside em src/dashboards/ e o tema central em src/scripts/. Essa pasta e
 # adicionada ao path para reaproveitar a mesma paleta do diagrama, evitando
@@ -86,25 +89,41 @@ def aplicar_tema():
 
 # @st.cache_data: o banco e lido uma unica vez e reaproveitado — sem reconsultar
 # o SQLite a cada troca de aba, o que mantem a navegacao instantanea.
-@st.cache_data
+@st.cache_data(ttl=5)
 def carregar():
-    # Um unico JOIN reune leitura + regiao + predicao: cada linha equivale a uma
-    # "leitura com seu score e fatores", unidade que as tres telas utilizam.
     con = sqlite3.connect(DB)
-    # O JOIN inclui equipamentos para trazer o TIPO (Trator/Colheitadeira/
-    # Pulverizador), necessario para o filtro por tipo de equipamento na sidebar.
+
     leituras = pd.read_sql("""
         SELECT l.*, r.nome AS regiao_nome, r.estado,
                e.tipo AS equip_tipo, e.modelo AS equip_modelo,
                p.score_risco, p.classe_risco, p.prob_sinistro,
                p.fator_1, p.fator_2, p.fator_3, p.modelo_versao
         FROM leituras l
-        JOIN regioes r       ON r.regiao_id      = l.regiao_id
-        JOIN equipamentos e  ON e.equipamento_id = l.equipamento_id
-        JOIN predicoes p     ON p.leitura_id     = l.leitura_id
+        JOIN regioes r
+            ON r.regiao_id = l.regiao_id
+        JOIN equipamentos e
+            ON e.equipamento_id = l.equipamento_id
+        JOIN predicoes p
+            ON p.leitura_id = l.leitura_id
     """, con)
+
+    auditoria = pd.read_sql("""
+        SELECT
+            auditoria_id,
+            data_hora,
+            evento,
+            leitura_id,
+            equipamento_id,
+            status,
+            detalhes,
+            modelo_versao
+        FROM auditoria
+        ORDER BY auditoria_id DESC
+    """, con)
+
     con.close()
-    return leituras
+
+    return leituras, auditoria
 
 
 def filtros_sidebar(df):
@@ -199,60 +218,241 @@ def view_gestor(df):
     st.dataframe(rank, use_container_width=True)
 
 
-def view_seguradora(df):
+def view_seguradora(df, auditoria):
     st.subheader("🏢 Visão da Seguradora — validação e auditoria")
-    st.markdown("**Validação: taxa real de sinistro por faixa de risco prevista**")
-    val = (df.groupby("classe_risco")
-             .agg(leituras=("leitura_id", "count"),
-                  taxa_sinistro_real=("houve_sinistro", lambda s: round(100 * s.mean(), 1)))
-             .reindex(["Baixo", "Medio", "Alto", "Critico"]).reset_index())
-    cols = st.columns(4)
-    for col, (_, r) in zip(cols, val.iterrows()):
-        # com filtro de classe, faixas ausentes ficam sem leitura -> mostra "—"
-        taxa = "—" if pd.isna(r["taxa_sinistro_real"]) else f"{r['taxa_sinistro_real']}%"
-        col.markdown(
-            f"<div style='background:{CORES[r['classe_risco']]};color:#fff;padding:14px;"
-            f"border-radius:12px;text-align:center'><div>Risco {r['classe_risco']}</div>"
-            f"<div style='font-size:30px;font-weight:700'>{taxa}</div>"
-            f"<div style='font-size:12px'>sinistro real</div></div>", unsafe_allow_html=True)
-    st.info("Leituras de risco Baixo quase não viram sinistro; as de risco Crítico quase sempre. "
-            "Essa separação comprova a confiabilidade do score.")
 
-    alto = int(df["classe_risco"].isin(["Alto", "Critico"]).sum())
-    card_prejuizo_evitavel(alto)  # recalcula conforme os filtros ativos
+    st.markdown(
+        "**Validação: taxa real de sinistro por faixa de risco prevista**"
+    )
+
+    val = (
+        df.groupby("classe_risco")
+        .agg(
+            leituras=("leitura_id", "count"),
+            taxa_sinistro_real=(
+                "houve_sinistro",
+                lambda s: round(100 * s.mean(), 1)
+            )
+        )
+        .reindex(["Baixo", "Medio", "Alto", "Critico"])
+        .reset_index()
+    )
+
+    cols = st.columns(4)
+
+    for col, (_, r) in zip(cols, val.iterrows()):
+        taxa = (
+            "—"
+            if pd.isna(r["taxa_sinistro_real"])
+            else f"{r['taxa_sinistro_real']}%"
+        )
+
+        col.markdown(
+            f"<div style='background:{CORES[r['classe_risco']]};"
+            f"color:#fff;padding:14px;border-radius:12px;"
+            f"text-align:center'>"
+            f"<div>Risco {r['classe_risco']}</div>"
+            f"<div style='font-size:30px;font-weight:700'>{taxa}</div>"
+            f"<div style='font-size:12px'>sinistro real</div>"
+            f"</div>",
+            unsafe_allow_html=True,
+        )
+
+    st.info(
+        "Leituras de risco Baixo quase não viram sinistro; "
+        "as de risco Crítico quase sempre. "
+        "Essa separação comprova a confiabilidade do score."
+    )
+
+    alto = int(
+        df["classe_risco"].isin(["Alto", "Critico"]).sum()
+    )
+
+    card_prejuizo_evitavel(alto)
+
     st.markdown("")
 
-    st.markdown("**Trilha de auditoria — alertas de maior risco**")
-    audit = (df[df["classe_risco"].isin(["Alto", "Critico"])]
-             .sort_values("score_risco", ascending=False)
-             [["equipamento_id", "regiao_nome", "score_risco", "classe_risco",
-               "fator_1", "modelo_versao", "data_hora"]].head(20))
-    st.dataframe(audit, use_container_width=True)
+    # Histórico das operações de maior risco
+    st.markdown(
+        "**Trilha de auditoria — alertas de maior risco**"
+    )
+
+    audit = (
+        df[df["classe_risco"].isin(["Alto", "Critico"])]
+        .sort_values("score_risco", ascending=False)
+        [
+            [
+                "equipamento_id",
+                "regiao_nome",
+                "score_risco",
+                "classe_risco",
+                "fator_1",
+                "modelo_versao",
+                "data_hora",
+            ]
+        ]
+        .head(20)
+    )
+
+    st.dataframe(
+        audit,
+        use_container_width=True,
+    )
+
+    # Auditoria real criada na Sprint 3
+    st.markdown(
+        "**Auditoria do sistema — eventos processados**"
+    )
+
+    if auditoria.empty:
+        st.info(
+            "Nenhum evento de auditoria registrado."
+        )
+    else:
+        st.dataframe(
+            auditoria[
+                [
+                    "data_hora",
+                    "evento",
+                    "leitura_id",
+                    "equipamento_id",
+                    "status",
+                    "modelo_versao",
+                ]
+            ].head(50),
+            use_container_width=True,
+        )
+
+
+def login():
+    st.title("SomPrev Risk")
+    st.subheader("Acesso ao sistema")
+
+    usuario = st.text_input("Usuário")
+    senha = st.text_input(
+        "Senha",
+        type="password"
+    )
+
+    if st.button("Entrar"):
+        usuarios = {
+            os.getenv("SOMPREV_OPERADOR_USER"): {
+                "senha": os.getenv(
+                    "SOMPREV_OPERADOR_PASSWORD"
+                ),
+                "perfil": "Operador",
+            },
+            os.getenv("SOMPREV_GESTOR_USER"): {
+                "senha": os.getenv(
+                    "SOMPREV_GESTOR_PASSWORD"
+                ),
+                "perfil": "Gestor",
+            },
+            os.getenv("SOMPREV_SEGURADORA_USER"): {
+                "senha": os.getenv(
+                    "SOMPREV_SEGURADORA_PASSWORD"
+                ),
+                "perfil": "Seguradora",
+            },
+        }
+
+        dados_usuario = usuarios.get(usuario)
+
+        if (
+            dados_usuario
+            and senha == dados_usuario["senha"]
+        ):
+            st.session_state["autenticado"] = True
+            st.session_state["perfil"] = (
+                dados_usuario["perfil"]
+            )
+            st.session_state["usuario"] = usuario
+            st.rerun()
+
+        else:
+            st.error(
+                "Usuário ou senha inválidos."
+            )
+
 
 
 def main():
-    cabecalho()
-    if not os.path.exists(DB):
-        st.error("Banco não encontrado. Rode antes:  python src/scripts/popular_banco.py")
+    if not st.session_state.get(
+        "autenticado",
+        False
+    ):
+        login()
         return
-    df_total = carregar()
-    aba = st.sidebar.radio("Perfil de acesso", ["🚜 Operador", "📊 Gestor", "🏢 Seguradora"])
+
+    cabecalho()
+
+    if not os.path.exists(DB):
+        st.error(
+            "Banco não encontrado. "
+            "Rode antes: python src/scripts/popular_banco.py"
+        )
+        return
+
+    df_total, auditoria = carregar()
+
+    perfil = st.session_state["perfil"]
+
+    if perfil == "Operador":
+        aba = "🚜 Operador"
+
+    elif perfil == "Gestor":
+        aba = "📊 Gestor"
+
+    else:
+        aba = "🏢 Seguradora"
+
     st.sidebar.markdown("---")
-    df = filtros_sidebar(df_total)  # filtros globais aplicados às 3 visões
+
+    st.sidebar.markdown(
+        f"**Usuário:** "
+        f"{st.session_state['usuario']}"
+    )
+
+    st.sidebar.markdown(
+        f"**Perfil:** {perfil}"
+    )
+
+    if st.sidebar.button("Sair"):
+        st.session_state.clear()
+        st.rerun()
+
     st.sidebar.markdown("---")
+
+    df = filtros_sidebar(df_total)
+
+    st.sidebar.markdown("---")
+
     st.sidebar.caption(
-        f"Modelo: {df_total['modelo_versao'].iloc[0]}  ·  "
-        f"{len(df):,}/{len(df_total):,} leituras".replace(",", "."))
+        f"Modelo: "
+        f"{df_total['modelo_versao'].iloc[0]} · "
+        f"{len(df):,}/{len(df_total):,} leituras"
+        .replace(",", ".")
+    )
 
     if df.empty:
-        st.warning("Nenhuma leitura para os filtros selecionados. Ajuste os filtros na barra lateral.")
+        st.warning(
+            "Nenhuma leitura para os filtros "
+            "selecionados. Ajuste os filtros "
+            "na barra lateral."
+        )
         return
+
     if aba.endswith("Operador"):
         view_operador(df)
+
     elif aba.endswith("Gestor"):
         view_gestor(df)
+
     else:
-        view_seguradora(df)
+        view_seguradora(
+            df,
+            auditoria
+        )
 
 
 if __name__ == "__main__":

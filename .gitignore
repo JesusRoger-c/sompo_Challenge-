@@ -32,3 +32,4 @@ Thumbs.db
 
 # Pacote de entrega (deliverable gerado na raiz; nao versionar)
 entrega_sompo.zip
+.env

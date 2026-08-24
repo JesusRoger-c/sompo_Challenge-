@@ -1,4 +1,4 @@
--- =============================================================================
+=============================================================================
 --  SomPrev Risk  |  Esquema do Banco de Dados Relacional (SQLite)
 --  Challenge FIAP + Sompo Seguros  -  Sprint 2
 -- =============================================================================
@@ -15,11 +15,13 @@
 
 PRAGMA foreign_keys = ON;
 
+DROP TABLE IF EXISTS auditoria;
 DROP TABLE IF EXISTS alertas;
 DROP TABLE IF EXISTS predicoes;
 DROP TABLE IF EXISTS leituras;
 DROP TABLE IF EXISTS equipamentos;
 DROP TABLE IF EXISTS regioes;
+
 
 -- ----------------------------------------------------------------------------
 -- Regioes onde a frota opera
@@ -104,12 +106,31 @@ CREATE TABLE alertas (
     FOREIGN KEY (predicao_id) REFERENCES predicoes(predicao_id)
 );
 
+
+-- ----------------------------------------------------------------------------
+-- Auditoria dos eventos executados pelo sistema
+-- ----------------------------------------------------------------------------
+CREATE TABLE auditoria (
+    auditoria_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    data_hora TEXT DEFAULT (datetime('now')),
+    evento TEXT NOT NULL,
+    leitura_id INTEGER,
+    equipamento_id TEXT,
+    status TEXT NOT NULL,
+    detalhes TEXT,
+    modelo_versao TEXT,
+    FOREIGN KEY (leitura_id) REFERENCES leituras(leitura_id),
+    FOREIGN KEY (equipamento_id) REFERENCES equipamentos(equipamento_id)
+);
+
 -- ----------------------------------------------------------------------------
 -- Indices para acelerar as consultas analiticas mais comuns
 -- ----------------------------------------------------------------------------
-CREATE INDEX idx_leituras_equip   ON leituras(equipamento_id);
-CREATE INDEX idx_leituras_regiao  ON leituras(regiao_id);
-CREATE INDEX idx_leituras_data    ON leituras(data_hora);
-CREATE INDEX idx_predicoes_leit   ON predicoes(leitura_id);
-CREATE INDEX idx_predicoes_classe ON predicoes(classe_risco);
-CREATE INDEX idx_alertas_status   ON alertas(status);
+CREATE INDEX idx_leituras_equip    ON leituras(equipamento_id);
+CREATE INDEX idx_leituras_regiao   ON leituras(regiao_id);
+CREATE INDEX idx_leituras_data     ON leituras(data_hora);
+CREATE INDEX idx_predicoes_leit    ON predicoes(leitura_id);
+CREATE INDEX idx_predicoes_classe  ON predicoes(classe_risco);
+CREATE INDEX idx_alertas_status    ON alertas(status);
+CREATE INDEX idx_auditoria_evento  ON auditoria(evento);
+CREATE INDEX idx_auditoria_leitura ON auditoria(leitura_id);
