@@ -54,7 +54,7 @@ Na Sprint 4 o projeto virou um **MVP consolidado, estável e validado**: arquite
 
 ## 🎥 Vídeos
 
-- **Sprint 4 (MVP final):** <a href="https://youtu.be/COLOCAR_LINK" target="_blank">clique para assistir</a> *(não listado)*
+- **Sprint 4 (MVP final):** <a href="https://youtu.be/C6JPlqNLA2g" target="_blank">clique para assistir</a> *(não listado)*
 
 ---
 
