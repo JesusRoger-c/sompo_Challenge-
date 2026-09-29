@@ -5,7 +5,7 @@ O dashboard passou a viver em src/somprev/dashboard/ (app.py com as 4 visões e
 componentes.py com estilo e gráficos). Este arquivo apenas executa o dashboard
 novo, para que `streamlit run src/dashboards/app.py` continue funcionando.
 
-Forma recomendada:  python run.py dashboard
+Forma recomendada:  python scripts/run.py dashboard
 """
 
 import runpy

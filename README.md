@@ -38,14 +38,14 @@ Na Sprint 4 o projeto virou um **MVP consolidado, estável e validado**: arquite
 
 ### Responsabilidades
 
-<!-- PROPOSTA: revisar e ajustar com o grupo antes da entrega -->
-
 | Integrante | Frente principal | Responsabilidades ao longo do Challenge |
 |---|---|---|
 | Karina Garta Szewczuk | Produto e negócio | Contextualização de mercado, personas e User Stories; regras de risco e premissas econômicas; validação das recomendações com a visão da seguradora |
 | Maria Sabrina Feitosa da Silva | Dados, modelo e dashboard | Base de dados e modelo preditivo (Sprint 2); identidade visual e dashboards; consolidação da arquitetura, qualidade de dados e modelo v2 (Sprint 4) |
 | Nicolas Lima Apolinário | Banco, testes e documentação | Estrutura do banco e consultas; testes automatizados e evidências de validação; roteiro e edição do vídeo |
 | Roger Gabriel de Souza Jesus Costa | Backend, integração e segurança | Estrutura inicial do repositório; API FastAPI, persistência incremental e auditoria (Sprint 3); simulador de telemetria e controle de acesso (Sprint 4) |
+
+\* Boa parte do desenvolvimento foi feita em reuniões conjuntas do grupo (pareamento e revisão em tempo real), por isso é comum um commit aparecer com um único autor mesmo representando trabalho decidido e revisado por todos — a tutoria está ciente dessa dinâmica.
 
 ## 👩‍🏫 Professores
 
@@ -68,24 +68,24 @@ Na Sprint 4 o projeto virou um **MVP consolidado, estável e validado**: arquite
 pip install -r config/requirements.txt
 
 # 2. segredos: cria o .env com chaves de API e senhas fortes e mostra as credenciais de demonstração
-python run.py configurar
+python scripts/run.py configurar
 
 # 3. fluxo completo de ponta a ponta (~1 min): dados → qualidade → modelo → banco → relatórios → verificação
-python run.py pipeline
+python scripts/run.py pipeline
 
 # 4. em terminais separados
-python run.py api           # http://127.0.0.1:8000/docs
-python run.py dashboard     # http://localhost:8501  (entre com as credenciais do passo 2)
+python scripts/run.py api           # http://127.0.0.1:8000/docs
+python scripts/run.py dashboard     # http://localhost:8501  (entre com as credenciais do passo 2)
 
 # 5. (opcional) telemetria em tempo real com falhas + reconciliação
-python run.py simular
+python scripts/run.py simular
 
 # 6. validação
-python run.py verificar     # 12 verificações de integridade e consistência
-python run.py testes        # 113 testes automatizados
+python scripts/run.py verificar     # 12 verificações de integridade e consistência
+python scripts/run.py testes        # 113 testes automatizados
 ```
 
-> O banco versionado em `src/database/` é recriado pelo `pipeline`. As senhas ficam **somente** no seu `.env`; no banco vai apenas o hash. Para criar outro usuário: `python run.py usuario LOGIN PERFIL`.
+> O banco versionado em `src/database/` é recriado pelo `pipeline`. As senhas ficam **somente** no seu `.env`; no banco vai apenas o hash. Para criar outro usuário: `python scripts/run.py usuario LOGIN PERFIL`.
 
 ---
 
@@ -104,13 +104,13 @@ A Sprint 4 pede para **refinar o que já existe**, então o código da Sprint 3 
 
 - O mapa completo **de → para**, arquivo por arquivo e com a justificativa, está em [`document/de_para_sprint3_sprint4.md`](document/de_para_sprint3_sprint4.md).
 - Os dois caminhos antigos continuam funcionando como atalhos: `src/backend/app.py` ainda expõe a API e `src/dashboards/app.py` ainda sobe o dashboard.
-- `src/scripts/LEIA-ME.md` diz a qual comando do `run.py` cada script antigo corresponde.
+- `src/scripts/LEIA-ME.md` diz a qual comando do `scripts/run.py` cada script antigo corresponde.
 
 ### O que a Sprint 4 trouxe, requisito por requisito
 
 | Requisito do enunciado | Como foi atendido |
 |---|---|
-| **Código organizado em módulos, funções padronizadas** | Pacote `src/somprev/` com um módulo por responsabilidade; SQL centralizado no repositório; CLI única `run.py` |
+| **Código organizado em módulos, funções padronizadas** | Pacote `src/somprev/` com um módulo por responsabilidade; SQL centralizado no repositório; CLI única `scripts/run.py` |
 | **Tratamento de exceções, fluxo estável e reproduzível** | Exceções de domínio (422/404/409/503) separadas das inesperadas (500 sem vazamento); transação atômica por leitura; `seed = 42` gera os mesmos números em qualquer máquina |
 | **Inconsistências, faltantes e duplicidades** | Coleta com 514 falhas injetadas → limpeza, imputação por fonte de referência, quarentena com motivo e relatório de qualidade |
 | **Ajuste final do modelo com métricas adequadas** | Validação temporal, busca de hiperparâmetros, PR-AUC, calibração, limiar por custo e comparação justa com a Sprint 3 |
@@ -152,7 +152,6 @@ coletor de campo ──JSON──▶ API FastAPI (chave de ingestão · limite d
 ### Estrutura do código
 
 ```text
-run.py                         CLI única: configurar | pipeline | api | dashboard | simular | verificar | testes
 config/
   regras_risco.json            regras de negócio versionadas (faixas, limiar, gatilhos, premissas)
   requirements.txt
@@ -168,10 +167,10 @@ src/somprev/
   dashboard/    app.py (4 perfis, cliente da API para tudo que exibe) · cliente_api.py · componentes.py
   pipeline.py   orquestração das 7 etapas
 src/backend/app.py · src/dashboards/app.py   atalhos que mantêm os caminhos da Sprint 3 funcionando
-tests/          113 testes (pytest) em ambiente temporário isolado
-scripts/        gerar_arquitetura.py · gerar_evidencias_seguranca.py
+src/tests/      113 testes (pytest) em ambiente temporário isolado
 src/database/   schema.sql (estrutura final do banco) · queries.sql (consultas prontas) · somprev_risk.db
 src/datasets/ · src/models/   dados tratados e modelo, gerados pelo pipeline (versionados)
+scripts/        run.py (CLI única: configurar | pipeline | api | dashboard | simular | verificar | testes) · gerar_arquitetura.py · gerar_evidencias_seguranca.py
 document/       documentação, relatórios, evidências, prints e histórico das Sprints
 ```
 
@@ -305,7 +304,7 @@ Documentação interativa: `http://127.0.0.1:8000/docs`
 
 ## 📊 Relatórios de tendência
 
-`python run.py pipeline` (ou `python run.py relatorio`) gera [`document/relatorios/relatorio_tendencias.md`](document/relatorios/relatorio_tendencias.md), com resumo executivo automático, tendência semanal **por região, por operação e por equipamento** (os 5 de maior risco), matriz região × operação, ranking de equipamentos e alertas em aberto, além dos CSVs para BI. No dashboard, o Gestor escolhe a dimensão (região, operação, tipo de máquina ou equipamentos específicos).
+`python scripts/run.py pipeline` (ou `python scripts/run.py relatorio`) gera [`document/relatorios/relatorio_tendencias.md`](document/relatorios/relatorio_tendencias.md), com resumo executivo automático, tendência semanal **por região, por operação e por equipamento** (os 5 de maior risco), matriz região × operação, ranking de equipamentos e alertas em aberto, além dos CSVs para BI. No dashboard, o Gestor escolhe a dimensão (região, operação, tipo de máquina ou equipamentos específicos).
 
 <p align="center">
   <img src="document/relatorios/tendencia_regiao.png" width="49%"> <img src="document/relatorios/matriz_regiao_operacao.png" width="45%">

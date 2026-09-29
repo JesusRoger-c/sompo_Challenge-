@@ -12,7 +12,7 @@ juntos). Na Sprint 4 ele foi separado em:
 Este arquivo continua existindo só para não quebrar quem aponta para o caminho
 antigo: ele expõe o mesmo objeto `app` do FastAPI.
 
-Forma recomendada de subir a API:  python run.py api
+Forma recomendada de subir a API:  python scripts/run.py api
 """
 
 import sys

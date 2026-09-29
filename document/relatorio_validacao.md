@@ -4,7 +4,7 @@ Este relatório reúne as **evidências de que a solução funciona de ponta a p
 
 | # | Requisito da Sprint 4 | Evidência | Como reproduzir |
 |---|---|---|---|
-| 1 | Fluxo estável e reproduzível | Pipeline de 7 etapas, 12/12 verificações aprovadas | `python run.py pipeline` |
+| 1 | Fluxo estável e reproduzível | Pipeline de 7 etapas, 12/12 verificações aprovadas | `python scripts/run.py pipeline` |
 | 2 | Tratamento de inconsistências, faltantes e duplicidades | Relatório de qualidade (97,2% de aproveitamento, 0 ausentes após o tratamento) | [`src/datasets/relatorio_qualidade.json`](../src/datasets/relatorio_qualidade.json) |
 | 3 | Modelo final com métricas justificadas | PR-AUC 0,76, recall 82%, calibrado, validação temporal | [`modelo_preditivo.md`](modelo_preditivo.md) |
 | 4 | Integração consistente com a fonte de dados | 200 envios pela API: 0 perdas, 0 erros inesperados | [`evidencias/validacao_integracao.md`](evidencias/validacao_integracao.md) |
@@ -29,7 +29,7 @@ Saída completa em [`evidencias/execucao_pipeline.txt`](evidencias/execucao_pipe
 [7/7] Verificação ............ 12/12 verificações aprovadas
 ```
 
-### As 12 verificações automáticas (`python run.py verificar`)
+### As 12 verificações automáticas (`python scripts/run.py verificar`)
 
 | Verificação | O que garante |
 |---|---|
@@ -71,7 +71,7 @@ A imputação foi conferida contra o valor verdadeiro. A **chuva** é compartilh
 
 ## 3. Integração com a fonte de dados (tempo real)
 
-O simulador (`python run.py simular`) envia leituras para a API como faria um coletor de campo, com 15% de envios defeituosos, e reconcilia o resultado. Evidência completa: [`evidencias/validacao_integracao.md`](evidencias/validacao_integracao.md).
+O simulador (`python scripts/run.py simular`) envia leituras para a API como faria um coletor de campo, com 15% de envios defeituosos, e reconcilia o resultado. Evidência completa: [`evidencias/validacao_integracao.md`](evidencias/validacao_integracao.md).
 
 - enviadas = processadas + rejeitadas (quarentena) + duplicadas bloqueadas, **sem perda**;
 - **0 erros inesperados**: nenhuma entrada ruim derrubou a API;
@@ -82,7 +82,7 @@ O simulador (`python run.py simular`) envia leituras para a API como faria um co
 
 ## 4. Testes automatizados
 
-`python run.py testes` roda **113 testes** em um ambiente temporário isolado (o pipeline completo é refeito do zero dentro do teste). Resultado: [`evidencias/resultado_testes.txt`](evidencias/resultado_testes.txt).
+`python scripts/run.py testes` roda **113 testes** em um ambiente temporário isolado (o pipeline completo é refeito do zero dentro do teste). Resultado: [`evidencias/resultado_testes.txt`](evidencias/resultado_testes.txt).
 
 | Arquivo | O que cobre | Testes |
 |---|---|---:|

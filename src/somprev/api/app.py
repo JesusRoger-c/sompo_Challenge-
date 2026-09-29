@@ -378,7 +378,7 @@ def relatorio_tendencias(dimensao: Literal["regiao_nome", "tipo_operacao", "equi
 @app.get("/modelo", tags=["Consulta"])
 def model_card(_: str = Depends(_exigir_escopo("consulta"))):
     if not config.MODEL_CARD_PATH.exists():
-        raise ModeloIndisponivel("Model card não encontrado. Rode: python run.py pipeline")
+        raise ModeloIndisponivel("Model card não encontrado. Rode: python scripts/run.py pipeline")
     return json.loads(config.MODEL_CARD_PATH.read_text(encoding="utf-8"))
 
 
@@ -392,7 +392,7 @@ def verificar_auditoria(_: str = Depends(_exigir_escopo("consulta"))):
 
 @app.get("/verificacao", tags=["Consulta"])
 def verificacao_sistema(_: str = Depends(_exigir_escopo("consulta"))):
-    """As mesmas 12 verificacoes de integridade e consistencia do `python run.py verificar`."""
+    """As mesmas 12 verificacoes de integridade e consistencia do `python scripts/run.py verificar`."""
     from ..servicos.verificacao import verificar_sistema
     with sessao(somente_leitura=True) as conn:
         itens = verificar_sistema(conn)

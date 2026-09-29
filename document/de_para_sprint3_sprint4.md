@@ -20,7 +20,7 @@ Este documento existe para que ninguém precise procurar: mostra **onde cada coi
 | `src/datasets/gerar_dataset.py` | `src/somprev/dados/gerador.py` | Gerador v2: cadastro fixo, clima por região e dia, sazonalidade e falhas de coleta |
 | `src/scripts/criar_auditoria.py` | `src/database/schema.sql` + `src/somprev/seguranca/auditoria.py` | A tabela nasce com o schema; a auditoria virou cadeia de hashes |
 | `src/scripts/limpar.py` | `src/somprev/dados/qualidade.py` | Era uma limpeza pontual de 2 leituras órfãs; virou uma etapa de qualidade com política, quarentena e relatório |
-| `src/scripts/ver_auditoria.py` | `python run.py verificar` · `GET /auditoria/verificar` · aba Auditoria do dashboard · `queries.sql` (consulta 6 e 7) | Consulta com `leitura_id` fixo no código virou ferramenta de verdade |
+| `src/scripts/ver_auditoria.py` | `python scripts/run.py verificar` · `GET /auditoria/verificar` · aba Auditoria do dashboard · `queries.sql` (consulta 6 e 7) | Consulta com `leitura_id` fixo no código virou ferramenta de verdade |
 | `src/scripts/ver_consistencia_banco.py` | `src/somprev/servicos/verificacao.py` (12 verificações) | De 1 conferência para 12, com saída padronizada e usada nos testes |
 | `src/scripts/_gerar_arquitetura.py` | `scripts/gerar_arquitetura.py` | Saiu de `src/` (não é código do sistema) e passou a desenhar a arquitetura final |
 
@@ -54,13 +54,13 @@ Este documento existe para que ninguém precise procurar: mostra **onde cada coi
 
 | Novo | Para quê |
 |---|---|
-| `run.py` | Um único comando para tudo: `configurar`, `pipeline`, `api`, `dashboard`, `simular`, `verificar`, `usuario`, `testes` |
+| `scripts/run.py` | Um único comando para tudo: `configurar`, `pipeline`, `api`, `dashboard`, `simular`, `verificar`, `usuario`, `testes` |
 | `src/somprev/dados/qualidade.py` | Duplicidades, valores impossíveis, grafias, imputação e quarentena |
 | `src/somprev/seguranca/` | Senhas com hash, bloqueio, permissões por perfil e auditoria encadeada |
 | `src/somprev/servicos/verificacao.py` e `simulador.py` | As 12 verificações e o teste de confiabilidade da coleta |
 | `src/somprev/relatorios/tendencias.py` | Tendências por região, operação e equipamento |
 | `config/regras_risco.json` | Regras de risco versionadas e editáveis pelo Gestor |
-| `tests/` (105 testes) e `.github/workflows/testes.yml` | Validação automatizada e integração contínua |
+| `src/tests/` (113 testes) e `.github/workflows/testes.yml` | Validação automatizada e integração contínua |
 
 ## 6. Compatibilidade com os caminhos antigos
 
@@ -70,6 +70,6 @@ Para quem conhece o repositório da Sprint 3, os dois caminhos principais contin
 |---|---|
 | `src/backend/app.py` | Continua expondo o objeto `app` do FastAPI (importa `somprev.api.app`) |
 | `src/dashboards/app.py` | Continua subindo o dashboard (chama `somprev/dashboard/app.py`) |
-| `src/scripts/` | `LEIA-ME.md` aponta cada script antigo para o comando equivalente do `run.py` |
+| `src/scripts/` | `LEIA-ME.md` aponta cada script antigo para o comando equivalente do `scripts/run.py` |
 
-O caminho recomendado, porém, é sempre o `run.py`.
+O caminho recomendado, porém, é sempre o `scripts/run.py`.

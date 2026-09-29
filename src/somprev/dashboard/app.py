@@ -10,7 +10,7 @@ Seguranca: login com senha em hash (PBKDF2) + bloqueio por tentativas, perfil
 fixo por usuario, permissoes checadas em cada acao, expiracao de sessao por
 inatividade e registro de todas as acoes na trilha de auditoria encadeada.
 
-Como rodar:  python run.py dashboard
+Como rodar:  python scripts/run.py dashboard
 """
 
 from __future__ import annotations
@@ -24,7 +24,7 @@ from pathlib import Path
 import pandas as pd
 import streamlit as st
 
-# Permite rodar tanto via `python run.py dashboard` quanto via `streamlit run`.
+# Permite rodar tanto via `python scripts/run.py dashboard` quanto via `streamlit run`.
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
 from somprev import config, regras  # noqa: E402
@@ -600,7 +600,7 @@ def visao_seguradora(df_total: pd.DataFrame, alertas: pd.DataFrame) -> None:
 # ---------------------------------------------------------------------------
 def main() -> None:
     if not banco_existe():
-        st.error("Banco de dados não encontrado. Rode antes: `python run.py pipeline`")
+        st.error("Banco de dados não encontrado. Rode antes: `python scripts/run.py pipeline`")
         return
     if not sessao_valida():
         tela_login()

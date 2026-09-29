@@ -117,7 +117,7 @@ def etapa_banco(cadastro: pd.DataFrame, resultado: qualidade.ResultadoLote, metr
            f"{len(usuarios)} usuários")
     if faltando:
         print(f"      ⚠ sem credenciais no .env para: {', '.join(sorted(faltando))} "
-              "(rode: python run.py configurar)")
+              "(rode: python scripts/run.py configurar)")
 
 
 def etapa_carga(tratado: pd.DataFrame) -> dict:

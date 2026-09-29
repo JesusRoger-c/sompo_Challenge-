@@ -4,15 +4,15 @@ SomPrev Risk — ponto de entrada unico (CLI).
 
 Uso (a partir da raiz do repositorio):
 
-    python run.py configurar          # cria o .env com chaves e senhas fortes (1a vez)
-    python run.py pipeline            # roda TUDO do zero: dados -> qualidade -> modelo -> banco -> relatorios
-    python run.py api                 # sobe o backend FastAPI em http://127.0.0.1:8000/docs
-    python run.py dashboard           # sobe o dashboard Streamlit em http://localhost:8501
-    python run.py simular             # envia telemetria simulada (com falhas) para a API em execucao
-    python run.py verificar           # confere integridade do banco e da trilha de auditoria
-    python run.py relatorio           # regenera o relatorio de tendencias
-    python run.py usuario LOGIN PERFIL  # cadastra/redefine um usuario (senha pedida no terminal)
-    python run.py testes              # executa a suite de testes automatizados
+    python scripts/run.py configurar          # cria o .env com chaves e senhas fortes (1a vez)
+    python scripts/run.py pipeline            # roda TUDO do zero: dados -> qualidade -> modelo -> banco -> relatorios
+    python scripts/run.py api                 # sobe o backend FastAPI em http://127.0.0.1:8000/docs
+    python scripts/run.py dashboard           # sobe o dashboard Streamlit em http://localhost:8501
+    python scripts/run.py simular             # envia telemetria simulada (com falhas) para a API em execucao
+    python scripts/run.py verificar           # confere integridade do banco e da trilha de auditoria
+    python scripts/run.py relatorio           # regenera o relatorio de tendencias
+    python scripts/run.py usuario LOGIN PERFIL  # cadastra/redefine um usuario (senha pedida no terminal)
+    python scripts/run.py testes              # executa a suite de testes automatizados
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-RAIZ = Path(__file__).resolve().parent
+RAIZ = Path(__file__).resolve().parents[1]  # scripts/run.py -> raiz do repositorio
 sys.path.insert(0, str(RAIZ / "src"))
 
 
@@ -43,7 +43,7 @@ def cmd_configurar(args) -> int:
     if destino.exists() and not args.forcar:
         print(".env já existe — nada foi alterado (use --forcar para recriar).")
         return 0
-    linhas = ["# Gerado por: python run.py configurar  (NÃO versionar este arquivo)",
+    linhas = ["# Gerado por: python scripts/run.py configurar  (NÃO versionar este arquivo)",
               f"SOMPREV_API_KEY={secrets.token_urlsafe(32)}",
               f"SOMPREV_API_KEY_CONSULTA={secrets.token_urlsafe(32)}", ""]
     credenciais = []
@@ -61,7 +61,7 @@ def cmd_configurar(args) -> int:
     print("Credenciais de demonstração (ficam só no .env; no banco vai apenas o hash):")
     for perfil, login, senha in credenciais:
         print(f"  {perfil:<11} usuário: {login:<11} senha: {senha}")
-    print("\nPróximo passo: python run.py pipeline")
+    print("\nPróximo passo: python scripts/run.py pipeline")
     return 0
 
 
@@ -121,7 +121,7 @@ def cmd_usuario(args) -> int:
 
 
 def cmd_testes(args) -> int:
-    return subprocess.call([sys.executable, "-m", "pytest", str(RAIZ / "tests"), "-q", *args.extra])
+    return subprocess.call([sys.executable, "-m", "pytest", str(RAIZ / "src" / "tests"), "-q", *args.extra])
 
 
 def main() -> int:

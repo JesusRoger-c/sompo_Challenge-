@@ -23,13 +23,13 @@ from ..excecoes import SomPrevErro
 
 
 class ApiIndisponivel(SomPrevErro):
-    """A API do SomPrev Risk nao respondeu. Rode: python run.py api"""
+    """A API do SomPrev Risk nao respondeu. Rode: python scripts/run.py api"""
 
     codigo_http = 503
 
     def __init__(self, causa: str):
         super().__init__(f"Não foi possível falar com a API em {config.API_BASE_URL} ({causa}). "
-                         "Rode `python run.py api` em outro terminal e recarregue a página.")
+                         "Rode `python scripts/run.py api` em outro terminal e recarregue a página.")
 
 
 def _cliente() -> httpx.Client:
