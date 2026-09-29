@@ -51,10 +51,10 @@ class ModeloRisco:
             faltando = {"referencia (formato antigo)"}
         if faltando:
             raise ModeloIndisponivel(f"Artefato do modelo incompleto (faltam {sorted(faltando)}). "
-                                     "Rode: python run.py pipeline")
+                                     "Rode: python scripts/run.py pipeline")
         if list(artefato["features"]) != FEATURES:
             raise ModeloIndisponivel("As variáveis do modelo não conferem com o contrato de dados. "
-                                     "Rode: python run.py pipeline")
+                                     "Rode: python scripts/run.py pipeline")
         self.modelo = artefato["modelo"]
         self.versao: str = artefato["versao"]
         self.algoritmo: str = artefato.get("algoritmo", "?")
@@ -101,7 +101,7 @@ def carregar_modelo(caminho=None) -> ModeloRisco:
     try:
         assinatura = (str(caminho), os.path.getmtime(caminho))
     except OSError as erro:
-        raise ModeloIndisponivel("Modelo não encontrado. Rode: python run.py pipeline") from erro
+        raise ModeloIndisponivel("Modelo não encontrado. Rode: python scripts/run.py pipeline") from erro
     with _TRAVA:
         if _CACHE.get("assinatura") != assinatura:
             try:
@@ -109,9 +109,9 @@ def carregar_modelo(caminho=None) -> ModeloRisco:
             except Exception as erro:  # pickle corrompido ou versao incompativel
                 log.exception("Falha ao carregar modelo")
                 raise ModeloIndisponivel("Não foi possível carregar o modelo (arquivo corrompido ou versão "
-                                         "incompatível do scikit-learn). Rode: python run.py pipeline") from erro
+                                         "incompatível do scikit-learn). Rode: python scripts/run.py pipeline") from erro
             if not isinstance(artefato, dict):
-                raise ModeloIndisponivel("Formato de modelo antigo (Sprint 3). Rode: python run.py pipeline")
+                raise ModeloIndisponivel("Formato de modelo antigo (Sprint 3). Rode: python scripts/run.py pipeline")
             _CACHE["modelo"] = ModeloRisco(artefato)
             _CACHE["assinatura"] = assinatura
         return _CACHE["modelo"]

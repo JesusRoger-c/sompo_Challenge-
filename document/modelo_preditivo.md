@@ -1,6 +1,6 @@
 # 🧠 Modelo preditivo: versão final (Sprint 4)
 
-Este documento explica **como o modelo final foi construído, avaliado e escolhido**, e por que cada decisão foi tomada. Todos os números vêm de [`src/models/metricas.json`](../src/models/metricas.json), gerado por `python run.py pipeline` com `seed = 42`. Qualquer pessoa que rodar o pipeline obtém os mesmos valores.
+Este documento explica **como o modelo final foi construído, avaliado e escolhido**, e por que cada decisão foi tomada. Todos os números vêm de [`src/models/metricas.json`](../src/models/metricas.json), gerado por `python scripts/run.py pipeline` com `seed = 42`. Qualquer pessoa que rodar o pipeline obtém os mesmos valores.
 
 Código: [`src/somprev/modelo/treino.py`](../src/somprev/modelo/treino.py) (treino e avaliação) e [`src/somprev/modelo/inferencia.py`](../src/somprev/modelo/inferencia.py) (previsão e explicação).
 

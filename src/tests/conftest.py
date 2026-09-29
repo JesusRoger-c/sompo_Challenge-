@@ -14,7 +14,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-RAIZ = Path(__file__).resolve().parents[1]
+RAIZ = Path(__file__).resolve().parents[2]  # src/tests/conftest.py -> raiz do repositorio
 TMP = Path(tempfile.mkdtemp(prefix="somprev_testes_"))
 
 # Ambiente isolado ANTES de importar o pacote (config le as variaveis no import).

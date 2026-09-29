@@ -88,13 +88,13 @@ def montar() -> str:
     s.append(caixa(a, 310, CW, 118, "Carga histórica", [
         "coleta_bruta.csv (6 meses)", "cadastro da frota", "falhas reais de coleta", "injetadas p/ validação"]))
     s.append(caixa(a, 448, CW, 100, "Simulador (teste)", [
-        "python run.py simular", "envios bons e defeituosos", "reconciliação automática"]))
+        "python scripts/run.py simular", "envios bons e defeituosos", "reconciliação automática"]))
 
     s.append(caixa(b, 140, CW, 180, "API FastAPI", [
         "POST /telemetria (e /lote)", "chave de ingestão (escopo)", "limite de taxa → 429",
         "payload estrito (Pydantic)", "erros tratados, sem vazar", "X-Request-ID + log JSON"], True, 2))
     s.append(caixa(b, 340, CW, 100, "Pipeline em lote", [
-        "python run.py pipeline", "7 etapas reprodutíveis", "mesma seed → mesmos números"], numero=2))
+        "python scripts/run.py pipeline", "7 etapas reprodutíveis", "mesma seed → mesmos números"], numero=2))
 
     s.append(caixa(c, 140, CW, 208, "Qualidade de dados", [
         "duplicidade / reenvio → bloqueio", "\"55,3\" e \"Manhã\" → padroniza", "fora da faixa física → ausente",
@@ -160,7 +160,7 @@ def montar() -> str:
              f'coletor → API (chave + validação) → qualidade (corrige/imputa/quarentena) → transação: leitura + '
              f'predição + explicação + alertas + auditoria → dashboard/relatórios.</text>')
     s.append(f'<text x="28" y="{H - 38}" font-family="{MONO}" font-size="12" fill="{CINZA}">Comandos: '
-             f'python run.py configurar | pipeline | api | dashboard | simular | verificar | testes</text>')
+             f'python scripts/run.py configurar | pipeline | api | dashboard | simular | verificar | testes</text>')
     s.append("</svg>")
     return "\n".join(s)
 

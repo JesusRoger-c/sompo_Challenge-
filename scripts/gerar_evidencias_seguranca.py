@@ -8,7 +8,7 @@ requisicoes (429), bloqueio de login por forca bruta, permissao negada por
 perfil, rastreabilidade completa de uma leitura, amostra do log JSON (com
 segredos mascarados) e deteccao de adulteracao da trilha de auditoria.
 
-Uso (a partir da raiz, depois de `python run.py pipeline`):
+Uso (a partir da raiz, depois de `python scripts/run.py pipeline`):
     python scripts/gerar_evidencias_seguranca.py
 Saidas: document/evidencias/seguranca_rastreabilidade.md e amostra_log.jsonl
 """

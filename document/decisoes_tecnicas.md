@@ -36,7 +36,7 @@ Registro das principais decisões do projeto: o que foi decidido, por quê, e o 
 
 | Decisão | Alternativa descartada | Por quê |
 |---|---|---|
-| Pacote `src/somprev/` com um módulo por responsabilidade e **um comando** (`run.py`) | Scripts soltos com caminhos montados à mão | Fluxo reproduzível, testável e fácil de rodar por quem corrige |
+| Pacote `src/somprev/` com um módulo por responsabilidade e **um comando** (`scripts/run.py`) | Scripts soltos com caminhos montados à mão | Fluxo reproduzível, testável e fácil de rodar por quem corrige |
 | **Mesmo serviço** de processamento para lote, API e simulador | Lógicas separadas para carga e API | Uma leitura recebe sempre o mesmo score, venha de onde vier |
 | Gerador v2: cadastro fixo, clima por região e dia, sazonalidade, manutenção com memória | Manter o gerador v1 | A v1 tinha inconsistências (idade variando) e não gerava tendências |
 | Coleta bruta **com falhas injetadas** + qualidade + quarentena | Base limpa desde a origem | O enunciado pede tratar inconsistências. Sem sujeira não há como provar o tratamento |

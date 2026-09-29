@@ -19,4 +19,4 @@ jobs:
           cache: pip
           cache-dependency-path: config/requirements.txt
       - run: pip install -r config/requirements.txt
-      - run: python -m pytest tests -q
+      - run: python -m pytest src/tests -q

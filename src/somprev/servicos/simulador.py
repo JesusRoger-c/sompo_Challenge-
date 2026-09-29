@@ -12,8 +12,8 @@ e confere, pela propria API de consulta, que cada leitura aceita tem predicao
 e trilha de auditoria, e que a cadeia de hashes continua integra. O resultado
 vira a evidencia `document/evidencias/validacao_integracao.md`.
 
-Uso:  python run.py api          (em um terminal)
-      python run.py simular      (em outro terminal)
+Uso:  python scripts/run.py api          (em um terminal)
+      python scripts/run.py simular      (em outro terminal)
 """
 
 from __future__ import annotations
@@ -82,7 +82,7 @@ def executar(cliente, quantidade: int = 200, taxa_falhas: float = 0.15, seed: in
     chave_ingestao = chave_ingestao or config.API_KEY_INGESTAO
     chave_consulta = chave_consulta or config.API_KEY_CONSULTA
     if not chave_ingestao or not chave_consulta:
-        raise RuntimeError("Chaves de API ausentes no .env (rode: python run.py configurar)")
+        raise RuntimeError("Chaves de API ausentes no .env (rode: python scripts/run.py configurar)")
     h_ing, h_con = {"X-API-Key": chave_ingestao}, {"X-API-Key": chave_consulta}
 
     saude = cliente.get("/health").json()
@@ -142,7 +142,7 @@ def escrever_evidencia(resumo: dict) -> str:
     linhas = [
         "# Evidência — validação da integração com a fonte de dados (telemetria)",
         "",
-        f"*Execução: {resumo['executado_em']} · comando `python run.py simular` contra a API em execução "
+        f"*Execução: {resumo['executado_em']} · comando `python scripts/run.py simular` contra a API em execução "
         f"(modelo {resumo['api'].get('modelo')}, regras {resumo['api'].get('regras')}).*",
         "",
         "## Reconciliação (sem perda nem duplicação de dados)",
@@ -187,7 +187,7 @@ def main(quantidade: int = 200, url: str = "http://127.0.0.1:8000", taxa_falhas:
         with httpx.Client(base_url=url, timeout=30) as cliente:
             resumo = executar(cliente, quantidade=quantidade, taxa_falhas=taxa_falhas)
     except httpx.ConnectError:
-        print(f"✖ API indisponível em {url}. Suba antes com: python run.py api")
+        print(f"✖ API indisponível em {url}. Suba antes com: python scripts/run.py api")
         return 1
     print(f"Enviadas {resumo['enviadas']} · processadas {resumo['processadas']} · "
           f"quarentena {resumo['rejeitadas_quarentena']} · duplicadas {resumo['duplicadas']} · "

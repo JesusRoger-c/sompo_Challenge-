@@ -36,7 +36,7 @@ O SomPrev Risk trata dados operacionais de clientes da seguradora e gera decisõ
 
 - **Senhas nunca são armazenadas.** No banco fica só o hash PBKDF2-HMAC-SHA256, com salt aleatório de 16 bytes e **600 mil iterações** (recomendação OWASP 2023), no formato `pbkdf2_sha256$iterações$salt$hash`.
 - **Política de senha:** mínimo de 12 caracteres, com letras e números.
-- **Segredos fora do código:** chaves e senhas iniciais ficam só no `.env` (ignorado pelo git, com permissão 600). O comando `python run.py configurar` gera segredos aleatórios fortes.
+- **Segredos fora do código:** chaves e senhas iniciais ficam só no `.env` (ignorado pelo git, com permissão 600). O comando `python scripts/run.py configurar` gera segredos aleatórios fortes.
 - **Logs sem segredos:** o formatador JSON mascara campos sensíveis (`senha`, `api_key`, `token`...), e a chave de API aparece só como uma impressão digital não reversível (SHA-256 truncado).
 - **Erros sem vazamento:** um erro inesperado devolve HTTP 500 genérico com `id_requisicao`. O detalhe técnico fica só no log (há teste que garante isso).
 - **Minimização (LGPD):** a telemetria não tem dados pessoais. O único dado pessoal é o login dos usuários, usado para auditoria.
@@ -59,7 +59,7 @@ O SomPrev Risk trata dados operacionais de clientes da seguradora e gera decisõ
 Cada evento grava `hash_anterior` e `hash_registro = SHA-256(conteúdo + hash_anterior)`. Os eventos formam uma corrente, como em um livro-razão:
 
 - **triggers** do SQLite impedem `UPDATE` e `DELETE` na tabela `auditoria` (append-only);
-- se alguém com acesso direto ao arquivo remover os triggers e alterar ou apagar um evento, a verificação (`GET /auditoria/verificar`, botão na visão da Seguradora ou `python run.py verificar`) aponta **exatamente** o evento adulterado. Há testes automatizados para os dois casos.
+- se alguém com acesso direto ao arquivo remover os triggers e alterar ou apagar um evento, a verificação (`GET /auditoria/verificar`, botão na visão da Seguradora ou `python scripts/run.py verificar`) aponta **exatamente** o evento adulterado. Há testes automatizados para os dois casos.
 
 ### 4.2 Eventos registrados
 

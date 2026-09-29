@@ -2,7 +2,7 @@
 Verificacoes de integridade e consistencia do sistema (evidencia de validacao).
 
 Cada verificacao devolve um item {nome, ok, detalhe}. O conjunto e executado
-ao final do pipeline, pelo comando `python run.py verificar`, pelos testes
+ao final do pipeline, pelo comando `python scripts/run.py verificar`, pelos testes
 automatizados e pela visao da Seguradora no dashboard.
 """
 

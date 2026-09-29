@@ -61,7 +61,7 @@ def test_api_indisponivel_vira_mensagem_amigavel(monkeypatch):
     def _falha():
         raise httpx.ConnectError("recusado")
     monkeypatch.setattr(cliente_api, "_cliente", lambda: _FalhaAoEntrar(_falha))
-    with pytest.raises(cliente_api.ApiIndisponivel, match="python run.py api"):
+    with pytest.raises(cliente_api.ApiIndisponivel, match="python scripts/run.py api"):
         cliente_api.leituras_risco()
 
 
