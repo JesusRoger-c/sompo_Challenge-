@@ -1,111 +1,101 @@
 -- =============================================================================
---  SomPrev Risk  |  Consultas Analiticas (SQL)
---  Challenge FIAP + Sompo Seguros  -  Sprint 2
+--  SomPrev Risk | Consultas analiticas e de auditoria (SQL) - Sprint 4
 -- =============================================================================
---  Estas queries alimentam os dashboards e atendem a auditoria do Analista da
---  Seguradora. Para rodar uma delas no terminal:
---      sqlite3 database/somprev_risk.db < database/queries.sql
---  ou abra o arquivo .db no DBeaver / DB Browser for SQLite.
+--  Rode no DB Browser for SQLite / DBeaver, ou no terminal:
+--      sqlite3 src/database/somprev_risk.db < src/database/queries.sql
+--  O schema completo esta em src/database/schema.sql.
 -- =============================================================================
 
-
--- 1) PAINEL DA SEGURADORA: risco medio e nivel de sinistralidade por regiao
---    (areas de alta criticidade - User Story "visualizar risco")
-SELECT  r.nome                              AS regiao,
-        r.estado,
-        COUNT(*)                            AS leituras,
-        ROUND(AVG(p.score_risco), 1)        AS score_medio,
-        SUM(CASE WHEN p.classe_risco IN ('Alto','Critico') THEN 1 ELSE 0 END) AS leituras_risco_alto,
-        ROUND(100.0 * AVG(l.houve_sinistro), 1) AS taxa_sinistro_pct
-FROM        leituras   l
-JOIN        regioes    r ON r.regiao_id  = l.regiao_id
-JOIN        predicoes  p ON p.leitura_id = l.leitura_id
-GROUP BY    r.regiao_id
-ORDER BY    score_medio DESC;
+-- 1) GESTOR - tendencia semanal do risco por regiao (User Story "visualizar risco")
+SELECT  strftime('%Y-%W', l.data_hora)          AS semana,
+        r.nome                                   AS regiao,
+        COUNT(*)                                 AS leituras,
+        ROUND(AVG(p.score_risco), 1)             AS score_medio,
+        ROUND(100.0 * AVG(p.classe_risco IN ('Alto', 'Critico')), 1) AS pct_alto_critico
+FROM    leituras l
+JOIN    regioes r   ON r.regiao_id = l.regiao_id
+JOIN    predicoes p ON p.leitura_id = l.leitura_id
+GROUP BY semana, r.regiao_id
+ORDER BY semana, score_medio DESC;
 
 
--- 2) PAINEL DO GESTOR: ranking dos equipamentos com maior risco medio
---    (User Story "equipamentos com maior incidencia")
-SELECT  e.equipamento_id,
-        e.modelo,
-        e.tipo,
-        COUNT(*)                       AS leituras,
-        ROUND(AVG(p.score_risco), 1)   AS score_medio,
-        MAX(p.score_risco)             AS pior_score,
-        SUM(CASE WHEN p.classe_risco = 'Critico' THEN 1 ELSE 0 END) AS leituras_criticas
-FROM        leituras   l
-JOIN        equipamentos e ON e.equipamento_id = l.equipamento_id
-JOIN        predicoes  p ON p.leitura_id = l.leitura_id
-GROUP BY    e.equipamento_id
-ORDER BY    score_medio DESC
+-- 2) GESTOR - risco por tipo de operacao nos ultimos 30 dias da base
+SELECT  l.tipo_operacao,
+        COUNT(*)                                 AS leituras,
+        ROUND(AVG(p.score_risco), 1)             AS score_medio,
+        SUM(p.classe_risco = 'Critico')          AS leituras_criticas
+FROM    leituras l
+JOIN    predicoes p ON p.leitura_id = l.leitura_id
+WHERE   l.data_hora >= (SELECT datetime(MAX(data_hora), '-30 days') FROM leituras)
+GROUP BY l.tipo_operacao
+ORDER BY score_medio DESC;
+
+
+-- 3) GESTOR/TECNICO - ranking de equipamentos com alertas ativos
+SELECT  e.equipamento_id, e.tipo, e.modelo,
+        ROUND(AVG(p.score_risco), 1)             AS score_medio,
+        MAX(p.score_risco)                       AS pior_score,
+        (SELECT COUNT(*) FROM alertas a
+          WHERE a.equipamento_id = e.equipamento_id AND a.status != 'resolvido') AS alertas_ativos
+FROM    equipamentos e
+JOIN    leituras l  ON l.equipamento_id = e.equipamento_id
+JOIN    predicoes p ON p.leitura_id = l.leitura_id
+GROUP BY e.equipamento_id
+ORDER BY score_medio DESC
 LIMIT 10;
 
 
--- 3) ALERTAS ABERTOS de maior gravidade (fila de acao do Gestor/Operador)
-SELECT  a.alerta_id,
-        a.nivel,
-        e.equipamento_id,
-        r.nome                  AS regiao,
-        p.score_risco,
-        p.fator_1, p.fator_2, p.fator_3,
-        a.recomendacao,
-        l.data_hora
-FROM        alertas    a
-JOIN        predicoes  p ON p.predicao_id = a.predicao_id
-JOIN        leituras   l ON l.leitura_id  = p.leitura_id
-JOIN        equipamentos e ON e.equipamento_id = l.equipamento_id
-JOIN        regioes    r ON r.regiao_id = l.regiao_id
-WHERE       a.status = 'aberto'
-ORDER BY    p.score_risco DESC
-LIMIT 20;
+-- 4) TECNICO - alertas de manutencao em aberto (fila da oficina)
+SELECT  a.alerta_id, a.equipamento_id, a.codigo, a.nivel, a.criterio, a.ocorrencias,
+        a.criado_em, a.ultima_ocorrencia, a.status
+FROM    alertas a
+WHERE   a.tipo = 'MANUTENCAO' AND a.status != 'resolvido'
+ORDER BY a.nivel DESC, a.ultima_ocorrencia DESC;
 
 
--- 4) EVOLUCAO TEMPORAL do risco medio por dia (tendencia para o dashboard)
-SELECT  DATE(l.data_hora)             AS dia,
-        COUNT(*)                      AS leituras,
-        ROUND(AVG(p.score_risco), 1)  AS score_medio,
-        SUM(CASE WHEN p.classe_risco IN ('Alto','Critico') THEN 1 ELSE 0 END) AS alertas
-FROM        leituras   l
-JOIN        predicoes  p ON p.leitura_id = l.leitura_id
-GROUP BY    DATE(l.data_hora)
-ORDER BY    dia;
-
-
--- 5) AUDITORIA: fatores de risco mais frequentes como causa principal (fator_1)
---    (User Story "entender fatores de risco")
-SELECT  p.fator_1                AS fator_principal,
-        COUNT(*)                 AS ocorrencias,
-        ROUND(AVG(p.score_risco), 1) AS score_medio
-FROM        predicoes p
-WHERE       p.classe_risco IN ('Alto','Critico')
-GROUP BY    p.fator_1
-ORDER BY    ocorrencias DESC;
-
-
--- 6) VALIDACAO DO MODELO: o score realmente separa quem teve sinistro?
---    (taxa real de sinistro observada em cada faixa de score)
+-- 5) SEGURADORA - o score separa quem sofre sinistro? (taxa real por faixa)
 SELECT  p.classe_risco,
-        COUNT(*)                            AS leituras,
-        SUM(l.houve_sinistro)               AS sinistros_reais,
-        ROUND(100.0 * AVG(l.houve_sinistro), 1) AS taxa_sinistro_real_pct
-FROM        predicoes p
-JOIN        leituras  l ON l.leitura_id = p.leitura_id
-GROUP BY    p.classe_risco
-ORDER BY    CASE p.classe_risco WHEN 'Baixo' THEN 1 WHEN 'Medio' THEN 2
-                                WHEN 'Alto' THEN 3 ELSE 4 END;
+        COUNT(*)                                 AS leituras,
+        ROUND(100.0 * AVG(l.houve_sinistro), 1)  AS taxa_real_sinistro_pct
+FROM    predicoes p
+JOIN    leituras l ON l.leitura_id = p.leitura_id
+WHERE   l.houve_sinistro IS NOT NULL
+GROUP BY p.classe_risco
+ORDER BY MIN(p.score_risco);
 
 
--- 7) RELACAO proximidade de agua x risco (User Story / faixas do enunciado)
-SELECT  CASE
-            WHEN l.distancia_corpo_dagua_m < 50   THEN '1) < 50 m (critico)'
-            WHEN l.distancia_corpo_dagua_m < 200  THEN '2) 50-200 m (alto)'
-            WHEN l.distancia_corpo_dagua_m < 500  THEN '3) 200-500 m (medio)'
-            ELSE                                       '4) > 500 m (baixo)'
-        END                                AS faixa_distancia_agua,
-        COUNT(*)                           AS leituras,
-        ROUND(AVG(p.score_risco), 1)       AS score_medio,
-        ROUND(100.0 * AVG(l.houve_sinistro), 1) AS taxa_sinistro_pct
-FROM        leituras  l
-JOIN        predicoes p ON p.leitura_id = l.leitura_id
-GROUP BY    faixa_distancia_agua
-ORDER BY    faixa_distancia_agua;
+-- 6) SEGURADORA - rastreabilidade completa de UMA leitura (entrada -> saida -> decisao)
+--    troque 1234 pelo leitura_id desejado
+SELECT  l.leitura_id, l.data_hora, l.equipamento_id, l.origem, l.qualidade_status, l.qualidade_obs,
+        l.hash_payload, p.score_risco, p.classe_risco, p.fator_1, p.fator_2, p.fator_3,
+        p.modelo_versao, p.regras_versao
+FROM    leituras l
+JOIN    predicoes p ON p.leitura_id = l.leitura_id
+WHERE   l.leitura_id = 1234;
+
+SELECT  auditoria_id, data_hora, evento, ator, status, detalhes, hash_registro
+FROM    auditoria
+WHERE   leitura_id = 1234
+ORDER BY auditoria_id;
+
+
+-- 7) AUDITORIA - eventos de seguranca (logins falhos, bloqueios, acessos negados)
+SELECT  data_hora, evento, ator, perfil, status, detalhes
+FROM    auditoria
+WHERE   evento IN ('LOGIN_FALHA', 'CONTA_BLOQUEADA', 'ACESSO_NEGADO', 'API_ACESSO_NEGADO',
+                   'REGRAS_ALTERADAS')
+ORDER BY auditoria_id DESC;
+
+
+-- 8) QUALIDADE - motivos de quarentena (leituras rejeitadas)
+SELECT  origem, motivo, COUNT(*) AS leituras
+FROM    leituras_quarentena
+GROUP BY origem, motivo
+ORDER BY leituras DESC;
+
+
+-- 9) CONSISTENCIA - leituras sem predicao (deve retornar zero linhas)
+SELECT  l.leitura_id
+FROM    leituras l
+LEFT JOIN predicoes p ON p.leitura_id = l.leitura_id
+WHERE   p.predicao_id IS NULL;

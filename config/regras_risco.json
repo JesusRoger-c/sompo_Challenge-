@@ -1,0 +1,133 @@
+{
+  "versao": "regras-v2.0",
+  "atualizado_em": "2026-09-21T00:00:00",
+  "atualizado_por": "pipeline",
+  "faixas_score": {
+    "Baixo": [
+      0,
+      14
+    ],
+    "Medio": [
+      15,
+      39
+    ],
+    "Alto": [
+      40,
+      69
+    ],
+    "Critico": [
+      70,
+      100
+    ]
+  },
+  "faixas_justificativa": "Com o score calibrado (score 30 ≈ 30% de chance real de sinistro), as faixas passaram a ter significado probabilístico: Baixo termina no limiar de alerta de menor custo (15); Alto começa em 40 (≈ metade das leituras vira sinistro no teste) e Crítico em 70 (≈ 9 em cada 10).",
+  "alerta_modelo": {
+    "limiar_score": 15,
+    "justificativa": "Limiar escolhido pelo menor custo esperado no conjunto de validação (falso negativo = sinistro não evitado; falso positivo = parada preventiva). Ver src/models/metricas.json -> analise_limiar."
+  },
+  "gatilhos": [
+    {
+      "codigo": "AREA_ALAGAVEL",
+      "tipo": "CONDICAO_AMBIENTAL",
+      "perfil_destino": "Operador",
+      "nivel": "Alto",
+      "descricao": "Solo muito úmido perto de corpo d'água",
+      "condicoes": [
+        {
+          "variavel": "distancia_corpo_dagua_m",
+          "operador": "<",
+          "valor": 200
+        },
+        {
+          "variavel": "umidade_solo_pct",
+          "operador": ">=",
+          "valor": 75
+        }
+      ],
+      "recomendacao": "Evite o talhão próximo à água: risco de atolamento. Replaneje a rota para áreas mais secas."
+    },
+    {
+      "codigo": "SOLO_SATURADO",
+      "tipo": "CONDICAO_AMBIENTAL",
+      "perfil_destino": "Operador",
+      "nivel": "Alto",
+      "descricao": "Chuva forte sobre solo argiloso ou encharcado",
+      "condicoes": [
+        {
+          "variavel": "precipitacao_24h_mm",
+          "operador": ">=",
+          "valor": 80
+        },
+        {
+          "variavel": "tipo_solo",
+          "operador": "in",
+          "valor": [
+            "Argiloso",
+            "Encharcado"
+          ]
+        }
+      ],
+      "recomendacao": "Aguarde a drenagem do solo antes de entrar com máquina pesada."
+    },
+    {
+      "codigo": "RISCO_TOMBAMENTO",
+      "tipo": "CONDICAO_OPERACIONAL",
+      "perfil_destino": "Operador",
+      "nivel": "Critico",
+      "descricao": "Terreno inclinado com carga elevada",
+      "condicoes": [
+        {
+          "variavel": "declividade_graus",
+          "operador": ">=",
+          "valor": 27
+        },
+        {
+          "variavel": "carga_pct",
+          "operador": ">=",
+          "valor": 95
+        }
+      ],
+      "recomendacao": "Reduza a carga abaixo de 90% ou evite o trecho inclinado. Use cinto e estrutura de proteção (EPCC)."
+    },
+    {
+      "codigo": "MANUTENCAO_VENCIDA",
+      "tipo": "MANUTENCAO",
+      "perfil_destino": "Tecnico",
+      "nivel": "Alto",
+      "descricao": "Horas desde a última manutenção acima do limite",
+      "condicoes": [
+        {
+          "variavel": "horas_desde_manutencao",
+          "operador": ">=",
+          "valor": 450
+        }
+      ],
+      "recomendacao": "Agende a revisão preventiva do equipamento antes da próxima jornada."
+    },
+    {
+      "codigo": "DESGASTE_ACUMULADO",
+      "tipo": "MANUTENCAO",
+      "perfil_destino": "Tecnico",
+      "nivel": "Medio",
+      "descricao": "Equipamento antigo com manutenção se aproximando do limite",
+      "condicoes": [
+        {
+          "variavel": "idade_equipamento_anos",
+          "operador": ">=",
+          "valor": 15
+        },
+        {
+          "variavel": "horas_desde_manutencao",
+          "operador": ">=",
+          "valor": 300
+        }
+      ],
+      "recomendacao": "Inspecione freios, pneus e sistema hidráulico. Priorize este equipamento na fila da oficina."
+    }
+  ],
+  "economia": {
+    "custo_medio_sinistro_brl": 85000,
+    "taxa_prevencao": 0.45,
+    "custo_parada_preventiva_brl": 4000
+  }
+}

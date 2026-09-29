@@ -1,0 +1,43 @@
+========================================================================
+ SomPrev Risk — pipeline de ponta a ponta (Sprint 4)
+========================================================================
+
+[1/7] Coleta simulada de telemetria
+      ✔ 40 equipamentos · 5891 registros brutos · 514 falhas de coleta injetadas  (2.1s)
+
+[2/7] Qualidade de dados (validação, limpeza, imputação, quarentena)
+      ✔ 5723 aceitas (314 corrigidas) · 97 duplicadas removidas · 71 em quarentena · aproveitamento 97.2%  (0.3s)
+
+[3/7] Modelo preditivo (seleção temporal, calibração, limiar por custo)
+  Logistic Regression    PR-AUC valid=0.648  ROC-AUC valid=0.828
+  Random Forest          PR-AUC valid=0.662  ROC-AUC valid=0.831
+  HistGradientBoosting   PR-AUC valid=0.679  ROC-AUC valid=0.836
+      ✔ hgb-v2.0 · teste: ROC-AUC 0.881 · PR-AUC 0.760 · recall 82% no limiar 15  (55.8s)
+
+[4/7] Banco de dados (schema, cadastros, usuários, versão do modelo)
+      ✔ 6 regiões · 40 equipamentos · 71 em quarentena · 4 usuários  (1.7s)
+
+[5/7] Carga histórica + score + explicação + alertas
+      ✔ 5723 predições (Baixo 2458 · Médio 1543 · Alto 537 · Crítico 1185) · 1537 alertas  (12.4s)
+
+[6/7] Relatórios de tendência
+      ✔ document/relatorios/relatorio_tendencias.md + 4 gráficos + 3 CSV  (1.1s)
+
+[7/7] Verificação de integridade e consistência
+      ✔ Integridade física do banco (PRAGMA integrity_check) — ok
+      ✔ Chaves estrangeiras sem órfãos — 0 violações
+      ✔ Toda leitura aceita tem predição (sem perda) — 0 leituras sem predição
+      ✔ Scores e probabilidades dentro da faixa — 0 fora da faixa
+      ✔ Score coerente com a probabilidade gravada — 0 divergências
+      ✔ Toda predição rastreável (versão do modelo e das regras) — 0 sem versão
+      ✔ Sem leituras duplicadas (mesma máquina, mesmo instante) — 0 duplicidades
+      ✔ Sem valores ausentes nas variáveis do modelo — 0 leituras incompletas
+      ✔ Trilha de auditoria íntegra (cadeia de hashes) — Cadeia íntegra: 8 eventos verificados, nenhum adulterado.
+      ✔ Artefato do modelo confere com a versão registrada (SHA-256) — versão ativa hgb-v2.0
+      ✔ Nenhuma senha armazenada sem hash — 0 senhas fora do padrão
+      ✔ Reconciliação da coleta: recebidas = aceitas + quarentena + duplicadas — 5891 = 5723 + 71 + 97; banco: 5723 aceitas, 71 em quarentena
+      ✔ 12/12 verificações aprovadas  (0.1s)
+
+========================================================================
+ CONCLUÍDO em 74s · banco: src/database/somprev_risk.db
+========================================================================

@@ -1,0 +1,41 @@
+equipamento_id,tipo,regiao,leituras,score_medio,pior_score,pct_alto_critico,horas_desde_manutencao,idade_anos,tendencia,alertas_abertos
+EQ-021,Colheitadeira,Cascavel,20,63.75,97,0.7,76.0,13.3,caindo,2
+EQ-040,Colheitadeira,Não-Me-Toque,20,60.9,94,0.65,42.0,13.5,estável,1
+EQ-030,Colheitadeira,Não-Me-Toque,24,59.42,97,0.67,412.0,12.8,subindo,1
+EQ-007,Colheitadeira,Cascavel,16,56.69,98,0.62,107.0,7.9,caindo,2
+EQ-004,Colheitadeira,Cascavel,12,49.08,98,0.58,311.0,5.9,estável,0
+EQ-037,Trator,Sorriso,21,47.9,73,0.67,637.0,20.9,subindo,3
+EQ-024,Pulverizador,Cascavel,25,46.88,90,0.48,71.0,8.1,caindo,0
+EQ-016,Trator,Cascavel,23,43.61,90,0.48,168.0,4.5,caindo,1
+EQ-033,Trator,Lucas do Rio Verde,23,32.52,78,0.26,322.0,24.5,subindo,2
+EQ-027,Trator,Barreiras,30,22.57,69,0.03,120.0,17.3,caindo,1
+EQ-009,Trator,Lucas do Rio Verde,14,20.43,98,0.14,247.0,5.1,caindo,0
+EQ-028,Trator,Sorriso,21,19.38,38,0.0,583.0,7.2,subindo,2
+EQ-031,Colheitadeira,Rio Verde,21,17.86,92,0.1,302.0,5.7,caindo,0
+EQ-013,Colheitadeira,Barreiras,33,16.12,83,0.03,558.0,9.6,estável,2
+EQ-008,Colheitadeira,Barreiras,26,14.46,39,0.0,460.0,9.7,estável,2
+EQ-006,Pulverizador,Sorriso,30,13.97,93,0.07,241.0,12.4,subindo,0
+EQ-015,Trator,Sorriso,30,13.87,89,0.03,214.0,8.4,subindo,0
+EQ-029,Trator,Rio Verde,30,13.53,45,0.03,328.0,1.3,caindo,0
+EQ-010,Trator,Sorriso,25,13.28,70,0.04,223.0,5.3,caindo,1
+EQ-039,Trator,Sorriso,26,13.04,47,0.04,525.0,2.5,caindo,2
+EQ-022,Trator,Rio Verde,23,12.35,52,0.04,76.0,3.9,caindo,1
+EQ-034,Trator,Rio Verde,24,11.58,79,0.04,187.0,8.9,estável,0
+EQ-018,Trator,Rio Verde,31,11.39,35,0.0,19.0,9.5,estável,0
+EQ-011,Trator,Barreiras,24,10.75,33,0.0,243.0,9.4,estável,0
+EQ-005,Trator,Sorriso,23,10.22,87,0.04,40.0,8.0,caindo,0
+EQ-012,Pulverizador,Lucas do Rio Verde,19,9.79,78,0.05,194.0,3.6,estável,0
+EQ-002,Trator,Rio Verde,14,9.71,28,0.0,162.0,7.8,subindo,0
+EQ-035,Trator,Lucas do Rio Verde,24,9.5,41,0.04,220.0,3.2,caindo,0
+EQ-032,Pulverizador,Sorriso,26,8.77,20,0.0,243.0,6.2,estável,0
+EQ-036,Trator,Rio Verde,22,8.73,28,0.0,116.0,6.8,subindo,1
+EQ-014,Pulverizador,Sorriso,26,8.69,26,0.0,218.0,8.4,subindo,1
+EQ-026,Trator,Sorriso,28,8.39,20,0.0,166.0,2.8,subindo,1
+EQ-025,Colheitadeira,Barreiras,17,8.12,17,0.0,40.0,8.4,estável,1
+EQ-038,Trator,Rio Verde,21,7.76,26,0.0,162.0,3.4,estável,0
+EQ-023,Pulverizador,Lucas do Rio Verde,21,6.86,19,0.0,183.0,7.0,estável,1
+EQ-019,Pulverizador,Sorriso,26,6.65,15,0.0,126.0,4.6,estável,0
+EQ-017,Colheitadeira,Lucas do Rio Verde,23,6.61,16,0.0,136.0,2.3,estável,0
+EQ-001,Colheitadeira,Barreiras,19,6.42,22,0.0,98.0,11.6,estável,0
+EQ-020,Colheitadeira,Barreiras,30,6.3,24,0.0,291.0,1.9,estável,0
+EQ-003,Pulverizador,Lucas do Rio Verde,27,6.22,15,0.0,199.0,8.7,estável,0

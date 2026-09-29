@@ -1,0 +1,41 @@
+equipamento_id,modelo,tipo,ano_fabricacao,data_fabricacao,regiao_base,intervalo_manutencao_h,horas_iniciais
+EQ-001,New Holland CR8.90,Colheitadeira,2015,2015-02-01,Barreiras,303,243
+EQ-002,Valtra BH180,Trator,2018,2018-11-08,Rio Verde,273,2
+EQ-003,John Deere M4040,Pulverizador,2017,2017-12-02,Lucas do Rio Verde,382,217
+EQ-004,New Holland CR8.90,Colheitadeira,2020,2020-09-16,Cascavel,330,252
+EQ-005,New Holland T7,Trator,2018,2018-08-12,Sorriso,301,131
+EQ-006,John Deere M4040,Pulverizador,2014,2014-04-13,Sorriso,289,81
+EQ-007,New Holland CR8.90,Colheitadeira,2018,2018-09-20,Cascavel,383,155
+EQ-008,New Holland CR8.90,Colheitadeira,2016,2016-12-09,Barreiras,638,294
+EQ-009,Case IH Magnum 340,Trator,2021,2021-07-01,Lucas do Rio Verde,759,289
+EQ-010,Case IH Magnum 340,Trator,2021,2021-04-27,Sorriso,264,253
+EQ-011,Case IH Magnum 340,Trator,2017,2017-04-13,Barreiras,414,296
+EQ-012,Jacto Uniport 3030,Pulverizador,2023,2023-01-26,Lucas do Rio Verde,800,161
+EQ-013,John Deere S780,Colheitadeira,2017,2017-01-27,Barreiras,791,569
+EQ-014,John Deere M4040,Pulverizador,2018,2018-03-27,Sorriso,360,149
+EQ-015,New Holland T7,Trator,2018,2018-04-21,Sorriso,274,161
+EQ-016,New Holland T7,Trator,2022,2022-02-15,Cascavel,308,7
+EQ-017,John Deere S780,Colheitadeira,2024,2024-05-24,Lucas do Rio Verde,264,129
+EQ-018,Valtra BH180,Trator,2017,2017-03-12,Rio Verde,295,153
+EQ-019,John Deere M4040,Pulverizador,2022,2022-01-11,Sorriso,402,222
+EQ-020,New Holland CR8.90,Colheitadeira,2024,2024-10-10,Barreiras,362,278
+EQ-021,John Deere S780,Colheitadeira,2013,2013-05-11,Cascavel,256,94
+EQ-022,New Holland T7,Trator,2022,2022-09-24,Rio Verde,411,211
+EQ-023,Jacto Uniport 3030,Pulverizador,2019,2019-08-24,Lucas do Rio Verde,628,623
+EQ-024,Jacto Uniport 3030,Pulverizador,2018,2018-07-24,Cascavel,401,126
+EQ-025,New Holland CR8.90,Colheitadeira,2018,2018-04-22,Barreiras,266,69
+EQ-026,Valtra BH180,Trator,2023,2023-11-06,Sorriso,786,140
+EQ-027,Valtra BH180,Trator,2009,2009-05-22,Barreiras,682,662
+EQ-028,Case IH Magnum 340,Trator,2019,2019-06-21,Sorriso,665,450
+EQ-029,Case IH Magnum 340,Trator,2025,2025-04-29,Rio Verde,348,279
+EQ-030,Case IH Axial-Flow 8250,Colheitadeira,2013,2013-11-10,Não-Me-Toque,644,256
+EQ-031,Case IH Axial-Flow 8250,Colheitadeira,2020,2020-12-06,Rio Verde,412,381
+EQ-032,John Deere M4040,Pulverizador,2020,2020-06-27,Sorriso,268,112
+EQ-033,Case IH Magnum 340,Trator,2002,2002-03-01,Lucas do Rio Verde,386,302
+EQ-034,Case IH Magnum 340,Trator,2017,2017-10-08,Rio Verde,385,204
+EQ-035,John Deere 6110J,Trator,2023,2023-06-08,Lucas do Rio Verde,320,136
+EQ-036,Case IH Magnum 340,Trator,2019,2019-11-24,Rio Verde,292,217
+EQ-037,Case IH Magnum 340,Trator,2005,2005-10-03,Sorriso,738,608
+EQ-038,John Deere 6110J,Trator,2023,2023-03-23,Rio Verde,278,42
+EQ-039,Valtra BH180,Trator,2024,2024-03-11,Sorriso,654,386
+EQ-040,New Holland CR8.90,Colheitadeira,2013,2013-02-17,Não-Me-Toque,335,285
