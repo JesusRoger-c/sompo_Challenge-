@@ -1,0 +1,12 @@
+✔ Integridade física do banco (PRAGMA integrity_check) — ok
+✔ Chaves estrangeiras sem órfãos — 0 violações
+✔ Toda leitura aceita tem predição (sem perda) — 0 leituras sem predição
+✔ Scores e probabilidades dentro da faixa — 0 fora da faixa
+✔ Score coerente com a probabilidade gravada — 0 divergências
+✔ Toda predição rastreável (versão do modelo e das regras) — 0 sem versão
+✔ Sem leituras duplicadas (mesma máquina, mesmo instante) — 0 duplicidades
+✔ Sem valores ausentes nas variáveis do modelo — 0 leituras incompletas
+✔ Trilha de auditoria íntegra (cadeia de hashes) — Cadeia íntegra: 492 eventos verificados, nenhum adulterado.
+✔ Artefato do modelo confere com a versão registrada (SHA-256) — versão ativa hgb-v2.0
+✔ Nenhuma senha armazenada sem hash — 0 senhas fora do padrão
+✔ Reconciliação da coleta: recebidas = aceitas + quarentena + duplicadas — 5891 = 5723 + 71 + 97; banco: 5723 aceitas, 71 em quarentena

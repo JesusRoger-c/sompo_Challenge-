@@ -64,9 +64,9 @@ Os dados acima sustentam três decisões de projeto:
    e previsibilidade reduzem seleção adversa e perdas — daí a tabela `predicoes`
    versionada no banco.
 
-> **Sobre o "prejuízo evitável".** O indicador em R$ exibido nos painéis do Gestor
-> e da Seguradora é uma **estimativa** baseada em premissas explícitas e ajustáveis
-> (`CUSTO_MEDIO_SINISTRO` e `TAXA_PREVENCAO` em `src/scripts/risco_utils.py`):
+> **Sobre o "prejuízo evitável".** O indicador em R$ exibido no painel do Gestor
+> é uma **estimativa** baseada em premissas explícitas e ajustáveis
+> (`custo_medio_sinistro_brl` e `taxa_prevencao` em `config/regras_risco.json`, editáveis pelo Gestor):
 > `nº de alertas Alto/Crítico × custo médio do sinistro × taxa de prevenção`.
 > Não é um valor contábil — serve para traduzir o risco técnico em ordem de grandeza
 > financeira e deve ser recalibrado com dados reais da Sompo.

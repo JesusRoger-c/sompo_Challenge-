@@ -1,0 +1,57 @@
+{
+  "nome": "SomPrev Risk — modelo de risco de sinistro operacional",
+  "versao": "hgb-v2.0",
+  "algoritmo": "HistGradientBoosting",
+  "hiperparametros": {
+    "min_samples_leaf": 80,
+    "max_iter": 400,
+    "max_depth": 4,
+    "learning_rate": 0.03,
+    "l2_regularization": 1.0
+  },
+  "treinado_em": "2026-09-28T23:26:03",
+  "scikit_learn": "1.7.2",
+  "hash_artefato_sha256": "70f194894e8a9108c998b34af08e4a0daab1c1d6444185cbe633d65fa7f2bd5c",
+  "uso_pretendido": "Apoiar decisões PREVENTIVAS antes/durante a operação de máquinas agrícolas (liberar, restringir ou suspender) e a gestão de risco da seguradora.",
+  "fora_do_escopo": "Negar cobertura ou precificar apólice de forma automática sem revisão humana.",
+  "variaveis": [
+    "umidade_solo_pct",
+    "precipitacao_24h_mm",
+    "temperatura_c",
+    "declividade_graus",
+    "distancia_corpo_dagua_m",
+    "idade_equipamento_anos",
+    "horas_desde_manutencao",
+    "horas_operacao_dia",
+    "carga_pct",
+    "tipo_solo",
+    "tipo_operacao",
+    "periodo_dia"
+  ],
+  "saida": "probabilidade calibrada de sinistro → score 0-100 → faixa → alertas",
+  "dados": "Telemetria simulada (permitido pelo enunciado), gerador v2 com clima regional, sazonalidade e cadastro fixo de frota; tratada pela etapa de qualidade.",
+  "metricas_teste": {
+    "roc_auc": 0.8837,
+    "pr_auc": 0.7635,
+    "brier": 0.0807,
+    "log_loss": 0.2842,
+    "limiar": 0.1,
+    "precisao": 0.3219,
+    "recall": 0.8983,
+    "f1": 0.4739,
+    "f2": 0.6614,
+    "taxa_alerta": 0.514,
+    "matriz_confusao": {
+      "verdadeiro_negativo": 449,
+      "falso_positivo": 335,
+      "falso_negativo": 18,
+      "verdadeiro_positivo": 159
+    }
+  },
+  "limitacoes": [
+    "Treinado com dados simulados: precisa ser recalibrado com sinistros reais da Sompo antes de uso produtivo.",
+    "Período de 6 meses: não captura um ciclo climático anual completo.",
+    "A explicação local mede a contribuição de cada variável em relação a uma leitura típica; é uma aproximação e não uma relação causal."
+  ],
+  "monitoramento": "Reavaliar mensalmente PR-AUC, calibração (Brier) e taxa real por faixa; retreinar se PR-AUC cair mais de 0,05 ou a calibração se deslocar."
+}

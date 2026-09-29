@@ -1,56 +1,221 @@
 {
-  "modelo_escolhido": "Random Forest",
-  "n_amostras": 6000,
-  "taxa_sinistro": 0.283,
-  "split_teste": 0.25,
-  "comparacao": {
-    "Logistic Regression": {
-      "modelo": "Logistic Regression",
-      "accuracy": 0.7473,
-      "precision": 0.5369,
-      "recall": 0.7882,
-      "f1": 0.6387,
-      "roc_auc": 0.8413,
-      "auc_cv_media": 0.8246,
-      "auc_cv_desvio": 0.0139
+  "versao_modelo": "hgb-v2.0",
+  "modelo_escolhido": "HistGradientBoosting",
+  "criterio_selecao": "maior PR-AUC no período de validação (julho)",
+  "calibracao": "Platt (sigmoid) ajustada no período de validação",
+  "divisao_temporal": {
+    "treino": {
+      "periodo": "2026-03-01 a 2026-06-30",
+      "leituras": 3806,
+      "taxa_sinistro": 0.3739
     },
-    "Random Forest": {
-      "modelo": "Random Forest",
-      "accuracy": 0.8407,
-      "precision": 0.7719,
-      "recall": 0.6212,
-      "f1": 0.6884,
-      "roc_auc": 0.8623,
-      "auc_cv_media": 0.8482,
-      "auc_cv_desvio": 0.0113
+    "validacao": {
+      "periodo": "2026-07-01 a 2026-07-31",
+      "leituras": 933,
+      "taxa_sinistro": 0.2047
     },
-    "Gradient Boosting": {
-      "modelo": "Gradient Boosting",
-      "accuracy": 0.828,
-      "precision": 0.7393,
-      "recall": 0.6071,
-      "f1": 0.6667,
-      "roc_auc": 0.8647,
-      "auc_cv_media": 0.8488,
-      "auc_cv_desvio": 0.0116
+    "teste": {
+      "periodo": "2026-08-01 a 2026-08-31",
+      "leituras": 961,
+      "taxa_sinistro": 0.1842
     }
   },
-  "matriz_confusao": {
-    "verdadeiro_negativo": 997,
-    "falso_positivo": 78,
-    "falso_negativo": 161,
-    "verdadeiro_positivo": 264
+  "comparacao": {
+    "Logistic Regression": {
+      "melhores_hiperparametros": {
+        "C": 0.1
+      },
+      "cv_temporal_pr_auc": 0.731,
+      "validacao": {
+        "roc_auc": 0.8278,
+        "pr_auc": 0.6481,
+        "brier": 0.1199,
+        "log_loss": 0.3851
+      },
+      "teste": {
+        "roc_auc": 0.87,
+        "pr_auc": 0.7337,
+        "brier": 0.0925,
+        "log_loss": 0.3182
+      },
+      "teste_limiar": {
+        "limiar": 0.5,
+        "precisao": 0.7329,
+        "recall": 0.6045,
+        "f1": 0.6625,
+        "f2": 0.6265,
+        "taxa_alerta": 0.1519,
+        "matriz_confusao": {
+          "verdadeiro_negativo": 745,
+          "falso_positivo": 39,
+          "falso_negativo": 70,
+          "verdadeiro_positivo": 107
+        }
+      }
+    },
+    "Random Forest": {
+      "melhores_hiperparametros": {
+        "n_estimators": 400,
+        "min_samples_leaf": 10,
+        "max_features": "sqrt",
+        "max_depth": null
+      },
+      "cv_temporal_pr_auc": 0.7559,
+      "validacao": {
+        "roc_auc": 0.8258,
+        "pr_auc": 0.6625,
+        "brier": 0.1152,
+        "log_loss": 0.3848
+      },
+      "teste": {
+        "roc_auc": 0.8651,
+        "pr_auc": 0.7312,
+        "brier": 0.0939,
+        "log_loss": 0.3296
+      },
+      "teste_limiar": {
+        "limiar": 0.5,
+        "precisao": 0.8654,
+        "recall": 0.5085,
+        "f1": 0.6406,
+        "f2": 0.5542,
+        "taxa_alerta": 0.1082,
+        "matriz_confusao": {
+          "verdadeiro_negativo": 770,
+          "falso_positivo": 14,
+          "falso_negativo": 87,
+          "verdadeiro_positivo": 90
+        }
+      }
+    },
+    "HistGradientBoosting": {
+      "melhores_hiperparametros": {
+        "min_samples_leaf": 80,
+        "max_iter": 400,
+        "max_depth": 4,
+        "learning_rate": 0.03,
+        "l2_regularization": 1.0
+      },
+      "cv_temporal_pr_auc": 0.7505,
+      "validacao": {
+        "roc_auc": 0.8354,
+        "pr_auc": 0.6697,
+        "brier": 0.11,
+        "log_loss": 0.3651
+      },
+      "teste": {
+        "roc_auc": 0.8837,
+        "pr_auc": 0.7635,
+        "brier": 0.083,
+        "log_loss": 0.2915
+      },
+      "teste_limiar": {
+        "limiar": 0.1,
+        "precisao": 0.3219,
+        "recall": 0.8983,
+        "f1": 0.4739,
+        "f2": 0.6614,
+        "taxa_alerta": 0.514,
+        "matriz_confusao": {
+          "verdadeiro_negativo": 449,
+          "falso_positivo": 335,
+          "falso_negativo": 18,
+          "verdadeiro_positivo": 159
+        }
+      }
+    },
+    "Receita Sprint 3": {
+      "descricao": "Random Forest padrão, limiar 0,5, sem calibração",
+      "teste": {
+        "roc_auc": 0.8627,
+        "pr_auc": 0.7336,
+        "brier": 0.0892,
+        "log_loss": 0.3134
+      },
+      "teste_limiar": {
+        "limiar": 0.5,
+        "precisao": 0.8788,
+        "recall": 0.4915,
+        "f1": 0.6304,
+        "f2": 0.539,
+        "taxa_alerta": 0.103,
+        "matriz_confusao": {
+          "verdadeiro_negativo": 772,
+          "falso_positivo": 12,
+          "falso_negativo": 90,
+          "verdadeiro_positivo": 87
+        }
+      }
+    }
   },
-  "correlacao_com_sinistro": {
-    "umidade_solo_pct": 0.317,
-    "distancia_corpo_dagua_m": 0.289,
-    "precipitacao_24h_mm": 0.142,
-    "declividade_graus": 0.098,
-    "horas_desde_manutencao": 0.094,
-    "idade_equipamento_anos": 0.064,
-    "horas_operacao_dia": 0.05,
-    "carga_pct": 0.025,
-    "temperatura_c": 0.018
+  "modelo_final_teste": {
+    "roc_auc": 0.8837,
+    "pr_auc": 0.7635,
+    "brier": 0.0807,
+    "log_loss": 0.2842,
+    "limiar": 0.1,
+    "precisao": 0.3219,
+    "recall": 0.8983,
+    "f1": 0.4739,
+    "f2": 0.6614,
+    "taxa_alerta": 0.514,
+    "matriz_confusao": {
+      "verdadeiro_negativo": 449,
+      "falso_positivo": 335,
+      "falso_negativo": 18,
+      "verdadeiro_positivo": 159
+    }
   },
-  "versao_modelo": "rf-v1.0"
+  "analise_limiar": {
+    "limiar_escolhido": 0.1,
+    "limiar_score": 10,
+    "premissas": {
+      "custo_medio_sinistro_brl": 85000,
+      "taxa_prevencao": 0.45,
+      "custo_parada_preventiva_brl": 4000
+    },
+    "custo_esperado_teste_brl": {
+      "sem_modelo": 6770250,
+      "receita_sprint3": 3838500,
+      "modelo_final": 2664500
+    }
+  },
+  "taxa_real_por_faixa_teste": [
+    {
+      "faixa": "Baixo",
+      "leituras": 605,
+      "taxa_real_sinistro": 0.0479
+    },
+    {
+      "faixa": "Medio",
+      "leituras": 232,
+      "taxa_real_sinistro": 0.1897
+    },
+    {
+      "faixa": "Alto",
+      "leituras": 49,
+      "taxa_real_sinistro": 0.6939
+    },
+    {
+      "faixa": "Critico",
+      "leituras": 75,
+      "taxa_real_sinistro": 0.9333
+    }
+  ],
+  "importancia_permutacao": {
+    "umidade_solo_pct": 0.3961,
+    "distancia_corpo_dagua_m": 0.1988,
+    "idade_equipamento_anos": 0.0441,
+    "horas_desde_manutencao": 0.0349,
+    "precipitacao_24h_mm": 0.0241,
+    "declividade_graus": 0.0192,
+    "tipo_solo": 0.0098,
+    "temperatura_c": 0.005,
+    "tipo_operacao": 0.0045,
+    "horas_operacao_dia": 0.0039,
+    "periodo_dia": 0.0025,
+    "carga_pct": 0.0016
+  },
+  "n_amostras_rotuladas": 5700,
+  "hash_artefato_sha256": "70f194894e8a9108c998b34af08e4a0daab1c1d6444185cbe633d65fa7f2bd5c"
 }

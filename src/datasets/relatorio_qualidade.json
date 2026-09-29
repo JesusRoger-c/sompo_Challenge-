@@ -1,0 +1,57 @@
+{
+  "recebidas": 5891,
+  "duplicidades": {
+    "pacote_reenviado_identico": 69,
+    "leitura_id_repetido": 0,
+    "mesma_maquina_mesmo_instante": 28
+  },
+  "correcoes": {
+    "umidade_solo_pct: decimal com vírgula": 57,
+    "tipo_solo: grafia padronizada": 30,
+    "tipo_solo: categoria desconhecida": 11,
+    "tipo_operacao: grafia padronizada": 40,
+    "periodo_dia: grafia padronizada": 45
+  },
+  "fora_da_faixa": {
+    "umidade_solo_pct": 11,
+    "precipitacao_24h_mm": 14,
+    "temperatura_c": 14,
+    "horas_operacao_dia": 8,
+    "carga_pct": 10
+  },
+  "imputacoes": {
+    "idade_equipamento_anos (cadastro)": 18,
+    "umidade_solo_pct (mediana região/dia)": 38,
+    "precipitacao_24h_mm (mediana região/dia)": 28,
+    "temperatura_c (mediana região/dia)": 24,
+    "horas_desde_manutencao (último valor do equipamento)": 11,
+    "horas_operacao_dia (último valor do equipamento)": 19,
+    "carga_pct (último valor do equipamento)": 26
+  },
+  "quarentena": {
+    "data_hora inválida": 11,
+    "equipamento fora do cadastro": 11,
+    "declividade_graus ausente (não imputável)": 18,
+    "distancia_corpo_dagua_m ausente (não imputável)": 20,
+    "tipo_solo ausente (não imputável)": 11
+  },
+  "rotulo_ausente": 23,
+  "quarentena_total": 71,
+  "aceitas": 5723,
+  "aceitas_com_correcao": 314,
+  "taxa_aproveitamento": 0.9715,
+  "valores_ausentes_apos_tratamento": 0,
+  "falhas_injetadas_na_simulacao": {
+    "sensor_sem_leitura": 115,
+    "multiplos_sensores_vazios": 17,
+    "valor_fora_da_faixa": 57,
+    "grafia_categoria": 115,
+    "categoria_desconhecida": 11,
+    "equipamento_desconhecido": 11,
+    "data_corrompida": 11,
+    "decimal_com_virgula": 57,
+    "rotulo_ausente": 23,
+    "pacote_reenviado": 69,
+    "reenvio_novo_id": 28
+  }
+}

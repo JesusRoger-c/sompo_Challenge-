@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1050" viewBox="0 0 1440 1050">
+  <defs>
+    <style>
+      .title { font: 700 34px Arial, Helvetica, sans-serif; fill:#171717; }
+      .subtitle { font: 400 18px Arial, Helvetica, sans-serif; fill:#555; }
+      .section-title { font: 700 20px Arial, Helvetica, sans-serif; fill:#b51218; }
+      .box-title { font: 700 18px Arial, Helvetica, sans-serif; fill:#b51218; }
+      .body { font: 400 16px Arial, Helvetica, sans-serif; fill:#222; }
+      .small { font: 400 14px Arial, Helvetica, sans-serif; fill:#555; }
+      .pill { font: 700 14px Arial, Helvetica, sans-serif; }
+      .event { font: 700 14px Arial, Helvetica, sans-serif; fill:#222; }
+      .footer { font: 700 17px Arial, Helvetica, sans-serif; fill:#222; }
+    </style>
+
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d01920"/>
+    </marker>
+
+    <marker id="dashArrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c33"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1440" height="1050" fill="#ffffff"/>
+
+  <!-- Header -->
+  <g transform="translate(35,28)">
+    <path d="M18,4 L50,14 L50,42 C50,64 38,82 18,92 C-2,82 -14,64 -14,42 L-14,14 Z"
+          fill="none" stroke="#b51218" stroke-width="4"/>
+    <path d="M18,26 C10,18 2,18 -2,25 C8,28 12,33 18,43 C24,33 28,28 38,25 C34,18 26,18 18,26 Z"
+          fill="none" stroke="#b51218" stroke-width="3"/>
+    <line x1="18" y1="26" x2="18" y2="74" stroke="#b51218" stroke-width="3"/>
+  </g>
+
+  <text x="105" y="55" class="title">SomPrev Risk — Arquitetura da Solução (Sprint 3)</text>
+  <text x="105" y="88" class="subtitle">Challenge FIAP + Sompo Seguros</text>
+  <line x1="30" y1="120" x2="1410" y2="120" stroke="#d01920" stroke-width="2"/>
+
+  <!-- Top boxes -->
+  <!-- 1 -->
+  <g>
+    <rect x="25" y="155" rx="16" ry="16" width="205" height="370" fill="#fff" stroke="#d01920" stroke-width="2"/>
+    <circle cx="52" cy="188" r="17" fill="#b51218"/>
+    <text x="52" y="194" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#fff">1</text>
+    <text x="78" y="194" class="box-title">Entrada de dados</text>
+
+    <rect x="86" y="230" width="74" height="86" rx="8" fill="none" stroke="#b51218" stroke-width="4"/>
+    <polyline points="130,230 160,260 130,260 130,230" fill="#fff" stroke="#b51218" stroke-width="4"/>
+    <text x="123" y="286" text-anchor="middle" font-family="Arial" font-size="18" font-weight="700" fill="#b51218">JSON</text>
+
+    <text x="127" y="355" text-anchor="middle" class="body">
+      <tspan x="127" dy="0">Telemetria simulada /</tspan>
+      <tspan x="127" dy="24">JSON</tspan>
+    </text>
+    <text x="127" y="432" text-anchor="middle" class="small">
+      <tspan x="127" dy="0">leituras enviadas via</tspan>
+      <tspan x="127" dy="22">Swagger ou cliente HTTP</tspan>
+    </text>
+  </g>
+
+  <!-- 2 -->
+  <g>
+    <rect x="260" y="155" rx="16" ry="16" width="205" height="370" fill="#fff" stroke="#d01920" stroke-width="2"/>
+    <circle cx="287" cy="188" r="17" fill="#b51218"/>
+    <text x="287" y="194" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#fff">2</text>
+    <text x="313" y="194" class="box-title">Backend FastAPI</text>
+
+    <circle cx="307" cy="255" r="16" fill="#d01920"/>
+    <path d="M301,243 L314,252 L301,267 Z" fill="#fff"/>
+    <text x="333" y="263" font-family="Arial" font-size="27" fill="#b51218">FastAPI</text>
+
+    <rect x="300" y="305" width="126" height="38" rx="7" fill="#fff8f8" stroke="#e4b3b6"/>
+    <text x="363" y="329" text-anchor="middle" class="body">GET /</text>
+
+    <rect x="300" y="352" width="126" height="38" rx="7" fill="#fff8f8" stroke="#e4b3b6"/>
+    <text x="363" y="376" text-anchor="middle" class="body">GET /health</text>
+
+    <rect x="300" y="399" width="126" height="38" rx="7" fill="#fff8f8" stroke="#e4b3b6"/>
+    <text x="363" y="423" text-anchor="middle" class="body">POST /telemetria</text>
+
+    <rect x="300" y="446" width="126" height="38" rx="7" fill="#fff8f8" stroke="#e4b3b6"/>
+    <text x="363" y="470" text-anchor="middle" class="body">docs: /docs</text>
+  </g>
+
+  <!-- 3 -->
+  <g>
+    <rect x="495" y="155" rx="16" ry="16" width="205" height="370" fill="#fff" stroke="#d01920" stroke-width="2"/>
+    <circle cx="522" cy="188" r="17" fill="#b51218"/>
+    <text x="522" y="194" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#fff">3</text>
+    <text x="548" y="190" class="box-title">Segurança e</text>
+    <text x="548" y="213" class="box-title">validação</text>
+
+    <path d="M598,238 L625,248 L625,275 C625,294 614,309 598,318 C582,309 571,294 571,275 L571,248 Z"
+          fill="#b51218"/>
+    <polyline points="586,274 596,284 613,262" fill="none" stroke="#fff" stroke-width="4"/>
+
+    <rect x="530" y="330" width="135" height="38" rx="7" fill="#fff" stroke="#bbb"/>
+    <text x="597" y="354" text-anchor="middle" class="small">API Key (X-API-Key)</text>
+
+    <rect x="530" y="376" width="135" height="38" rx="7" fill="#fff" stroke="#bbb"/>
+    <text x="597" y="400" text-anchor="middle" class="small">Pydantic</text>
+
+    <rect x="530" y="422" width="135" height="38" rx="7" fill="#fff" stroke="#bbb"/>
+    <text x="597" y="442" text-anchor="middle" class="small">
+      <tspan x="597">validação de</tspan><tspan x="597" dy="16">equipamento</tspan>
+    </text>
+
+    <rect x="530" y="468" width="135" height="38" rx="7" fill="#fff" stroke="#bbb"/>
+    <text x="597" y="488" text-anchor="middle" class="small">
+      <tspan x="597">região + bloqueio</tspan><tspan x="597" dy="16">de duplicidade</tspan>
+    </text>
+  </g>
+
+  <!-- 4 -->
+  <g>
+    <rect x="730" y="155" rx="16" ry="16" width="225" height="370" fill="#fff" stroke="#d01920" stroke-width="2"/>
+    <circle cx="757" cy="188" r="17" fill="#b51218"/>
+    <text x="757" y="194" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#fff">4</text>
+    <text x="783" y="187" class="box-title">Banco de dados</text>
+    <text x="783" y="210" class="box-title">SQL relacional</text>
+    <text x="783" y="233" class="box-title">(SQLite)</text>
+
+    <ellipse cx="843" cy="278" rx="33" ry="12" fill="#b51218"/>
+    <rect x="810" y="278" width="66" height="42" fill="#b51218"/>
+    <ellipse cx="843" cy="320" rx="33" ry="12" fill="#8f0e14"/>
+
+    <g class="small">
+      <rect x="770" y="350" width="145" height="29" rx="5" fill="#fff8f8" stroke="#e4b3b6"/><text x="842" y="370" text-anchor="middle">regioes</text>
+      <rect x="770" y="385" width="145" height="29" rx="5" fill="#fff8f8" stroke="#e4b3b6"/><text x="842" y="405" text-anchor="middle">equipamentos</text>
+      <rect x="770" y="420" width="145" height="29" rx="5" fill="#fff8f8" stroke="#e4b3b6"/><text x="842" y="440" text-anchor="middle">leituras</text>
+      <rect x="770" y="455" width="145" height="29" rx="5" fill="#fff8f8" stroke="#e4b3b6"/><text x="842" y="475" text-anchor="middle">predicoes</text>
+      <rect x="770" y="490" width="145" height="29" rx="5" fill="#fff8f8" stroke="#e4b3b6"/><text x="842" y="510" text-anchor="middle">alertas · auditoria</text>
+    </g>
+  </g>
+
+  <!-- 5 -->
+  <g>
+    <rect x="985" y="155" rx="16" ry="16" width="185" height="370" fill="#fff" stroke="#d01920" stroke-width="2"/>
+    <circle cx="1012" cy="188" r="17" fill="#b51218"/>
+    <text x="1012" y="194" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#fff">5</text>
+    <text x="1038" y="194" class="box-title">Modelo preditivo</text>
+
+    <circle cx="1078" cy="292" r="45" fill="none" stroke="#b51218" stroke-width="4"/>
+    <path d="M1045,290 C1054,263 1102,263 1111,290 C1102,317 1054,317 1045,290 Z"
+          fill="none" stroke="#b51218" stroke-width="4"/>
+    <path d="M1078,247 L1078,337 M1042,275 L1114,305 M1042,305 L1114,275" stroke="#b51218" stroke-width="3"/>
+
+    <text x="1078" y="390" text-anchor="middle" class="body">
+      <tspan x="1078" dy="0">Random Forest</tspan>
+      <tspan x="1078" dy="24">(modelo_risco.pkl)</tspan>
+    </text>
+  </g>
+
+  <!-- 6 -->
+  <g>
+    <rect x="1200" y="155" rx="16" ry="16" width="215" height="370" fill="#fff" stroke="#d01920" stroke-width="2"/>
+    <circle cx="1227" cy="188" r="17" fill="#b51218"/>
+    <text x="1227" y="194" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#fff">6</text>
+    <text x="1253" y="190" class="box-title">Processamento</text>
+    <text x="1253" y="213" class="box-title">do risco</text>
+
+    <polyline points="1265,300 1290,275 1310,286 1345,245" fill="none" stroke="#b51218" stroke-width="4"/>
+    <line x1="1345" y1="245" x2="1345" y2="267" stroke="#b51218" stroke-width="4"/>
+    <line x1="1345" y1="245" x2="1323" y2="245" stroke="#b51218" stroke-width="4"/>
+    <rect x="1262" y="318" width="14" height="28" fill="#b51218"/>
+    <rect x="1285" y="307" width="14" height="39" fill="#b51218"/>
+    <rect x="1308" y="295" width="14" height="51" fill="#b51218"/>
+    <rect x="1331" y="279" width="14" height="67" fill="#b51218"/>
+
+    <text x="1307" y="385" text-anchor="middle" class="body">
+      <tspan x="1307" dy="0">probabilidade de</tspan>
+      <tspan x="1307" dy="23">sinistro →</tspan>
+      <tspan x="1307" dy="23">score 0–100 →</tspan>
+      <tspan x="1307" dy="23">classe de risco →</tspan>
+      <tspan x="1307" dy="23">top 3 fatores</tspan>
+    </text>
+  </g>
+
+  <!-- arrows top row -->
+  <line x1="230" y1="340" x2="258" y2="340" stroke="#d01920" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="465" y1="340" x2="493" y2="340" stroke="#d01920" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="700" y1="340" x2="728" y2="340" stroke="#d01920" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="955" y1="340" x2="983" y2="340" stroke="#d01920" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="1170" y1="340" x2="1198" y2="340" stroke="#d01920" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Audit -->
+  <g>
+    <rect x="85" y="590" rx="16" ry="16" width="305" height="285" fill="#fff" stroke="#d01920" stroke-width="2" stroke-dasharray="7 6"/>
+    <text x="120" y="635" class="section-title">Trilha de auditoria</text>
+
+    <rect x="115" y="675" width="245" height="45" rx="7" fill="#fff8f8" stroke="#e4b3b6"/>
+    <text x="237" y="703" text-anchor="middle" class="event">TELEMETRIA_RECEBIDA</text>
+
+    <rect x="115" y="735" width="245" height="45" rx="7" fill="#fff8f8" stroke="#e4b3b6"/>
+    <text x="237" y="763" text-anchor="middle" class="event">PREDICAO_GERADA</text>
+
+    <rect x="115" y="795" width="245" height="45" rx="7" fill="#fff8f8" stroke="#e4b3b6"/>
+    <text x="237" y="823" text-anchor="middle" class="event">ALERTA_GERADO</text>
+  </g>
+
+  <!-- Dashboard -->
+  <g>
+    <rect x="535" y="590" rx="16" ry="16" width="490" height="285" fill="#fff" stroke="#d01920" stroke-width="2"/>
+    <circle cx="565" cy="622" r="17" fill="#b51218"/>
+    <text x="565" y="628" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#fff">8</text>
+    <text x="595" y="628" class="section-title">Dashboard Streamlit</text>
+
+    <rect x="690" y="665" width="180" height="90" rx="8" fill="none" stroke="#b51218" stroke-width="4"/>
+    <line x1="710" y1="735" x2="850" y2="735" stroke="#b51218" stroke-width="4"/>
+    <circle cx="735" cy="700" r="23" fill="#b51218"/>
+    <path d="M735,677 L735,700 L758,700" fill="none" stroke="#fff" stroke-width="3"/>
+    <line x1="790" y1="690" x2="835" y2="690" stroke="#b51218" stroke-width="4"/>
+    <line x1="790" y1="707" x2="835" y2="707" stroke="#b51218" stroke-width="4"/>
+    <rect x="795" y="718" width="10" height="16" fill="#b51218"/>
+    <rect x="812" y="711" width="10" height="23" fill="#b51218"/>
+    <rect x="829" y="700" width="10" height="34" fill="#b51218"/>
+
+    <rect x="565" y="790" width="135" height="50" rx="8" fill="#f4fff5" stroke="#5ea26a"/>
+    <text x="632" y="820" text-anchor="middle" class="pill" fill="#247b33">Operador</text>
+
+    <rect x="710" y="790" width="135" height="50" rx="8" fill="#f4f8ff" stroke="#5d7fb8"/>
+    <text x="777" y="820" text-anchor="middle" class="pill" fill="#245ca2">Gestor</text>
+
+    <rect x="855" y="790" width="140" height="50" rx="8" fill="#fbf5ff" stroke="#8a65b5"/>
+    <text x="925" y="820" text-anchor="middle" class="pill" fill="#6b3aa1">Seguradora</text>
+  </g>
+
+  <!-- Alerts -->
+  <g>
+    <rect x="1145" y="590" rx="16" ry="16" width="250" height="285" fill="#fff" stroke="#d01920" stroke-width="2"/>
+    <circle cx="1175" cy="622" r="17" fill="#b51218"/>
+    <text x="1175" y="628" text-anchor="middle" font-family="Arial" font-size="16" font-weight="700" fill="#fff">7</text>
+    <text x="1205" y="628" class="section-title">Alertas preventivos</text>
+
+    <path d="M1268,690 C1268,665 1285,650 1307,650 C1329,650 1346,665 1346,690 L1346,724 L1360,744 L1254,744 L1268,724 Z"
+          fill="#b51218"/>
+    <circle cx="1307" cy="755" r="9" fill="#b51218"/>
+
+    <text x="1270" y="810" text-anchor="middle" class="body">
+      <tspan x="1270" dy="0">geração de alerta para</tspan>
+      <tspan x="1270" dy="24">risco Alto / Crítico</tspan>
+    </text>
+  </g>
+
+  <!-- lower arrows -->
+  <line x1="1307" y1="525" x2="1307" y2="588" stroke="#d01920" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="1145" y1="730" x2="1027" y2="730" stroke="#d01920" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="390" y1="735" x2="533" y2="735" stroke="#d01920" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- audit links -->
+  <polyline points="250,590 250,548 362,548 362,526" fill="none" stroke="#c33" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#dashArrow)"/>
+  <polyline points="390,620 470,620 470,560 840,560 840,526" fill="none" stroke="#c33" stroke-width="2.5" stroke-dasharray="6 5" marker-end="url(#dashArrow)"/>
+
+  <!-- Footer summary -->
+  <rect x="145" y="915" rx="14" ry="14" width="1150" height="90" fill="#fff" stroke="#e2a7aa" stroke-width="2"/>
+  <circle cx="190" cy="960" r="28" fill="#b51218"/>
+  <polyline points="176,960 187,971 207,946" fill="none" stroke="#fff" stroke-width="5"/>
+  <text x="235" y="952" class="footer">MVP integrado da Sprint 3:</text>
+  <text x="460" y="952" class="body">dados entram pela API, são validados, persistidos,</text>
+  <text x="235" y="981" class="body">processados pelo modelo e exibidos no dashboard com rastreabilidade.</text>
+</svg>

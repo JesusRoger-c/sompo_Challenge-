@@ -33,3 +33,13 @@ Thumbs.db
 # Pacote de entrega (deliverable gerado na raiz; nao versionar)
 entrega_sompo.zip
 .env
+
+# SQLite (arquivos temporarios do modo WAL)
+*.db-wal
+*.db-shm
+
+# Logs de execucao (a evidencia fica em document/evidencias/)
+logs/
+
+# Testes
+.pytest_cache/

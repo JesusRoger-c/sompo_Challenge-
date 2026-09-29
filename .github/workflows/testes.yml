@@ -1,0 +1,22 @@
+# Integracao continua: roda a suite completa de testes a cada push/PR.
+name: testes
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: config/requirements.txt
+      - run: pip install -r config/requirements.txt
+      - run: python -m pytest tests -q
