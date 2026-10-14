@@ -137,7 +137,7 @@ def cartao_semente_verso():
     q1, _ = txt("O projeto inteiro", ox + 70.5, oy + 34.2, 2.5, "IBMPlexSans-SemiBold", GRAFITE, 0, "middle")
     q2, _ = txt("código, modelo e vídeo", ox + 70.5, oy + 37.6, 2.2, "IBMPlexSans-Regular", "#6B6657", 0, "middle")
     s.append(q1); s.append(q2)
-    r, _ = txt("SomPrev Risk · Challenge FIAP + Sompo Seguros · NEXT 2026", ox + 45, oy + 45.6, 2.2,
+    r, _ = txt("SomPrev Risk · Challenge FIAP · NEXT 2026", ox + 45, oy + 45.6, 2.2,
                "IBMPlexSans-Regular", "#8A8578", 0, "middle")
     s.append(r)
     return abrir + "".join(s) + "</svg>"
@@ -152,26 +152,38 @@ def model_card_frente():
                               folha=AMARELO, cor_texto=BRANCO, pad=2)
     esc = 34 / lw
     s.append(f'<g transform="translate({ox + 6:.2f} {oy + 5:.2f}) scale({esc:.4f})">{c}</g>')
-    a, _ = txt("MODEL CARD", ox + 79.6, oy + 9.4, 2.4, "IBMPlexSans-SemiBold", AMARELO, 0.55, "end")
+    a, _ = txt("FICHA DO MODELO", ox + 79.6, oy + 9.4, 2.3, "IBMPlexSans-SemiBold", AMARELO, 0.5, "end")
     s.append(a)
-    s.append(f'<rect x="{ox + 6:.2f}" y="{oy + 16.5:.2f}" width="73.6" height="0.3" fill="#3A3728"/>')
+    s.append(f'<rect x="{ox + 6:.2f}" y="{oy + 15.6:.2f}" width="73.6" height="0.3" fill="#3A3728"/>')
 
-    b, _ = txt(MC["versao"], ox + 6, oy + 27.5, 8.6, "IBMPlexMono-SemiBold", AMARELO, -0.1)
+    # O destaque é o que o modelo entrega, não a sigla do algoritmo: ninguém no
+    # estande sabe o que é "hgb-v2.0", mas todo mundo entende 9 em cada 10.
+    b, _ = txt(f'{m["recall"]*100:.0f}%', ox + 6, oy + 29.5, 11.0, "IBMPlexMono-SemiBold", AMARELO, -0.3)
     s.append(b)
-    c3, _ = txt(f'{MC["algoritmo"]} · {len(MC["variaveis"])} variáveis · scikit-learn {MC["scikit_learn"]}',
-                ox + 6, oy + 32.6, 2.5, "IBMPlexSans-Regular", "#C9C4B2")
-    s.append(c3)
+    t1, _ = txt("dos sinistros são avisados", ox + 29.5, oy + 24.4, 3.0, "IBMPlexSans-SemiBold", BRANCO)
+    t2, _ = txt("antes de acontecer", ox + 29.5, oy + 28.8, 3.0, "IBMPlexSans-SemiBold", BRANCO)
+    t3, _ = txt("no conjunto de teste, com dados nunca vistos", ox + 29.5, oy + 32.8, 2.3,
+                "IBMPlexSans-Regular", "#A8A392")
+    s.append(t1); s.append(t2); s.append(t3)
 
-    metricas = [("PR-AUC", f'{m["pr_auc"]:.2f}'.replace(".", ","),), ("RECALL", f'{m["recall"]*100:.0f}%',),
-                ("BRIER", f'{m["brier"]:.3f}'.replace(".", ","),), ("ROC-AUC", f'{m["roc_auc"]:.2f}'.replace(".", ","),)]
+    # Três métricas, não quatro: a precisão (32%) sem contexto vira "erra duas de
+    # cada três" na leitura de quem passa pelo estande. O porquê do limiar fica na
+    # linha abaixo, e a conversa sobre o trade-off acontece ao vivo.
+    metricas = [("PR-AUC", f'{m["pr_auc"]:.2f}'.replace(".", ",")),
+                ("ROC-AUC", f'{m["roc_auc"]:.2f}'.replace(".", ",")),
+                ("BRIER", f'{m["brier"]:.3f}'.replace(".", ","))]
     x0 = ox + 6
     for i, (rot, val) in enumerate(metricas):
         x = x0 + i * 18.6
-        r, _ = txt(rot, x, oy + 41.5, 2.2, "IBMPlexSans-SemiBold", "#908B78", 0.35)
-        v, _ = txt(val, x, oy + 47.6, 5.0, "IBMPlexMono-SemiBold", BRANCO, -0.05)
+        r, _ = txt(rot, x, oy + 39.6, 1.95, "IBMPlexSans-SemiBold", "#908B78", 0.3)
+        v, _ = txt(val, x, oy + 44.8, 4.4, "IBMPlexMono-SemiBold", BRANCO, -0.05)
         s.append(r); s.append(v)
         if i:
-            s.append(f'<rect x="{x - 3.6:.2f}" y="{oy + 38.6:.2f}" width="0.3" height="10" fill="#3A3728"/>')
+            s.append(f'<rect x="{x - 3.6:.2f}" y="{oy + 36.8:.2f}" width="0.3" height="9" fill="#3A3728"/>')
+    c3, _ = txt(f'{MC["versao"]} · {MC["algoritmo"]} · {len(MC["variaveis"])} variáveis '
+                f'· scikit-learn {MC["scikit_learn"]}',
+                ox + 6, oy + 50.4, 2.0, "IBMPlexSans-Regular", "#726D5E")
+    s.append(c3)
     return abrir + "".join(s) + "</svg>"
 
 
@@ -184,11 +196,12 @@ def model_card_verso():
               (20.0, "FORA DO ESCOPO",
                "Negar cobertura ou precificar apólice sem revisão humana."),
               (30.4, "COMO FOI VALIDADO",
-               "Treino até 30/06, validação em julho, teste em agosto de 2026 — leituras inéditas.")]
+               "Treino até 30/06, validação em julho, teste em agosto de 2026 — leituras "
+               "inéditas. O limiar prioriza não deixar sinistro passar.")]
     for y, rot, texto in secoes:
         a, _ = txt(rot, ox + 6, oy + y, 2.1, "IBMPlexSans-SemiBold", "#A06A00", 0.4)
         s.append(a)
-        bl, _ = bloco(texto, ox + 6, oy + y + 3.5, 2.2, 50, 1.4, "IBMPlexSans-Regular", "#3A362C")
+        bl, _ = bloco(texto, ox + 6, oy + y + 3.5, 2.2, 54, 1.4, "IBMPlexSans-Regular", "#3A362C")
         s.append(bl)
     s.append(f'<rect x="{ox + 6:.2f}" y="{oy + 41.2:.2f}" width="50" height="0.25" fill="#DDD8C8"/>')
     bl, _ = bloco("Dados simulados — recalibrar com sinistros reais antes do uso produtivo.",
@@ -202,7 +215,7 @@ def model_card_verso():
     h2, _ = txt(MC["hash_artefato_sha256"][:16], ox + 71, oy + 41.2, 2.05, "IBMPlexMono-SemiBold",
                 "#3A362C", 0, "middle")
     s.append(h2)
-    r, _ = txt("Challenge FIAP + Sompo Seguros · NEXT 2026", ox + 6, oy + 51.2, 1.95,
+    r, _ = txt("Challenge FIAP · NEXT 2026", ox + 6, oy + 51.2, 1.95,
                "IBMPlexSans-Regular", "#A09A86")
     s.append(r)
     return abrir + "".join(s) + "</svg>"

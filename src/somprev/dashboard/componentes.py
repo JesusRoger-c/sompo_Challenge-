@@ -161,9 +161,11 @@ def aplicar_estilo() -> None:
          A cor de risco fica concentrada na "luz". Assim o sinal se lê de longe
          sem transformar a tela inteira em um bloco vermelho no caso Crítico. */
       .sp-semaforo {{
-        display: flex; gap: 20px; align-items: flex-start;
+        display: flex; gap: 20px; align-items: center;
         background: #fff; border: 1px solid var(--sp-linha); border-radius: 16px;
         padding: 20px 22px; box-shadow: var(--sp-sombra);
+        /* mesma altura do gráfico ao lado, para os dois blocos fecharem na mesma linha */
+        min-height: 300px; box-sizing: border-box;
       }}
       .sp-semaforo .luz {{
         flex: 0 0 116px; width: 116px; height: 116px; border-radius: 20px;

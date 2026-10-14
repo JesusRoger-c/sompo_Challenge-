@@ -76,9 +76,22 @@ Os números do model card vêm de `src/models/model_card.json` e mudam se o
 pipeline for rodado de novo. Confira antes de mandar imprimir:
 `python scripts/run.py pipeline` e depois regere a peça.
 
-## Pendências com a tutoria
+## Sobre a menção à Sompo
 
-O nome "Sompo Seguros" aparece **em texto** no rodapé do cartão-semente e do
-model card; o logo da Sompo não aparece em lugar nenhum, conforme a regra do
-evento. Confirmar com a tutoria se a menção em texto está liberada — se não
-estiver, basta apagar essa linha nos dois arquivos SVG.
+Não há nenhuma menção à Sompo nas peças do estande nem na tela de entrada do
+dashboard: nem logo, nem o nome em texto. O rodapé das peças assina
+"Challenge FIAP · NEXT 2026". O nome continua aparecendo na documentação do
+projeto (README, model card, relatórios), que é entrega acadêmica e não material
+de estande.
+
+## Por que o model card não começa com "hgb-v2.0"
+
+Porque ninguém que passa pelo estande sabe o que é isso. A frente do cartão abre
+com o que o modelo entrega — *90% dos sinistros são avisados antes de acontecer* —
+e a identificação técnica (`hgb-v2.0 · HistGradientBoosting · 12 variáveis`) fica
+na linha de rodapé, para quem for procurar.
+
+A precisão (32% dos alertas viram sinistro) **não** está na frente de propósito:
+sem contexto ela lê como "erra duas de cada três". O motivo está no verso — o
+limiar foi escolhido pelo menor custo esperado e prioriza não deixar sinistro
+passar — e o resto é conversa ao vivo.

@@ -81,7 +81,7 @@ def tela_login() -> None:
         st.markdown("<div class='sp-login'><div class='faixa'></div>"
                     f"{marca.EMPILHADO}"
                     "<div class='tag'>Inteligência preditiva de risco para frotas agrícolas<br>"
-                    "Challenge FIAP + Sompo Seguros</div></div>",
+                    "Challenge FIAP · NEXT 2026</div></div>",
                     unsafe_allow_html=True)
         with st.form("form_login", clear_on_submit=False):
             login = st.text_input("Usuário", max_chars=40)
