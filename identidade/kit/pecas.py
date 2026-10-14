@@ -11,12 +11,12 @@ import qrcode
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pecas")
 os.makedirs(OUT, exist_ok=True)
-# O QR aponta para o vídeo, não para o repositório: o repositório é PRIVADO e um QR
-# que abre 404 na frente do avaliador é pior do que não ter QR. Se o grupo tornar o
-# repositório público antes do evento, basta trocar a constante e regerar as peças.
+# Destino do QR das duas peças. O repositório é público (verificado), e leva a
+# tudo de uma vez: código, modelo, documentação e o link do vídeo no README.
+# Para apontar para o vídeo em vez disso, troque para VIDEO e rode este script.
+REPO = "https://github.com/JesusRoger-c/sompo_Challenge-"
 VIDEO = "https://youtu.be/C6JPlqNLA2g"
-REPO = "https://github.com/JesusRoger-c/sompo_Challenge-"   # privado hoje
-DESTINO_QR = VIDEO
+DESTINO_QR = REPO
 MC = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..",
                     "src", "models", "model_card.json")))
 
@@ -139,8 +139,8 @@ def cartao_semente_verso():
     # coluna da direita
     s.append(f'<rect x="{ox + 54:.2f}" y="{oy + 7:.2f}" width="0.3" height="36" fill="#E7E3D6"/>')
     s.append(qr(DESTINO_QR, ox + 60.5, oy + 10, 20, GRAFITE))
-    q1, _ = txt("O projeto em 5 min", ox + 70.5, oy + 34.2, 2.5, "IBMPlexSans-SemiBold", GRAFITE, 0, "middle")
-    q2, _ = txt("vídeo de demonstração", ox + 70.5, oy + 37.6, 2.2, "IBMPlexSans-Regular", "#6B6657", 0, "middle")
+    q1, _ = txt("O projeto inteiro", ox + 70.5, oy + 34.2, 2.5, "IBMPlexSans-SemiBold", GRAFITE, 0, "middle")
+    q2, _ = txt("código, modelo e vídeo", ox + 70.5, oy + 37.6, 2.2, "IBMPlexSans-Regular", "#6B6657", 0, "middle")
     s.append(q1); s.append(q2)
     r, _ = txt("SomPrev Risk · Challenge FIAP · NEXT 2026", ox + 45, oy + 45.6, 2.2,
                "IBMPlexSans-Regular", "#8A8578", 0, "middle")
@@ -213,7 +213,7 @@ def model_card_verso():
                   ox + 6, oy + 44.8, 2.0, 50, 1.4, "IBMPlexSans-Regular", "#8A8578")
     s.append(bl)
     s.append(qr(DESTINO_QR, ox + 62.5, oy + 10, 17, GRAFITE))
-    q, _ = txt("vídeo do projeto", ox + 71, oy + 30.4, 2.05, "IBMPlexSans-Regular", "#6B6657", 0, "middle")
+    q, _ = txt("código e modelo", ox + 71, oy + 30.4, 2.05, "IBMPlexSans-Regular", "#6B6657", 0, "middle")
     s.append(q)
     h, _ = txt("SHA256 DO ARTEFATO", ox + 71, oy + 37.6, 1.85, "IBMPlexSans-SemiBold", "#A09A86", 0.25, "middle")
     s.append(h)

@@ -78,10 +78,13 @@ pipeline for rodado de novo. Confira antes de mandar imprimir:
 
 ### Para onde o QR aponta
 
-Para o **vídeo** (`youtu.be/C6JPlqNLA2g`), não para o repositório — o repositório
-é privado, e um QR que abre um 404 na frente do avaliador é pior do que não ter
-QR nenhum. Se o grupo tornar o repositório público antes do evento, troque
-`DESTINO_QR` em `kit/pecas.py` e rode `python pecas.py` de novo.
+Para o **repositório** (`github.com/JesusRoger-c/sompo_Challenge-`), que é público
+e leva a tudo de uma vez: código, modelo, documentação e o link do vídeo no README.
+Para apontar para o vídeo em vez disso, troque `DESTINO_QR` para `VIDEO` em
+`kit/pecas.py` e rode `python pecas.py` de novo.
+
+Antes de mandar imprimir, abra o link em uma janela anônima. Um QR impresso que
+abre um 404 na frente do avaliador não tem conserto no dia.
 
 ## Sobre a menção à Sompo
 
