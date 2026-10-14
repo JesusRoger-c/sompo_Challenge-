@@ -76,6 +76,13 @@ Os números do model card vêm de `src/models/model_card.json` e mudam se o
 pipeline for rodado de novo. Confira antes de mandar imprimir:
 `python scripts/run.py pipeline` e depois regere a peça.
 
+### Para onde o QR aponta
+
+Para o **vídeo** (`youtu.be/C6JPlqNLA2g`), não para o repositório — o repositório
+é privado, e um QR que abre um 404 na frente do avaliador é pior do que não ter
+QR nenhum. Se o grupo tornar o repositório público antes do evento, troque
+`DESTINO_QR` em `kit/pecas.py` e rode `python pecas.py` de novo.
+
 ## Sobre a menção à Sompo
 
 Não há nenhuma menção à Sompo nas peças do estande nem na tela de entrada do
