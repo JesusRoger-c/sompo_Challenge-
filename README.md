@@ -151,9 +151,12 @@ coletor de campo ──JSON──▶ API FastAPI (chave de ingestão · limite d
 ### Estrutura do código
 
 ```text
+.streamlit/
+  config.toml                  tema do dashboard (lido da raiz do projeto — rode os comandos daqui)
 config/
   regras_risco.json            regras de negócio versionadas (faixas, limiar, gatilhos, premissas)
   requirements.txt
+identidade/                    kit de marca: logo em SVG/PNG e as artes do estande
 src/somprev/
   config.py · logs.py · excecoes.py · esquema.py (contrato de dados) · regras.py · tema.py
   dados/        gerador.py (telemetria simulada v2 + falhas de coleta) · qualidade.py
@@ -164,6 +167,7 @@ src/somprev/
   relatorios/   tendencias.py
   api/app.py    backend FastAPI
   dashboard/    app.py (4 perfis, cliente da API para tudo que exibe) · cliente_api.py · componentes.py
+                marca.py (logo em SVG, texto já em curvas) · fontes.py (fontes embutidas, roda sem internet)
   pipeline.py   orquestração das 7 etapas
 src/backend/app.py · src/dashboards/app.py   atalhos que mantêm os caminhos da Sprint 3 funcionando
 src/tests/      113 testes (pytest) em ambiente temporário isolado

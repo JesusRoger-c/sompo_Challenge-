@@ -238,7 +238,8 @@ def _graficos(y_te, probs_te: dict, final_p, tabela_limiar, limiar, importancias
     _salvar(fig, "analise_limiar.png")
 
     fig, ax = plt.subplots(figsize=(5.2, 4.6))
-    ax.imshow(cm, cmap="Reds")
+    # escala ambar da marca: o vermelho fica reservado a faixa Critico do semaforo
+    ax.imshow(cm, cmap="YlOrBr")
     rotulos = ["Sem sinistro", "Com sinistro"]
     ax.set_xticks([0, 1], [f"Sem alerta", f"Alerta"])
     ax.set_yticks([0, 1], rotulos)

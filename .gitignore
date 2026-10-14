@@ -43,3 +43,7 @@ logs/
 
 # Testes
 .pytest_cache/
+
+# artefatos gerados pelo kit de marca
+identidade/kit/*.html
+identidade/kit/*.png

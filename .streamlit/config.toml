@@ -1,0 +1,29 @@
+# Tema do dashboard SomPrev Risk.
+# Lido pelo Streamlit a partir da pasta onde o comando e executado, por isso rode
+# sempre da raiz do projeto:  python scripts/run.py dashboard
+# As cores aqui sao as mesmas de src/somprev/tema.py (fonte unica da identidade).
+
+[theme]
+base = "light"
+primaryColor = "#FFC400"              # amarelo trator: botao primario, foco, selecao
+backgroundColor = "#FBFAF5"           # papel (branco quente)
+secondaryBackgroundColor = "#FFFFFF"  # cartoes, tabelas, campos
+textColor = "#17160F"                 # grafite
+linkColor = "#A06A00"                 # ambar profundo (contraste AA sobre papel)
+borderColor = "#E7E3D6"
+baseRadius = "medium"
+font = "IBM Plex Sans, sans-serif"      # as fontes vem embutidas em dashboard/fontes.py
+headingFont = "Manrope, sans-serif"
+codeFont = "IBM Plex Mono, monospace"
+
+[theme.sidebar]
+backgroundColor = "#FFC400"
+secondaryBackgroundColor = "#FFD95E"
+textColor = "#17160F"
+borderColor = "#E0A500"
+
+[server]
+headless = true
+
+[browser]
+gatherUsageStats = false

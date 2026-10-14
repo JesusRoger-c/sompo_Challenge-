@@ -32,12 +32,14 @@ from somprev.banco import repositorio as repo  # noqa: E402
 from somprev.banco.conexao import banco_existe, sessao, transacao  # noqa: E402
 from somprev.dashboard import cliente_api  # noqa: E402
 from somprev.dashboard import componentes as ui  # noqa: E402
+from somprev.dashboard import marca  # noqa: E402
 from somprev.esquema import ROTULOS, rotulo_valor  # noqa: E402
 from somprev.excecoes import SomPrevErro  # noqa: E402
 from somprev.relatorios import tendencias  # noqa: E402
 from somprev.seguranca import auditoria, autenticacao  # noqa: E402
 
-st.set_page_config(page_title="SomPrev Risk", page_icon="🛡️", layout="wide")
+st.set_page_config(page_title="SomPrev Risk", page_icon="🚜", layout="wide",
+                   initial_sidebar_state="expanded")
 ui.aplicar_estilo()
 
 INATIVIDADE_MAX = timedelta(minutes=30)
@@ -73,10 +75,13 @@ def permitido(permissao: str) -> bool:
 # Login e sessao
 # ---------------------------------------------------------------------------
 def tela_login() -> None:
-    _, centro, _ = st.columns([1, 1.2, 1])
+    st.markdown("<div style='height:4vh'></div>", unsafe_allow_html=True)
+    _, centro, _ = st.columns([1, 1.15, 1])
     with centro:
-        st.markdown(f"<h1 style='color:#A4161A;margin-bottom:0'>SomPrev Risk</h1>"
-                    "<div class='sp-sub'>Inteligência preditiva de risco para frotas agrícolas</div><br>",
+        st.markdown("<div class='sp-login'><div class='faixa'></div>"
+                    f"{marca.EMPILHADO}"
+                    "<div class='tag'>Inteligência preditiva de risco para frotas agrícolas<br>"
+                    "Challenge FIAP + Sompo Seguros</div></div>",
                     unsafe_allow_html=True)
         with st.form("form_login", clear_on_submit=False):
             login = st.text_input("Usuário", max_chars=40)
@@ -151,9 +156,9 @@ def acoes_alerta(alertas: pd.DataFrame, chave: str) -> None:
         comentario = st.text_input("Comentário (opcional)", max_chars=200, key=f"{chave}_com")
         c1, c2 = st.columns(2)
         novo = None
-        if pode_rec and c1.button("👁 Reconhecer", key=f"{chave}_rec", width="stretch"):
+        if pode_rec and c1.button("Reconhecer", key=f"{chave}_rec", width="stretch", icon=":material/visibility:"):
             novo = "reconhecido"
-        if pode_res and c2.button("✅ Resolver", key=f"{chave}_res", width="stretch"):
+        if pode_res and c2.button("Resolver", key=f"{chave}_res", width="stretch", icon=":material/task_alt:"):
             novo = "resolvido"
         if novo:
             alerta = opcoes[escolha]
@@ -177,7 +182,7 @@ def acoes_alerta(alertas: pd.DataFrame, chave: str) -> None:
 # Visao: OPERADOR
 # ---------------------------------------------------------------------------
 def visao_operador(df: pd.DataFrame, alertas: pd.DataFrame) -> None:
-    ui.cabecalho("🚜 Posso operar agora?", "Risco da sua máquina na leitura mais recente, com o que fazer e por quê.")
+    ui.cabecalho("Posso operar agora?", "Risco da sua máquina na leitura mais recente, com o que fazer e por quê.")
     ultimas = df.sort_values("data_hora").groupby("equipamento_id").tail(1).sort_values("score_risco", ascending=False)
     rotulo = {r.equipamento_id: f"{r.equipamento_id} · {r.equip_tipo} · {r.regiao_nome} · "
                                  f"{regras.EMOJI_CLASSE[r.classe_risco]} {r.score_risco}" for r in ultimas.itertuples()}
@@ -223,7 +228,7 @@ def visao_operador(df: pd.DataFrame, alertas: pd.DataFrame) -> None:
 # ---------------------------------------------------------------------------
 def visao_tecnico(df: pd.DataFrame, alertas: pd.DataFrame, equipamentos: pd.DataFrame,
                   manutencoes: pd.DataFrame) -> None:
-    ui.cabecalho("🔧 Fila de manutenção preventiva",
+    ui.cabecalho("Fila de manutenção preventiva",
                  "Equipamentos priorizados por manutenção vencida, desgaste e risco operacional recente.")
     ultima = df.sort_values("data_hora").groupby("equipamento_id").tail(1).set_index("equipamento_id")
     fila = equipamentos.set_index("equipamento_id")[["tipo", "modelo", "regiao_base", "intervalo_manutencao_h"]].copy()
@@ -318,7 +323,7 @@ def visao_tecnico(df: pd.DataFrame, alertas: pd.DataFrame, equipamentos: pd.Data
 # Visao: GESTOR
 # ---------------------------------------------------------------------------
 def visao_gestor(df_total: pd.DataFrame, alertas: pd.DataFrame, equipamentos: pd.DataFrame) -> None:
-    ui.cabecalho("📊 Gestão da frota", "Tendências de risco por região, operação e equipamento; alertas e regras.")
+    ui.cabecalho("Gestão da frota", "Tendências de risco por região, operação e equipamento; alertas e regras.")
     df = filtros(df_total, "gestor")
     if df.empty:
         st.warning("Nenhuma leitura para os filtros selecionados.")
@@ -340,8 +345,8 @@ def visao_gestor(df_total: pd.DataFrame, alertas: pd.DataFrame, equipamentos: pd
         ui.cartao("Prejuízo evitável*", f"R$ {eco / 1e6:.1f} mi".replace(".", ","),
                   "estimativa com premissas ajustáveis")
 
-    abas = st.tabs(["📈 Tendências", "🗺️ Região × operação", "🏆 Ranking da frota", "🔔 Alertas", "⚙️ Regras",
-                    "📄 Relatório"])
+    abas = st.tabs(["Tendências", "Região × operação", "Ranking da frota", "Alertas", "Regras",
+                    "Relatório"])
     with abas[0]:
         c1, c2 = st.columns([1, 1])
         dim = c1.radio("Agrupar por", ["regiao_nome", "tipo_operacao", "equip_tipo", "equipamento_id"],
@@ -484,9 +489,9 @@ def editor_regras() -> None:
 # Visao: SEGURADORA
 # ---------------------------------------------------------------------------
 def visao_seguradora(df_total: pd.DataFrame, alertas: pd.DataFrame) -> None:
-    ui.cabecalho("🏢 Seguradora — validação, carteira e auditoria",
+    ui.cabecalho("Seguradora — validação, carteira e auditoria",
                  "Confiabilidade do score, tendências para subscrição e rastreabilidade das decisões.")
-    abas = st.tabs(["✅ Validação do modelo", "📈 Carteira e tendências", "🧾 Auditoria", "🧪 Qualidade dos dados"])
+    abas = st.tabs(["Validação do modelo", "Carteira e tendências", "Auditoria", "Qualidade dos dados"])
     metricas = json.loads(config.METRICAS_PATH.read_text(encoding="utf-8")) if config.METRICAS_PATH.exists() else {}
     with abas[0]:
         if not metricas:
@@ -550,7 +555,7 @@ def visao_seguradora(df_total: pd.DataFrame, alertas: pd.DataFrame) -> None:
                 "alto_critico": st.column_config.NumberColumn("% Alto/Crítico", format="percent")})
     with abas[2]:
         c1, c2 = st.columns([1, 2])
-        if c1.button("🔐 Verificar integridade da auditoria", type="primary", width="stretch"):
+        if c1.button("Verificar integridade da auditoria", type="primary", width="stretch", icon=":material/lock:"):
             resultado = cliente_api.verificar_auditoria()
             with sessao() as conn, transacao(conn):
                 auditoria.registrar(conn, "VERIFICACAO_AUDITORIA", ator=st.session_state["login"],
@@ -607,14 +612,12 @@ def main() -> None:
         return
     perfil = st.session_state["perfil"]
     with st.sidebar:
-        st.markdown(f"### 👤 {st.session_state['nome']}")
-        st.markdown(f"Perfil: **{config.ROTULO_PERFIL[perfil]}**  \nUsuário: `{st.session_state['login']}`")
+        ui.marca_lateral()
+        ui.cartao_usuario(st.session_state["nome"], config.ROTULO_PERFIL[perfil], st.session_state["login"])
         if st.button("Sair", width="stretch"):
             sair()
             st.rerun()
-        st.divider()
-        st.caption("Permissões deste perfil")
-        st.caption(" · ".join(sorted(autenticacao.PERMISSOES[perfil])))
+        ui.chips("Permissões deste perfil", sorted(autenticacao.PERMISSOES[perfil]))
 
     leituras, alertas, equipamentos, manutencoes = carregar_dados()
     if leituras.empty:
@@ -629,9 +632,12 @@ def main() -> None:
     else:
         visao_seguradora(leituras, alertas)
     with st.sidebar:
-        st.divider()
-        st.caption(f"Modelo {leituras['modelo_versao'].iloc[-1]} · regras {regras.carregar_regras()['versao']} · "
-                   f"dados até {leituras['data_hora'].max():%d/%m/%Y %H:%M}")
+        st.markdown(
+            "<div class='sp-secao'>Origem dos números</div>"
+            f"<div class='sp-meta'>Modelo <b>{leituras['modelo_versao'].iloc[-1]}</b><br>"
+            f"Regras <b>{regras.carregar_regras()['versao']}</b><br>"
+            f"Dados até <b>{leituras['data_hora'].max():%d/%m/%Y %H:%M}</b></div>",
+            unsafe_allow_html=True)
 
 
 main()
