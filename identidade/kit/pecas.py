@@ -6,7 +6,7 @@ curvas, sangria e marcas de corte onde a grafica precisa.
 import sys, os, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from brandkit import *
-from sheet import lockup_inline, lockup_stack
+from sheet import lockup_inline, lockup_inline_caixa, lockup_stack
 import qrcode
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "pecas")
@@ -240,25 +240,40 @@ def _fiap(x, y, larg):
             f'xmlns:xlink="http://www.w3.org/1999/xlink"/>'), alt
 
 
+NEG = dict(pneu=BRANCO, aro=AMARELO, cubo=GRAFITE, folha=AMARELO,
+           cor_texto=BRANCO, pad=2)
+
+
 def arte_peito(larg_mm=200):
-    """Estampa do peito: marca horizontal negativa, para camiseta preta."""
-    c, lw, lh = lockup_inline("S", "mPrev Risk", pneu=BRANCO, aro=AMARELO, cubo=GRAFITE,
-                              folha=AMARELO, cor_texto=BRANCO, pad=2)
+    """Estampa do peito: marca horizontal negativa, para camiseta preta.
+
+    Usa lockup_inline_caixa, nao lockup_inline: aqui a marca E o arquivo, entao
+    a caixa precisa conter o broto inteiro. Com a caixa normal o broto saia pelo
+    topo e a arte chegava cortada na estamparia.
+    """
+    c, vb, lw, lh = lockup_inline_caixa(**NEG)
     esc = larg_mm / lw
     W, H = larg_mm, lh * esc
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" height="{H:.2f}mm" '
-            f'viewBox="0 0 {W:.2f} {H:.2f}"><g transform="scale({esc:.5f})">{c}</g></svg>')
+            f'viewBox="{vb}"><g>{c}</g></svg>')
 
 
 def arte_costas(larg_mm=260, larg_fiap=70, respiro=22):
-    c, lw, lh = lockup_inline("S", "mPrev Risk", pneu=BRANCO, aro=AMARELO, cubo=GRAFITE,
-                              folha=AMARELO, cor_texto=BRANCO, pad=2)
-    esc = larg_mm / lw
-    h1 = lh * esc
-    img, h2 = _fiap((larg_mm - larg_fiap) / 2, h1 + respiro, larg_fiap)
-    W, H = larg_mm, h1 + respiro + h2
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" height="{H:.2f}mm" '
-            f'viewBox="0 0 {W:.2f} {H:.2f}"><g transform="scale({esc:.5f})">{c}</g>{img}</svg>')
+    """Costas: marca grande e, abaixo, a FIAP em branco.
+
+    O viewBox comeca em y negativo por causa do broto, entao a FIAP e posicionada
+    nas mesmas coordenadas do desenho da marca, nao em milimetros da folha.
+    """
+    c, vb, lw, lh = lockup_inline_caixa(**NEG)
+    _, y0, _, _ = [float(v) for v in vb.split()]
+    esc = larg_mm / lw                      # unidades de desenho por mm
+    k = 1 / esc
+    respiro_u, fiap_u = respiro * k, larg_fiap * k
+    img, h2 = _fiap((lw - fiap_u) / 2, y0 + lh + respiro_u, fiap_u)
+    H = lh + respiro_u + h2 + abs(y0) * 0.18     # mesma folga do topo embaixo da FIAP
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{larg_mm:.2f}mm" '
+            f'height="{H * esc:.2f}mm" viewBox="0 {y0:.2f} {lw:.2f} {H:.2f}">'
+            f'<g>{c}</g>{img}</svg>')
 
 
 if __name__ == "__main__":

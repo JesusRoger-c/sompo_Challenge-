@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SomPrev Risk — placar do estande</title>
+<style>
+  /* Paleta da marca. O amarelo institucional NUNCA representa risco: ele só
+     aparece na moldura (barra, marca, rótulos). O risco tem a escala própria. */
+  :root{
+    --grafite:#17160F; --papel:#FBFAF5; --amarelo:#FFC400;
+    --tinta:#EDEADF; --tinta2:#A8A392; --linha:#2B2719;
+    --baixo:#2E9E5B; --medio:#E8B800; --alto:#E8761B; --critico:#C20A14;
+    --risco:var(--tinta2);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:var(--grafite); color:var(--tinta);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+
+  header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 28px; border-bottom:1px solid var(--linha); flex:0 0 auto;
+  }
+  .marca{display:flex;align-items:center;gap:12px;font-weight:700;letter-spacing:-.02em;font-size:20px}
+  .roda{width:22px;height:22px;border-radius:50%;background:var(--amarelo);
+        box-shadow:inset 0 0 0 5px var(--grafite), 0 0 0 3px var(--amarelo)}
+  .estado{display:flex;align-items:center;gap:9px;font-size:14px;color:var(--tinta2)}
+  .ponto{width:9px;height:9px;border-radius:50%;background:var(--tinta2)}
+  .ponto.on{background:var(--baixo)}
+  .ponto.off{background:var(--critico)}
+
+  main{flex:1 1 auto;display:flex;flex-direction:column;align-items:center;
+       justify-content:center;padding:10px 28px;min-height:0}
+
+  .rotulo{font-size:15px;letter-spacing:.22em;color:var(--tinta2);text-transform:uppercase}
+  /* Tamanhos em clamp() para o mesmo arquivo servir no notebook da bancada e
+     num monitor maior, sem a tela estourar e empurrar a barra para fora. */
+  .numero{
+    font-size:clamp(96px,15vw,210px); line-height:.86; font-weight:800;
+    letter-spacing:-.045em; color:var(--risco);
+    font-variant-numeric:tabular-nums; transition:color .35s ease;
+  }
+  .faixa{
+    font-size:clamp(26px,4.2vw,48px); font-weight:800; letter-spacing:-.02em;
+    color:var(--risco); margin-top:2px; transition:color .35s ease;
+  }
+
+  .barra{width:min(760px,88vw);height:12px;border-radius:99px;background:var(--linha);
+         margin:20px 0 8px;overflow:hidden;flex:0 0 auto}
+  .barra i{display:block;height:100%;width:0;background:var(--risco);
+           border-radius:99px;transition:width .45s cubic-bezier(.23,1,.32,1),background .35s}
+  .escala{width:min(760px,88vw);display:flex;justify-content:space-between;
+          font-size:12px;color:var(--tinta2);letter-spacing:.06em}
+
+  .inclinacao{margin-top:20px;font-size:clamp(17px,2.2vw,24px);color:var(--tinta)}
+  .inclinacao b{font-variant-numeric:tabular-nums;font-weight:700}
+  .inclinacao small{color:var(--tinta2);font-size:.7em;letter-spacing:.14em;
+                    text-transform:uppercase;display:block;margin-bottom:4px}
+
+  footer{flex:0 0 auto;border-top:1px solid var(--linha);padding:18px 28px}
+  .reco{font-size:clamp(16px,2.1vw,22px);line-height:1.45;max-width:1100px}
+  .fatores{margin-top:10px;font-size:14px;color:var(--tinta2)}
+  .fatores span{display:inline-block;border:1px solid var(--linha);border-radius:99px;
+                padding:4px 12px;margin-right:8px;margin-top:6px}
+  .assinatura{margin-top:12px;font-size:12px;color:#6E6859;letter-spacing:.12em;text-transform:uppercase}
+
+  /* Os cenários são a parte da conversa que mostra que o modelo não é um
+     espelho do sensor: o MESMO declive vale coisas diferentes em contextos
+     diferentes. Amarelo aqui é moldura (seleção), não risco. */
+  .cenarios{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+  .cenarios button{background:transparent;border:1px solid var(--linha);color:var(--tinta2);
+    border-radius:99px;padding:9px 17px;font:inherit;font-size:14px;cursor:pointer;
+    transition:border-color .2s ease,color .2s ease,background .2s ease}
+  .cenarios button:hover{border-color:var(--amarelo);color:var(--tinta)}
+  .cenarios button.sel{background:var(--amarelo);border-color:var(--amarelo);
+    color:var(--grafite);font-weight:600}
+  .cenarios button:active{transform:scale(.97)}
+  .cenario-resumo{margin-top:11px;font-size:13px;color:var(--tinta2);
+    max-width:640px;text-align:center;line-height:1.5;min-height:19px}
+
+  .manual{display:none;margin-top:22px;width:min(760px,88vw);text-align:center}
+  .manual.on{display:block}
+  .manual input{width:100%;accent-color:var(--amarelo)}
+  .manual p{font-size:13px;color:var(--tinta2);margin-bottom:10px}
+  .erro{color:var(--alto);font-size:15px;margin-top:14px;min-height:20px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="marca"><span class="roda"></span> SomPrev Risk</div>
+  <div class="estado"><span class="ponto" id="ponto"></span><span id="status">procurando o sensor…</span></div>
+</header>
+
+<main>
+  <div class="rotulo">Score de risco da operação</div>
+  <div class="numero" id="score">--</div>
+  <div class="faixa" id="faixa">aguardando leitura</div>
+
+  <div class="barra"><i id="preenche"></i></div>
+  <div class="escala"><span>0 · Baixo</span><span>15 · Médio</span><span>40 · Alto</span><span>70 · Crítico</span></div>
+
+  <div class="inclinacao">
+    <small>Inclinação medida no trator</small>
+    <b id="angulo">0,0</b>°
+  </div>
+
+  <div class="cenarios" id="cenarios"></div>
+  <div class="cenario-resumo" id="cenarioResumo"></div>
+
+  <div class="manual" id="manual">
+    <p>Sensor fora do ar — modo manual (setas ↑ ↓ ou arraste)</p>
+    <input type="range" id="slider" min="0" max="35" step="0.5" value="0">
+  </div>
+
+  <div class="erro" id="erro"></div>
+</main>
+
+<footer>
+  <div class="reco" id="reco">Incline o trator na rampa para o modelo avaliar a operação.</div>
+  <div class="fatores" id="fatores"></div>
+  <div class="assinatura">Challenge FIAP · NEXT 2026 · modelo <span id="versao">—</span></div>
+</footer>
+
+<script>
+/* ---------------------------------------------------------------- ajustes */
+const SENSOR   = "http://192.168.4.1/dados";  // o ESP32 em rede própria
+const INTERVALO = 200;                        // ms entre leituras do sensor
+const VARIACAO_MINIMA = 1.5;                  // graus de mudança que pedem novo score
+const FALHAS_PARA_MANUAL = 12;                // ~2,4 s sem sensor -> modo manual
+
+const CORES = { Baixo:"var(--baixo)", Medio:"var(--medio)", Alto:"var(--alto)", Critico:"var(--critico)" };
+const NOMES = { Baixo:"Baixo", Medio:"Médio", Alto:"Alto", Critico:"Crítico" };
+
+/* ---------------------------------------------------------------- estado */
+let anguloAtual = 0, ultimoPontuado = -99, falhas = 0, manual = false, pontuando = false;
+let cenarioAtual = "chuva", cenarios = [];
+
+const $ = id => document.getElementById(id);
+
+/* ------------------------------------------------------------ apresentação */
+function mostrarAngulo(g){
+  anguloAtual = g;
+  $("angulo").textContent = g.toFixed(1).replace(".", ",");
+}
+
+function mostrarResultado(r){
+  const classe = r.classe_risco || "Baixo";
+  const cor = CORES[classe] || "var(--tinta2)";
+  document.documentElement.style.setProperty("--risco", cor);
+
+  $("score").textContent = r.score_risco;
+  $("faixa").textContent = NOMES[classe] || classe;
+  $("preenche").style.width = Math.max(2, Math.min(100, r.score_risco)) + "%";
+  $("reco").textContent = r.recomendacao || "";
+  $("versao").textContent = r.modelo_versao || "—";
+
+  const fs = (r.fatores || []).slice(0, 3)
+    .map(f => f.rotulo || f.variavel || f.nome).filter(Boolean);
+  $("fatores").innerHTML = fs.length
+    ? "O que mais pesou: " + fs.map(t => `<span>${t}</span>`).join("")
+    : "";
+  $("erro").textContent = "";
+}
+
+function marcarEstado(ok, texto){
+  $("ponto").className = "ponto " + (ok ? "on" : "off");
+  $("status").textContent = texto;
+}
+
+/* -------------------------------------------------------------- pontuação */
+async function pontuar(graus){
+  if (pontuando) return;
+  pontuando = true;
+  ultimoPontuado = graus;
+  try{
+    const resp = await fetch("/pontuar", {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ declividade_graus: graus, cenario: cenarioAtual })
+    });
+    const corpo = await resp.json();
+    if(!resp.ok){
+      $("erro").textContent = corpo.erro || ("Erro " + resp.status + " ao pontuar.");
+    } else {
+      mostrarResultado(corpo);
+    }
+  }catch(e){
+    $("erro").textContent = "Placar sem resposta do servidor. O placar.py está rodando?";
+  }finally{
+    pontuando = false;
+  }
+}
+
+function talvezPontuar(graus, estavel){
+  if (!estavel) return;
+  if (Math.abs(graus - ultimoPontuado) < VARIACAO_MINIMA) return;
+  pontuar(graus);
+}
+
+/* ----------------------------------------------------------------- sensor */
+async function lerSensor(){
+  const corte = new AbortController();
+  const t = setTimeout(() => corte.abort(), 600);
+  try{
+    const r = await fetch(SENSOR, { signal: corte.signal, cache:"no-store" });
+    const d = await r.json();
+    clearTimeout(t);
+
+    falhas = 0;
+    if (manual){ manual = false; $("manual").classList.remove("on"); }
+    marcarEstado(true, d.ok ? "sensor conectado" : "ESP32 ok, MPU6050 mudo — confira os jumpers");
+
+    mostrarAngulo(d.angulo);
+    talvezPontuar(d.angulo, d.estavel);
+  }catch(e){
+    clearTimeout(t);
+    if (++falhas >= FALHAS_PARA_MANUAL && !manual) entrarNoManual();
+    else if (!manual) marcarEstado(false, "procurando o sensor…");
+  }
+}
+
+/* O modo manual é o seguro da demonstração: se o sensor cair no meio da feira,
+   a conversa continua com as setas do teclado e ninguém percebe a diferença. */
+function entrarNoManual(){
+  manual = true;
+  $("manual").classList.add("on");
+  marcarEstado(false, "modo manual (sem sensor)");
+}
+
+let timerManual = null;
+function ajustarManual(g){
+  g = Math.max(0, Math.min(35, g));
+  $("slider").value = g;
+  mostrarAngulo(g);
+  clearTimeout(timerManual);
+  timerManual = setTimeout(() => talvezPontuar(g, true), 350);
+}
+
+$("slider").addEventListener("input", e => ajustarManual(parseFloat(e.target.value)));
+
+document.addEventListener("keydown", e => {
+  if (e.key === "ArrowUp"   || e.key === "ArrowRight"){ if(!manual) entrarNoManual(); ajustarManual(anguloAtual + 1); e.preventDefault(); }
+  if (e.key === "ArrowDown" || e.key === "ArrowLeft" ){ if(!manual) entrarNoManual(); ajustarManual(anguloAtual - 1); e.preventDefault(); }
+  if (e.key === "m" || e.key === "M"){ manual ? (manual=false, $("manual").classList.remove("on")) : entrarNoManual(); }
+});
+
+/* ---------------------------------------------------------------- cenários */
+async function carregarCenarios(){
+  try{
+    const r = await fetch("/cenarios");
+    const d = await r.json();
+    cenarios = d.cenarios || [];
+    cenarioAtual = d.padrao || (cenarios[0] && cenarios[0].chave) || "chuva";
+
+    $("cenarios").innerHTML = cenarios.map((c, i) =>
+      `<button data-chave="${c.chave}" title="${c.resumo}">${i + 1}. ${c.nome}</button>`).join("");
+
+    $("cenarios").querySelectorAll("button").forEach(b =>
+      b.addEventListener("click", () => trocarCenario(b.dataset.chave)));
+
+    pintarCenario();
+  }catch(e){
+    $("cenarios").innerHTML = "";
+  }
+}
+
+function pintarCenario(){
+  const atual = cenarios.find(c => c.chave === cenarioAtual);
+  $("cenarios").querySelectorAll("button").forEach(b =>
+    b.classList.toggle("sel", b.dataset.chave === cenarioAtual));
+  $("cenarioResumo").textContent = atual ? atual.resumo : "";
+}
+
+function trocarCenario(chave){
+  if (!chave || chave === cenarioAtual) return;
+  cenarioAtual = chave;
+  pintarCenario();
+  ultimoPontuado = -99;          // contexto novo: repontua já, no mesmo ângulo
+  pontuar(anguloAtual);
+}
+
+document.addEventListener("keydown", e => {
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= cenarios.length) trocarCenario(cenarios[n - 1].chave);
+});
+
+carregarCenarios();
+setInterval(lerSensor, INTERVALO);
+lerSensor();
+</script>
+</body>
+</html>

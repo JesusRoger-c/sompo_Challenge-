@@ -31,6 +31,53 @@ def lockup_inline(texto_a, texto_b, *, fonte="Manrope-ExtraBold", size=140, trac
     return corpo, W, H
 
 
+def lockup_inline_caixa(**kw):
+    """A marca horizontal com a caixa que REALMENTE contem o broto.
+
+    lockup_inline devolve W/H pensados para a marca ser colada dentro de uma
+    peca maior: o broto sobe acima da linha de base e, num cartaz, tem para onde
+    ir. Quando a propria marca e o arquivo final -- estampa de camiseta, arte de
+    bordado -- essa caixa corta o broto em cima e a ponta da folha na direita.
+
+    Aqui a caixa e recalculada a partir da geometria real do simbolo: o broto
+    alcanca 2,05 R acima do centro da roda e 1,76 R a direita dele (os mesmos
+    numeros que brandkit.broto desenha). Devolve (corpo, viewBox, W, H).
+    """
+    fonte = kw.get("fonte", "Manrope-ExtraBold")
+    size = kw.get("size", 140)
+    tracking = kw.get("tracking", -2.0)
+    pad = kw.get("pad", 28)
+    fator_roda = kw.get("fator_roda", 1.18)
+    gap = kw.get("gap", 0.06)
+    texto_a, texto_b = kw.pop("texto_a", "S"), kw.pop("texto_b", "mPrev Risk")
+
+    corpo, _, _ = lockup_inline(texto_a, texto_b, **kw)
+
+    m = medidas(fonte, size)
+    cap = m["cap"]
+    R = cap / 2 * fator_roda
+    wa = largura(texto_a, fonte, size, tracking)
+    wb = largura(texto_b, fonte, size, tracking)
+    g = size * gap
+    base_y = pad + (R * 2.06 if kw.get("com_broto", True) else cap)
+    cx = pad + wa + g + R
+    xb = cx + R + g
+    cy = base_y - cap / 2
+
+    # Respiro minimo proporcional ao corpo da fonte. Encostar o desenho na borda
+    # e, na pratica, a mesma coisa que corta-lo: a estamparia precisa de folga
+    # para registrar a arte, e o antialias come a ponta da folha.
+    respiro = max(pad, size * 0.08)
+
+    topo = cy - R * 2.08 if kw.get("com_broto", True) else base_y - cap
+    direita = max(xb + wb, cx + R * 1.80) if kw.get("com_broto", True) else xb + wb
+
+    y0 = min(0.0, topo) - respiro
+    W = direita + respiro
+    H = base_y + m["desc"] * 0.55 + respiro - y0
+    return corpo, f"0 {y0:.2f} {W:.2f} {H:.2f}", W, H
+
+
 def lockup_stack(*, fonte="Manrope-ExtraBold", size=92, tracking=-1.4, R=64,
                  pneu=GRAFITE, aro=AMARELO, cubo=GRAFITE, folha=VERDE, veia=None,
                  cor_texto=GRAFITE, cor_tag=None, tag="SEGURO QUE PREVÊ", pad=30):

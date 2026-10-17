@@ -1,7 +1,10 @@
 import sys, os, base64
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from brandkit import *
-from sheet import lockup_inline
+from sheet import lockup_inline, lockup_inline_caixa
+
+NEG = dict(pneu=BRANCO, aro=AMARELO, cubo=GRAFITE, folha=AMARELO,
+           cor_texto=BRANCO, pad=2)
 from pecas import OUT, txt
 
 # Camiseta tamanho M deitada: ~700 mm de ponta a ponta de manga, corpo de 500 mm
@@ -112,15 +115,22 @@ def folha():
 
 
 def arte_costas_branca(larg_mm=280, larg_fiap=90, respiro=30):
-    """Arte das costas pronta para a gráfica: marca + FIAP em branco, fundo transparente."""
-    c, lw, lh = lockup_inline("S", "mPrev Risk", pneu=BRANCO, aro=AMARELO, cubo=GRAFITE,
-                              folha=AMARELO, cor_texto=BRANCO, pad=2)
+    """Arte das costas pronta para a gráfica: marca + FIAP em branco, fundo transparente.
+
+    Caixa vinda de lockup_inline_caixa: aqui a arte vai sozinha para a estamparia,
+    entao o broto que sobe acima da linha de base precisa caber. A FIAP entra em
+    unidades de desenho (nao em mm da folha) porque o viewBox comeca em y negativo.
+    """
+    c, vb, lw, lh = lockup_inline_caixa(**NEG)
+    _, y0, _, _ = [float(v) for v in vb.split()]
     esc = larg_mm / lw
-    h1 = lh * esc
-    img, h2 = fiap_branco((larg_mm - larg_fiap) / 2, h1 + respiro, larg_fiap)
-    W, H = larg_mm, h1 + respiro + h2
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{W:.2f}mm" height="{H:.2f}mm" '
-            f'viewBox="0 0 {W:.2f} {H:.2f}"><g transform="scale({esc:.5f})">{c}</g>{img}</svg>')
+    k = 1 / esc                                  # mm -> unidades de desenho
+    fiap_u, respiro_u = larg_fiap * k, respiro * k
+    img, h2 = fiap_branco((lw - fiap_u) / 2, y0 + lh + respiro_u, fiap_u)
+    H = lh + respiro_u + h2 + abs(y0) * 0.18     # mesma folga do topo embaixo da FIAP
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{larg_mm:.2f}mm" '
+            f'height="{H * esc:.2f}mm" viewBox="0 {y0:.2f} {lw:.2f} {H:.2f}">'
+            f'<g>{c}</g>{img}</svg>')
 
 
 if __name__ == "__main__":
