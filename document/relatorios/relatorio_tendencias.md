@@ -1,6 +1,6 @@
 # Relatório de Tendências de Risco — SomPrev Risk
 
-*Gerado automaticamente em 17/10/2026 18:58 · período dos dados: 01/03/2026 a 31/08/2026 · 5.723 leituras · modelo hgb-v2.0 · regras regras-v2.0*
+*Gerado automaticamente em 17/10/2026 20:14 · período dos dados: 01/03/2026 a 31/08/2026 · 5.723 leituras · modelo hgb-v2.0 · regras regras-v2.0*
 
 ## Resumo executivo
 

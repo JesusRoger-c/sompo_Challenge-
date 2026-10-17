@@ -106,7 +106,7 @@ PALETA = {
 # variacao de luminosidade preserva a leitura quando o relatorio sai impresso em
 # preto e branco.
 CATEGORICA = ["#17160F", "#A06A00", "#1A7048", "#B08A5A",
-              "#4E7A2F", "#6B6657", "#5C3A0E", "#93A08C"]
+              "#6B6657", "#4E7A2F", "#5C3A0E", "#93A08C"]
 
 # Escala continua do mapa de calor de RISCO: do papel ao vermelho da faixa Critico.
 # Aqui o vermelho e correto -- a grandeza mapeada e risco, e o topo da escala tem o
