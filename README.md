@@ -20,7 +20,7 @@ Na Sprint 4 o projeto virou um **MVP consolidado, estável e validado**: arquite
 
 | Indicador (teste em agosto, dados nunca vistos pelo modelo) | Sprint 3 | **Sprint 4** |
 |---|---:|---:|
-| Sinistros antecipados (recall) | 49% | **82%** |
+| Sinistros antecipados (recall) | 49% | **90%** |
 | PR-AUC | 0,73 | **0,76** |
 | Custo esperado no mês (premissas em `config/regras_risco.json`) | R$ 3,8 mi | **R$ 2,6 mi** |
 | Taxa real de sinistro: faixa Baixa → Crítica | não medida no teste | **5% → 93%** |
@@ -140,7 +140,7 @@ coletor de campo ──JSON──▶ API FastAPI (chave de ingestão · limite d
                                 ▼   ┌──────────── transação atômica ────────────┐
                   MODELO v2 calibrado → probabilidade → score 0-100 → faixa     │
                   explicação: contribuição de cada variável (top 3 fatores)     │
-                  REGRAS versionadas: limiar ≥ 15 + gatilhos explícitos → alertas
+                  REGRAS versionadas: limiar ≥ 10 + gatilhos explícitos → alertas
                   agrupamento de alertas repetidos (anti-fadiga)                │
                   grava leitura + predição + alertas + eventos de auditoria ───┘
                                 │
@@ -234,7 +234,7 @@ Um alerta nasce de **duas fontes**, e cada uma mostra o critério que a disparou
 
 | Origem | Critério (exemplo real) | Destino |
 |---|---|---|
-| Modelo | `Score 66 ≥ limiar de alerta 15 (regras regras-v2.0)` | Operador (Médio/Alto) ou Gestor (Crítico) |
+| Modelo | `Score 66 ≥ limiar de alerta 10 (regras regras-v2.0)` | Operador (Médio/Alto) ou Gestor (Crítico) |
 | `AREA_ALAGAVEL` | `Distância da água < 200 e Umidade do solo ≥ 75` | Operador |
 | `SOLO_SATURADO` | `Chuva nas últimas 24h ≥ 80 e Tipo de solo ∈ Argiloso/Encharcado` | Operador |
 | `RISCO_TOMBAMENTO` | `Declividade do terreno ≥ 27 e Carga do equipamento ≥ 95` | Operador |

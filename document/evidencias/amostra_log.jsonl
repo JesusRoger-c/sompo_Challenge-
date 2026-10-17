@@ -1,5 +1,5 @@
-{"ts": "2026-09-21T16:55:35.272+00:00", "nivel": "WARNING", "modulo": "somprev.api", "mensagem": "Acesso negado na API", "rota": "/telemetria", "motivo": "chave ausente", "ip": "testclient"}
-{"ts": "2026-09-21T16:55:35.280+00:00", "nivel": "WARNING", "modulo": "somprev.api", "mensagem": "Acesso negado na API", "rota": "/telemetria", "motivo": "chave inválida", "ip": "testclient"}
-{"ts": "2026-09-21T16:55:38.933+00:00", "nivel": "INFO", "modulo": "somprev.servicos.processamento", "mensagem": "Leitura processada", "leitura_id": 5980, "score": 97, "classe": "Critico", "alertas": 2, "origem": "api"}
-{"ts": "2026-09-21T16:55:35.273+00:00", "nivel": "INFO", "modulo": "somprev.api", "mensagem": "requisicao", "id_requisicao": "b9a0663f4d22", "metodo": "POST", "rota": "/telemetria", "status": 401, "ms": 17.0}
-{"ts": "2026-09-21T16:55:35.280+00:00", "nivel": "INFO", "modulo": "somprev.api", "mensagem": "requisicao", "id_requisicao": "f3a518ff753d", "metodo": "POST", "rota": "/telemetria", "status": 401, "ms": 4.0}
+{"ts": "2026-10-17T23:42:53.288+00:00", "nivel": "WARNING", "modulo": "somprev.api", "mensagem": "Acesso negado na API", "rota": "/telemetria", "motivo": "chave ausente", "ip": "testclient"}
+{"ts": "2026-10-17T23:42:53.295+00:00", "nivel": "WARNING", "modulo": "somprev.api", "mensagem": "Acesso negado na API", "rota": "/telemetria", "motivo": "chave inválida", "ip": "testclient"}
+{"ts": "2026-10-17T23:42:54.388+00:00", "nivel": "INFO", "modulo": "somprev.servicos.processamento", "mensagem": "Leitura processada", "leitura_id": 5795, "score": 94, "classe": "Critico", "alertas": 2, "origem": "api"}
+{"ts": "2026-10-17T23:42:53.289+00:00", "nivel": "INFO", "modulo": "somprev.api", "mensagem": "requisicao", "id_requisicao": "710389bc0c9e", "metodo": "POST", "rota": "/telemetria", "status": 401, "ms": 13.9}
+{"ts": "2026-10-17T23:42:53.295+00:00", "nivel": "INFO", "modulo": "somprev.api", "mensagem": "requisicao", "id_requisicao": "a5e570b6f85f", "metodo": "POST", "rota": "/telemetria", "status": 401, "ms": 4.1}

@@ -1,6 +1,6 @@
 # Relatório de Tendências de Risco — SomPrev Risk
 
-*Gerado automaticamente em 17/10/2026 20:14 · período dos dados: 01/03/2026 a 31/08/2026 · 5.723 leituras · modelo hgb-v2.0 · regras regras-v2.0*
+*Gerado automaticamente em 17/10/2026 23:51 · período dos dados: 01/03/2026 a 31/08/2026 · 5.723 leituras · modelo hgb-v2.0 · regras regras-v2.0*
 
 ## Resumo executivo
 
@@ -8,7 +8,7 @@
 - Risco **subindo** em: Não-Me-Toque (+6 pts).
 - A operação de maior risco recente é **Colheita** (score médio 25).
 - Principal causa das leituras Alto/Crítico no último mês: **Distância da água** (50% dos casos).
-- 28 alertas em aberto; 6 equipamentos aguardam manutenção preventiva.
+- 35 alertas em aberto; 6 equipamentos aguardam manutenção preventiva.
 
 ## Tendência por região
 
@@ -63,7 +63,7 @@
 |---|---|---|---|
 | CONDICAO_AMBIENTAL | 0 | 2 | 0 |
 | MANUTENCAO | 2 | 5 | 0 |
-| RISCO_MODELO | 13 | 2 | 4 |
+| RISCO_MODELO | 19 | 2 | 5 |
 
 ---
 

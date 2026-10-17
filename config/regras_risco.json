@@ -22,7 +22,7 @@
   },
   "faixas_justificativa": "Com o score calibrado (score 30 ≈ 30% de chance real de sinistro), as faixas passaram a ter significado probabilístico: Baixo termina no limiar de alerta de menor custo (15); Alto começa em 40 (≈ metade das leituras vira sinistro no teste) e Crítico em 70 (≈ 9 em cada 10).",
   "alerta_modelo": {
-    "limiar_score": 15,
+    "limiar_score": 10,
     "justificativa": "Limiar escolhido pelo menor custo esperado no conjunto de validação (falso negativo = sinistro não evitado; falso positivo = parada preventiva). Ver src/models/metricas.json -> analise_limiar."
   },
   "gatilhos": [

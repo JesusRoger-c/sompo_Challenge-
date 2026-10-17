@@ -45,7 +45,7 @@ Registro das principais decisões do projeto: o que foi decidido, por quê, e o 
 | **Validação temporal** | Split aleatório | O modelo prevê o futuro; o split aleatório superestima o desempenho |
 | **PR-AUC** como critério de seleção | Acurácia | A classe positiva é minoritária e o objetivo é antecipar sinistros |
 | **HistGradientBoosting** calibrado | Random Forest (Sprint 2) | Melhor PR-AUC na validação e melhor calibração |
-| **Limiar por custo** (score ≥ 15) | 0,5 fixo | Deixar passar um sinistro custa ~10× mais que um alerta. O recall subiu de 49% para 82% |
+| **Limiar por custo** (score ≥ 10) | 0,5 fixo | Deixar passar um sinistro custa ~10× mais que um alerta. O recall subiu de 49% para 90% |
 | Faixas **0–14 / 15–39 / 40–69 / 70–100** | Quartis 25/50/75 | Com o score calibrado, as faixas passam a ter um significado probabilístico |
 | Explicação **pelo próprio modelo** (efeito marginal contra a distribuição da frota) | Fórmula fixa da Sprint 2; biblioteca SHAP | Fiel ao modelo, determinística e sem dependência pesada |
 | **Gatilhos explícitos** além do modelo | Só o modelo | São interpretáveis, cobrem cenários extremos e funcionam como segunda linha de defesa |

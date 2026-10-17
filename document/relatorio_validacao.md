@@ -6,7 +6,7 @@ Este relatório reúne as **evidências de que a solução funciona de ponta a p
 |---|---|---|---|
 | 1 | Fluxo estável e reproduzível | Pipeline de 7 etapas, 12/12 verificações aprovadas | `python scripts/run.py pipeline` |
 | 2 | Tratamento de inconsistências, faltantes e duplicidades | Relatório de qualidade (97,2% de aproveitamento, 0 ausentes após o tratamento) | [`src/datasets/relatorio_qualidade.json`](../src/datasets/relatorio_qualidade.json) |
-| 3 | Modelo final com métricas justificadas | PR-AUC 0,76, recall 82%, calibrado, validação temporal | [`modelo_preditivo.md`](modelo_preditivo.md) |
+| 3 | Modelo final com métricas justificadas | PR-AUC 0,76, recall 90%, calibrado, validação temporal | [`modelo_preditivo.md`](modelo_preditivo.md) |
 | 4 | Integração consistente com a fonte de dados | 200 envios pela API: 0 perdas, 0 erros inesperados | [`evidencias/validacao_integracao.md`](evidencias/validacao_integracao.md) |
 | 5 | Controle de acesso, proteção e integridade | Cenários reais: 401/403/422/429, bloqueio, RBAC, adulteração detectada | [`evidencias/seguranca_rastreabilidade.md`](evidencias/seguranca_rastreabilidade.md) |
 | 6 | Logs que rastreiam entradas, saídas e decisões | Auditoria encadeada + log JSON ([amostra](evidencias/amostra_log.jsonl)) | `GET /leituras/{id}` |
@@ -22,7 +22,7 @@ Saída completa em [`evidencias/execucao_pipeline.txt`](evidencias/execucao_pipe
 ```
 [1/7] Coleta simulada ........ 40 equipamentos · 5.891 registros brutos · 514 falhas de coleta injetadas
 [2/7] Qualidade de dados ..... 5.723 aceitas (314 corrigidas) · 97 duplicadas removidas · 71 em quarentena
-[3/7] Modelo preditivo ....... hgb-v2.0 · teste: ROC-AUC 0,881 · PR-AUC 0,760 · recall 82% no limiar 15
+[3/7] Modelo preditivo ....... hgb-v2.0 · teste: ROC-AUC 0,884 · PR-AUC 0,764 · recall 90% no limiar 10
 [4/7] Banco de dados ......... 6 regiões · 40 equipamentos · 71 em quarentena · 4 usuários
 [5/7] Carga + score .......... 5.723 predições com explicação + alertas
 [6/7] Relatórios ............. tendências em Markdown + 4 gráficos + 3 CSV

@@ -75,7 +75,7 @@ evidência, não em achismo.
 
 **Cenário prático de uso.** Ricardo abre a visão da seguradora e confirma a **eficácia do
 score em dados nunca vistos pelo modelo** (agosto): leituras de risco Baixo viraram sinistro em
-**4,9%** dos casos e as de risco Crítico em **93,2%**. O modelo antecipa **82% dos sinistros**,
+**4,8%** dos casos e as de risco Crítico em **93,3%**. O modelo antecipa **90% dos sinistros**,
 contra 49% na receita da Sprint 3. Em seguida, clica em **Verificar integridade da auditoria**:
 a cadeia de hashes confirma que nenhum evento foi alterado, e cada predição traz a **versão do
 modelo (hgb-v2.0) e das regras**.

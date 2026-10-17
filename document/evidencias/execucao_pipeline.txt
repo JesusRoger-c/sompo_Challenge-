@@ -11,8 +11,8 @@
 [3/7] Modelo preditivo (seleção temporal, calibração, limiar por custo)
   Logistic Regression    PR-AUC valid=0.648  ROC-AUC valid=0.828
   Random Forest          PR-AUC valid=0.662  ROC-AUC valid=0.831
-  HistGradientBoosting   PR-AUC valid=0.679  ROC-AUC valid=0.836
-      ✔ hgb-v2.0 · teste: ROC-AUC 0.881 · PR-AUC 0.760 · recall 82% no limiar 15  (55.8s)
+  HistGradientBoosting   PR-AUC valid=0.670  ROC-AUC valid=0.835
+      ✔ hgb-v2.0 · teste: ROC-AUC 0.884 · PR-AUC 0.764 · recall 90% no limiar 10  (55.8s)
 
 [4/7] Banco de dados (schema, cadastros, usuários, versão do modelo)
       ✔ 6 regiões · 40 equipamentos · 71 em quarentena · 4 usuários  (1.7s)

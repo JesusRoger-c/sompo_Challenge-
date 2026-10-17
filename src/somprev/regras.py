@@ -43,7 +43,7 @@ ORDEM_CLASSE = {c: i for i, c in enumerate(CLASSES)}
 REGRAS_PADRAO: dict = {
     "versao": "regras-v2.0-padrao",
     "faixas_score": {"Baixo": [0, 14], "Medio": [15, 39], "Alto": [40, 69], "Critico": [70, 100]},
-    "alerta_modelo": {"limiar_score": 15},
+    "alerta_modelo": {"limiar_score": 10},
     "gatilhos": [],
     "economia": {"custo_medio_sinistro_brl": 85000, "taxa_prevencao": 0.45,
                  "custo_parada_preventiva_brl": 4000},

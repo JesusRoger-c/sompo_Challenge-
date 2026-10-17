@@ -15,7 +15,7 @@ Código: [`src/somprev/modelo/treino.py`](../src/somprev/modelo/treino.py) (trei
 | Algoritmos | 3 algoritmos com parâmetros fixos | 3 algoritmos com **busca de hiperparâmetros** em validação cruzada temporal | Escolha baseada em evidência |
 | Critério de escolha | Acurácia | **PR-AUC na validação** | Classe rara (~20–37% de sinistros) e foco em antecipar sinistros |
 | Probabilidade | Não calibrada | **Calibrada** (Platt) | Score 30 passa a significar ~30% de chance real |
-| Limiar de alerta | 0,5 fixo | **Escolhido por custo** (score ≥ 15) | Deixar passar um sinistro custa ~10× mais que uma parada preventiva |
+| Limiar de alerta | 0,5 fixo | **Escolhido por custo** (score ≥ 10) | Deixar passar um sinistro custa ~10× mais que uma parada preventiva |
 | Explicação | Fórmula fixa, independente do modelo | **Calculada pelo próprio modelo**, por leitura | Explicação fiel ao que o modelo realmente usou |
 | Taxa real por faixa | Calculada na base inteira (incluindo o treino) | Calculada **só no teste** | Evita um resultado otimista |
 | Rastreabilidade | Versão `rf-v1.0` | Versão `hgb-v2.0` + **model card** + **hash SHA-256** do artefato | Auditoria do modelo em produção |
@@ -74,21 +74,21 @@ Um alerta preventivo tem um custo (parada ou replanejamento: **R$ 4 mil**). Um s
 custo(limiar) = nº de alertas × R$ 4.000 + nº de sinistros sem alerta × R$ 85.000 × 0,45
 ```
 
-O mínimo fica em **probabilidade 0,15 (score ≥ 15)**. As premissas estão em [`config/regras_risco.json`](../config/regras_risco.json) e podem ser recalibradas com dados reais da Sompo.
+O mínimo fica em **probabilidade 0,10 (score ≥ 10)**. As premissas estão em [`config/regras_risco.json`](../config/regras_risco.json) e podem ser recalibradas com dados reais da Sompo.
 
 ![Análise do limiar](../src/models/analise_limiar.png)
 
 ### Resultado no teste (agosto, 961 leituras nunca vistas)
 
-| Métrica | Receita Sprint 3 (limiar 0,5) | **Modelo final (limiar 0,15)** |
+| Métrica | Receita Sprint 3 (limiar 0,5) | **Modelo final (limiar 0,10)** |
 |---|---:|---:|
-| Recall (sinistros antecipados) | 49,2% | **81,9%** |
-| Precisão (alertas que viraram sinistro) | 87,9% | 42,8% |
-| Leituras com alerta | 10,3% | 35,3% |
-| Custo esperado no mês | R$ 3,84 mi | **R$ 2,58 mi** |
+| Recall (sinistros antecipados) | 49,2% | **89,8%** |
+| Precisão (alertas que viraram sinistro) | 87,9% | 32,2% |
+| Leituras com alerta | 10,3% | 51,4% |
+| Custo esperado no mês | R$ 3,84 mi | **R$ 2,66 mi** |
 | Custo sem nenhum modelo | R$ 6,77 mi | R$ 6,77 mi |
 
-**Troca consciente:** o sistema passa a alertar mais vezes e aceita mais "alarmes falsos", mas antecipa **4 em cada 5 sinistros**, contra 1 em cada 2 antes. Para uma solução **preventiva**, deixar passar um sinistro é o erro mais caro. Para evitar a fadiga de alerta, os alertas repetidos são **agrupados** e o nível **Médio** pede atenção, não parada.
+**Troca consciente:** o sistema passa a alertar mais vezes e aceita mais "alarmes falsos", mas antecipa **9 em cada 10 sinistros**, contra 1 em cada 2 antes. Para uma solução **preventiva**, deixar passar um sinistro é o erro mais caro. Para evitar a fadiga de alerta, os alertas repetidos são **agrupados** e o nível **Médio** pede atenção, não parada.
 
 ![Matriz de confusão](../src/models/matriz_confusao.png)
 
