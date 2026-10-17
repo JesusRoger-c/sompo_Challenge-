@@ -1,37 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 860" width="1680" height="860">
-<defs><marker id="ponta" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#E1251B"/></marker><linearGradient id="topo" x1="0" x2="1"><stop offset="0" stop-color="#A4161A"/><stop offset="1" stop-color="#E1251B"/></linearGradient></defs>
-<rect width="1680" height="860" fill="#F5F5F5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 860" width="1680" height="860" xmlns:c2pa="http://c2pa.org/manifest"><metadata><c2pa:manifest>AAAWgmp1bWIAAAAeanVtZGMycGEAEQAQgAAAqgA4m3EDYzJwYQAAABZcanVtYgAAAEdqdW1kYzJtYQARABCAAACqADibcQN1cm46YzJwYToyYTQ2YzA4MS1jNzY1LTRjNWEtYjE2OS01NGJiZTFmNmNjMjUAAAADl2p1bWIAAAApanVtZGMyYXMAEQAQgAAAqgA4m3EDYzJwYS5hc3NlcnRpb25zAAAAALxqdW1iAAAARGp1bWRjYm9yABEAEIAAAKoAOJtxE2MycGEuaW5ncmVkaWVudC52MwAAAAAYYzJzaB4zRZWyqWltm4aGkBw1IKkAAABwY2JvcqNpZGM6Zm9ybWF0bWltYWdlL3N2Zyt4bWxqaW5zdGFuY2VJRHgseG1wOmlpZDphZjhhZmRhYy03MGI3LTRkODYtOTM3Yi1jY2U2MDBhYzJlZjFscmVsYXRpb25zaGlwaHBhcmVudE9mAAAB4mp1bWIAAABBanVtZGNib3IAEQAQgAAAqgA4m3ETYzJwYS5hY3Rpb25zLnYyAAAAABhjMnNolnXw63jLc2n3p/BIpQKTUAAAAZljYm9yomdhY3Rpb25zgqJmYWN0aW9ua2MycGEub3BlbmVkanBhcmFtZXRlcnOha2luZ3JlZGllbnRzgaJjdXJseC1zZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmluZ3JlZGllbnQudjNkaGFzaFggbp8rq86eT/wMLhgFdPHCbESDk9bLx9m1/6kkZFSCjGakZmFjdGlvbngdY29tLmFudGhyb3BpYy5jbGF1ZGUucHJvdmlkZWRqcGFyYW1ldGVyc6F4H2NvbS5hbnRocm9waWMub3JpZ2luLWNvbmZpZGVuY2VndW5rbm93bmtkZXNjcmlwdGlvbnhmQ2xhdWRlIHByb3ZpZGVkIHRoaXMgZmlsZSBhdCB0aGUgcmVxdWVzdCBvZiBhIHVzZXIgYW5kIG1heSBoYXZlIGNyZWF0ZWQgb3IgbW9kaWZpZWQgdGhlIGZpbGUgY29udGVudHMubXNvZnR3YXJlQWdlbnShZG5hbWVmQ2xhdWRlcmFsbEFjdGlvbnNJbmNsdWRlZPUAAADIanVtYgAAAEBqdW1kY2JvcgARABCAAACqADibcRNjMnBhLmhhc2guZGF0YQAAAAAYYzJzaCWjGBfguh1PDY7KxpCemf4AAACAY2JvcqVjYWxnZnNoYTI1NmNwYWRNAAAAAAAAAAAAAAAAAGRoYXNoWCCmqtjinWsKm3660TjfzTmIhZFbpNI6qWzCB8Kk61kp1GRuYW1lbmp1bWJmIG1hbmlmZXN0amV4Y2x1c2lvbnOBomVzdGFydBiYZmxlbmd0aBkeBAAAAj5qdW1iAAAAJ2p1bWRjMmNsABEAEIAAAKoAOJtxA2MycGEuY2xhaW0udjIAAAACD2Nib3KlY2FsZ2ZzaGEyNTZpc2lnbmF0dXJleE1zZWxmI2p1bWJmPS9jMnBhL3VybjpjMnBhOjJhNDZjMDgxLWM3NjUtNGM1YS1iMTY5LTU0YmJlMWY2Y2MyNS9jMnBhLnNpZ25hdHVyZWppbnN0YW5jZUlEeCx4bXA6aWlkOjhhOGMzNjA4LTJjYmYtNDY0ZC04MjAyLTFmY2QwNGEzMGVmZXJjcmVhdGVkX2Fzc2VydGlvbnODomN1cmx4LXNlbGYjanVtYmY9YzJwYS5hc3NlcnRpb25zL2MycGEuaW5ncmVkaWVudC52M2RoYXNoWCBunyurzp5P/AwuGAV08cJsRIOT1svH2bX/qSRkVIKMZqJjdXJseCpzZWxmI2p1bWJmPWMycGEuYXNzZXJ0aW9ucy9jMnBhLmFjdGlvbnMudjJkaGFzaFggKw7DQ5t43G1qcPwbI1ZuFSnJe8bHRZxxQ3XNId/CpmuiY3VybHgpc2VsZiNqdW1iZj1jMnBhLmFzc2VydGlvbnMvYzJwYS5oYXNoLmRhdGFkaGFzaFggrMZ0ZlbbGs5hdfrqAURSjyqvRVs8Xl9Kma9XGAvN2WF0Y2xhaW1fZ2VuZXJhdG9yX2luZm+jZG5hbWVvQW50aHJvcGljIEZpbGVzZ3ZlcnNpb25lMS4wLjBrc3BlY1ZlcnNpb25lMi40LjAAABA4anVtYgAAAChqdW1kYzJjcwARABCAAACqADibcQNjMnBhLnNpZ25hdHVyZQAAABAIY2JvctKEWQISogEmGCFZAgowggIGMIIBjaADAgECAhRA5aAK7sI50L64g/oGQgU9Z1UTADAKBggqhkjOPQQDAzBJMRcwFQYDVQQKEw5BbnRocm9waWMsIFBCQzEuMCwGA1UEAxMlQW50aHJvcGljIENvbnRlbnQgQ3JlZGVudGlhbHMgUm9vdCBDQTAeFw0yNjA4MDcxODQzNTZaFw0yODA4MDYxOTQzNTZaMEQxFzAVBgNVBAoTDkFudGhyb3BpYywgUEJDMSkwJwYDVQQDEyBBbnRocm9waWMgQ2xhdWRlIENvbnRlbnQgU2lnbmluZzBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABJh6CmvLUBgFFNU0vUKlOVtE6djd17L5SuwX0LemFisBM3dkd/3cyjxFA3Qo5S46fX0/ihY0VZ7mfb9KF703t5OjWDBWMA4GA1UdDwEB/wQEAwIHgDAVBgNVHSUEDjAMBgorBgEEAYPoXgIBMAwGA1UdEwEB/wQCMAAwHwYDVR0jBBgwFoAUzlHiBIFOZFsj+OPEz5o+nMHXXMIwCgYIKoZIzj0EAwMDZwAwZAIwMXMdFJ4BetLLVY7ORuE9noqbbAZOZn/aArXyTwFAZfKrPzxF2vPoJNf1+UCdg1XGAjBwX1zd9WGqYkqmL5SFqw1QySjr1zJfpJM9+1rdDwSPLMOPOjKuiXjoU/pUUeG9RwmhY3BhZFkNngAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPZYQMV8+xcyGT7yrbkY9sx3Eq4TvP62fjuP9XNm/NX08lkPpSFEHAevCbd0at8IsWHOLMX0lxkn38Nv347Dh0V+aa0=</c2pa:manifest></metadata>
+<defs><marker id="ponta" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#A06A00"/></marker><linearGradient id="topo" x1="0" x2="1"><stop offset="0" stop-color="#17160F"/><stop offset="1" stop-color="#A06A00"/></linearGradient></defs>
+<rect width="1680" height="860" fill="#F3F1E9"/>
 <rect width="1680" height="72" fill="url(#topo)"/>
 <text x="28" y="44" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="25" font-weight="700" fill="#fff">SomPrev Risk — arquitetura final do MVP (Sprint 4)</text>
 <text x="1652" y="44" text-anchor="end" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="13" fill="#fff">entrada → qualidade → banco → modelo → regras → saída · Challenge FIAP + Sompo Seguros</text>
-<rect x="28" y="96" width="250" height="26" rx="6" fill="#1A1A1A"/><text x="153.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">ENTRADA</text>
-<rect x="302" y="96" width="250" height="26" rx="6" fill="#1A1A1A"/><text x="427.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">INGESTÃO</text>
-<rect x="576" y="96" width="250" height="26" rx="6" fill="#1A1A1A"/><text x="701.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">QUALIDADE</text>
-<rect x="850" y="96" width="250" height="26" rx="6" fill="#1A1A1A"/><text x="975.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">BANCO</text>
-<rect x="1124" y="96" width="250" height="26" rx="6" fill="#1A1A1A"/><text x="1249.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">INTELIGÊNCIA</text>
-<rect x="1398" y="96" width="250" height="26" rx="6" fill="#1A1A1A"/><text x="1523.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">SAÍDA</text>
+<rect x="28" y="96" width="250" height="26" rx="6" fill="#17160F"/><text x="153.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">ENTRADA</text>
+<rect x="302" y="96" width="250" height="26" rx="6" fill="#17160F"/><text x="427.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">INGESTÃO</text>
+<rect x="576" y="96" width="250" height="26" rx="6" fill="#17160F"/><text x="701.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">QUALIDADE</text>
+<rect x="850" y="96" width="250" height="26" rx="6" fill="#17160F"/><text x="975.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">BANCO</text>
+<rect x="1124" y="96" width="250" height="26" rx="6" fill="#17160F"/><text x="1249.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">INTELIGÊNCIA</text>
+<rect x="1398" y="96" width="250" height="26" rx="6" fill="#17160F"/><text x="1523.0" y="114" text-anchor="middle" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="11.5" font-weight="700" fill="#fff" letter-spacing="1.5">SAÍDA</text>
 <rect x="28" y="140" width="250" height="150" rx="12" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1.2"/>
-<circle cx="50" cy="164" r="12" fill="#A4161A"/><text x="50" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">1</text>
-<text x="70" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Telemetria de campo</text>
+<circle cx="50" cy="164" r="12" fill="#17160F"/><text x="50" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">1</text>
+<text x="70" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Telemetria de campo</text>
 <text x="44" y="194" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• sensores de solo e clima</text>
 <text x="44" y="213" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• uso da máquina (horas, carga)</text>
 <text x="44" y="232" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• tipo de operação e terreno</text>
 <text x="44" y="251" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• coletor → JSON via HTTPS</text>
 <text x="44" y="270" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• (simulada: permitido)</text>
 <rect x="28" y="310" width="250" height="118" rx="12" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1.2"/>
-<text x="44" y="339" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Carga histórica</text>
+<text x="44" y="339" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Carga histórica</text>
 <text x="44" y="364" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• coleta_bruta.csv (6 meses)</text>
 <text x="44" y="383" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• cadastro da frota</text>
 <text x="44" y="402" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• falhas reais de coleta</text>
 <text x="44" y="421" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• injetadas p/ validação</text>
 <rect x="28" y="448" width="250" height="100" rx="12" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1.2"/>
-<text x="44" y="477" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Simulador (teste)</text>
-<text x="44" y="502" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• python run.py simular</text>
+<text x="44" y="477" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Simulador (teste)</text>
+<text x="44" y="502" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• python scripts/run.py simular</text>
 <text x="44" y="521" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• envios bons e defeituosos</text>
 <text x="44" y="540" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• reconciliação automática</text>
-<rect x="302" y="140" width="250" height="180" rx="12" fill="#FBE3E1" stroke="#E1251B" stroke-width="1.8"/>
-<circle cx="324" cy="164" r="12" fill="#A4161A"/><text x="324" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">2</text>
-<text x="344" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">API FastAPI</text>
+<rect x="302" y="140" width="250" height="180" rx="12" fill="#FFF3CC" stroke="#A06A00" stroke-width="1.8"/>
+<circle cx="324" cy="164" r="12" fill="#17160F"/><text x="324" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">2</text>
+<text x="344" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">API FastAPI</text>
 <text x="318" y="194" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• POST /telemetria (e /lote)</text>
 <text x="318" y="213" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• chave de ingestão (escopo)</text>
 <text x="318" y="232" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• limite de taxa → 429</text>
@@ -39,14 +39,14 @@
 <text x="318" y="270" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• erros tratados, sem vazar</text>
 <text x="318" y="289" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• X-Request-ID + log JSON</text>
 <rect x="302" y="340" width="250" height="100" rx="12" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1.2"/>
-<circle cx="324" cy="364" r="12" fill="#A4161A"/><text x="324" y="368.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">2</text>
-<text x="344" y="369" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Pipeline em lote</text>
-<text x="318" y="394" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• python run.py pipeline</text>
+<circle cx="324" cy="364" r="12" fill="#17160F"/><text x="324" y="368.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">2</text>
+<text x="344" y="369" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Pipeline em lote</text>
+<text x="318" y="394" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• python scripts/run.py pipeline</text>
 <text x="318" y="413" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• 7 etapas reprodutíveis</text>
 <text x="318" y="432" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• mesma seed → mesmos números</text>
-<rect x="576" y="140" width="250" height="208" rx="12" fill="#FBE3E1" stroke="#E1251B" stroke-width="1.8"/>
-<circle cx="598" cy="164" r="12" fill="#A4161A"/><text x="598" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">3</text>
-<text x="618" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Qualidade de dados</text>
+<rect x="576" y="140" width="250" height="208" rx="12" fill="#FFF3CC" stroke="#A06A00" stroke-width="1.8"/>
+<circle cx="598" cy="164" r="12" fill="#17160F"/><text x="598" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">3</text>
+<text x="618" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Qualidade de dados</text>
 <text x="592" y="194" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• duplicidade / reenvio → bloqueio</text>
 <text x="592" y="213" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• "55,3" e "Manhã" → padroniza</text>
 <text x="592" y="232" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• fora da faixa física → ausente</text>
@@ -55,12 +55,12 @@
 <text x="592" y="289" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• crítico ausente → quarentena</text>
 <text x="592" y="308" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• toda correção registrada</text>
 <rect x="576" y="368" width="250" height="80" rx="12" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1.2"/>
-<text x="592" y="397" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Quarentena</text>
+<text x="592" y="397" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Quarentena</text>
 <text x="592" y="422" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• tabela + motivo da rejeição</text>
 <text x="592" y="441" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• nada é descartado em silêncio</text>
-<rect x="850" y="140" width="250" height="238" rx="12" fill="#FBE3E1" stroke="#E1251B" stroke-width="1.8"/>
-<circle cx="872" cy="164" r="12" fill="#A4161A"/><text x="872" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">4</text>
-<text x="892" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">SQLite (WAL)</text>
+<rect x="850" y="140" width="250" height="238" rx="12" fill="#FFF3CC" stroke="#A06A00" stroke-width="1.8"/>
+<circle cx="872" cy="164" r="12" fill="#17160F"/><text x="872" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">4</text>
+<text x="892" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">SQLite (WAL)</text>
 <text x="866" y="194" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• regiões · equipamentos</text>
 <text x="866" y="213" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• leituras (+ hash do payload)</text>
 <text x="866" y="232" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• predições (versões + explicação)</text>
@@ -70,26 +70,26 @@
 <text x="866" y="308" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• versões do modelo</text>
 <text x="866" y="327" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• CHECK + FK + UNIQUE</text>
 <text x="866" y="346" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• transação atômica por leitura</text>
-<rect x="1124" y="140" width="250" height="190" rx="12" fill="#FBE3E1" stroke="#E1251B" stroke-width="1.8"/>
-<circle cx="1146" cy="164" r="12" fill="#A4161A"/><text x="1146" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">5</text>
-<text x="1166" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Modelo de risco v2</text>
+<rect x="1124" y="140" width="250" height="190" rx="12" fill="#FFF3CC" stroke="#A06A00" stroke-width="1.8"/>
+<circle cx="1146" cy="164" r="12" fill="#17160F"/><text x="1146" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">5</text>
+<text x="1166" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Modelo de risco v2</text>
 <text x="1140" y="194" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• HistGradientBoosting calibrado</text>
 <text x="1140" y="213" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• validação temporal (mar→ago)</text>
-<text x="1140" y="232" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• PR-AUC 0,76 · recall 82%</text>
+<text x="1140" y="232" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• PR-AUC 0,76 · recall 90%</text>
 <text x="1140" y="251" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• score 0-100 = prob. × 100</text>
 <text x="1140" y="270" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• explicação por variável</text>
 <text x="1140" y="289" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• model card + hash SHA-256</text>
-<rect x="1124" y="350" width="250" height="150" rx="12" fill="#FBE3E1" stroke="#E1251B" stroke-width="1.8"/>
-<circle cx="1146" cy="374" r="12" fill="#A4161A"/><text x="1146" y="378.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">6</text>
-<text x="1166" y="379" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Regras e alertas</text>
+<rect x="1124" y="350" width="250" height="150" rx="12" fill="#FFF3CC" stroke="#A06A00" stroke-width="1.8"/>
+<circle cx="1146" cy="374" r="12" fill="#17160F"/><text x="1146" y="378.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">6</text>
+<text x="1166" y="379" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Regras e alertas</text>
 <text x="1140" y="404" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• regras_risco.json versionado</text>
 <text x="1140" y="423" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• faixas 0-14 / 15-39 / 40-69 / 70+</text>
-<text x="1140" y="442" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• limiar por custo: score ≥ 15</text>
+<text x="1140" y="442" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• limiar por custo: score ≥ 10</text>
 <text x="1140" y="461" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• 5 gatilhos explícitos</text>
 <text x="1140" y="480" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• agrupamento (anti-fadiga)</text>
-<rect x="1398" y="140" width="250" height="210" rx="12" fill="#FBE3E1" stroke="#E1251B" stroke-width="1.8"/>
-<circle cx="1420" cy="164" r="12" fill="#A4161A"/><text x="1420" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">7</text>
-<text x="1440" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Dashboard (4 perfis)</text>
+<rect x="1398" y="140" width="250" height="210" rx="12" fill="#FFF3CC" stroke="#A06A00" stroke-width="1.8"/>
+<circle cx="1420" cy="164" r="12" fill="#17160F"/><text x="1420" y="168.5" text-anchor="middle" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" font-weight="700" fill="#fff">7</text>
+<text x="1440" y="169" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Dashboard (4 perfis)</text>
 <text x="1414" y="194" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• Operador: semáforo + por quê</text>
 <text x="1414" y="213" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• Técnico: fila de manutenção</text>
 <text x="1414" y="232" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• Gestor: tendências e regras</text>
@@ -97,43 +97,43 @@
 <text x="1414" y="270" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• login PBKDF2 + bloqueio</text>
 <text x="1414" y="289" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• permissões por perfil</text>
 <rect x="1398" y="370" width="250" height="110" rx="12" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1.2"/>
-<text x="1414" y="399" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">API de consulta</text>
+<text x="1414" y="399" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">API de consulta</text>
 <text x="1414" y="424" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• leitura + trilha de auditoria</text>
 <text x="1414" y="443" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• tendências · alertas · modelo</text>
 <text x="1414" y="462" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• verificação da cadeia</text>
 <rect x="1398" y="500" width="250" height="100" rx="12" fill="#FFFFFF" stroke="#CFCFCF" stroke-width="1.2"/>
-<text x="1414" y="529" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Relatórios</text>
+<text x="1414" y="529" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Relatórios</text>
 <text x="1414" y="554" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• tendência região/operação</text>
 <text x="1414" y="573" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• ranking de equipamentos</text>
 <text x="1414" y="592" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="12" fill="#3A3A3A">• Markdown + PNG + CSV</text>
-<path d="M 278 212 L 302 212" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 278 368 L 302 385" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 278 498 L 302 280" stroke="#E1251B" stroke-width="2.2" fill="none" stroke-dasharray="6 5" marker-end="url(#ponta)"/>
-<path d="M 552 230 L 576 230" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 552 390 L 576 300" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 701.0 348 L 701.0 368" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 826 250 L 850 250" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 826 408 L 850 330" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 1100 230 L 1124 230" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 1249.0 330 L 1249.0 350" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 1100 330 L 1124 420" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 1374 245 L 1398 245" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 1374 425 L 1398 425" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<path d="M 1374 470 L 1398 550" stroke="#E1251B" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
-<rect x="28" y="650" width="1624" height="112" rx="12" fill="#FFFFFF" stroke="#1A1A1A" stroke-width="1.4" stroke-dasharray="7 5"/>
-<text x="48" y="680" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#1A1A1A">Segurança e rastreabilidade (transversal a todas as etapas)</text>
-<text x="48" y="710" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="700" fill="#A4161A">Auditoria encadeada</text>
+<path d="M 278 212 L 302 212" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 278 368 L 302 385" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 278 498 L 302 280" stroke="#A06A00" stroke-width="2.2" fill="none" stroke-dasharray="6 5" marker-end="url(#ponta)"/>
+<path d="M 552 230 L 576 230" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 552 390 L 576 300" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 701.0 348 L 701.0 368" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 826 250 L 850 250" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 826 408 L 850 330" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 1100 230 L 1124 230" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 1249.0 330 L 1249.0 350" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 1100 330 L 1124 420" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 1374 245 L 1398 245" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 1374 425 L 1398 425" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<path d="M 1374 470 L 1398 550" stroke="#A06A00" stroke-width="2.2" fill="none" marker-end="url(#ponta)"/>
+<rect x="28" y="650" width="1624" height="112" rx="12" fill="#FFFFFF" stroke="#17160F" stroke-width="1.4" stroke-dasharray="7 5"/>
+<text x="48" y="680" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="15" font-weight="700" fill="#17160F">Segurança e rastreabilidade (transversal a todas as etapas)</text>
+<text x="48" y="710" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="700" fill="#17160F">Auditoria encadeada</text>
 <text x="48" y="730" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#3A3A3A">SHA-256 evento a evento; triggers impedem</text>
 <text x="48" y="746" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#3A3A3A">UPDATE/DELETE; verificação detecta adulteração</text>
-<text x="448" y="710" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="700" fill="#A4161A">Controle de acesso</text>
+<text x="448" y="710" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="700" fill="#17160F">Controle de acesso</text>
 <text x="448" y="730" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#3A3A3A">4 perfis com permissões explícitas; 2 chaves de API por</text>
 <text x="448" y="746" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#3A3A3A">escopo; sessão expira em 30 min</text>
-<text x="848" y="710" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="700" fill="#A4161A">Proteção de dados</text>
+<text x="848" y="710" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="700" fill="#17160F">Proteção de dados</text>
 <text x="848" y="730" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#3A3A3A">senhas só em hash PBKDF2 (600 mil it.); segredos só no</text>
 <text x="848" y="746" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#3A3A3A">.env; logs mascaram chaves</text>
-<text x="1248" y="710" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="700" fill="#A4161A">Integridade</text>
+<text x="1248" y="710" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="13" font-weight="700" fill="#17160F">Integridade</text>
 <text x="1248" y="730" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#3A3A3A">hash do payload na leitura; hash do modelo; 12</text>
 <text x="1248" y="746" font-family="Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif" font-size="11.5" fill="#3A3A3A">verificações automáticas; 105 testes</text>
-<text x="28" y="800" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="12" fill="#6B6B6B">Fluxo de uma leitura: coletor → API (chave + validação) → qualidade (corrige/imputa/quarentena) → transação: leitura + predição + explicação + alertas + auditoria → dashboard/relatórios.</text>
-<text x="28" y="822" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="12" fill="#6B6B6B">Comandos: python run.py configurar | pipeline | api | dashboard | simular | verificar | testes</text>
+<text x="28" y="800" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="12" fill="#6B6657">Fluxo de uma leitura: coletor → API (chave + validação) → qualidade (corrige/imputa/quarentena) → transação: leitura + predição + explicação + alertas + auditoria → dashboard/relatórios.</text>
+<text x="28" y="822" font-family="'Roboto Mono', 'DejaVu Sans Mono', monospace" font-size="12" fill="#6B6657">Comandos: python scripts/run.py configurar | pipeline | api | dashboard | simular | verificar | testes</text>
 </svg>

@@ -9,6 +9,7 @@ O PNG exige a biblioteca opcional `cairosvg`; sem ela, apenas o SVG e gerado.
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -17,13 +18,22 @@ sys.path.insert(0, str(RAIZ / "src"))
 
 from somprev import tema  # noqa: E402
 
+# Os numeros do modelo sao LIDOS do model card gerado pelo treino, nunca digitados
+# aqui. Estavam fixos no codigo e o diagrama acabou publicando um recall e um limiar
+# diferentes dos do modelo versionado; lendo a fonte, isso nao volta a acontecer.
+_CARD = json.loads((RAIZ / "src" / "models" / "model_card.json").read_text(encoding="utf-8"))
+_M = _CARD["metricas_teste"]
+PR_AUC = f"{_M['pr_auc']:.2f}".replace(".", ",")
+RECALL = f"{_M['recall']:.0%}"
+LIMIAR = f"{_M['limiar'] * 100:.0f}"
+
 W, H = 1680, 860
 CW, GAP = 250, 24
 X = [28 + i * (CW + GAP) for i in range(6)]
 FONTE = "Roboto, 'Noto Sans', 'DejaVu Sans', Arial, sans-serif"
 MONO = "'Roboto Mono', 'DejaVu Sans Mono', monospace"
-V, VE, G = tema.VERMELHO_INSTITUCIONAL, tema.VERMELHO_ESCURO, tema.GRAFITE
-CINZA, LINHA, SUAVE = tema.CINZA_MEDIO, tema.LINHA, tema.VERMELHO_SUAVE
+V, VE, G = tema.AMBAR_PROFUNDO, tema.GRAFITE, tema.GRAFITE
+CINZA, LINHA, SUAVE = tema.CINZA_MEDIO, tema.LINHA, tema.AMARELO_SUAVE
 
 
 def esc(t: str) -> str:
@@ -108,10 +118,10 @@ def montar() -> str:
         "CHECK + FK + UNIQUE", "transação atômica por leitura"], True, 4))
 
     s.append(caixa(e, 140, CW, 190, "Modelo de risco v2", [
-        "HistGradientBoosting calibrado", "validação temporal (mar→ago)", "PR-AUC 0,76 · recall 82%",
+        "HistGradientBoosting calibrado", "validação temporal (mar→ago)", f"PR-AUC {PR_AUC} · recall {RECALL}",
         "score 0-100 = prob. × 100", "explicação por variável", "model card + hash SHA-256"], True, 5))
     s.append(caixa(e, 350, CW, 150, "Regras e alertas", [
-        "regras_risco.json versionado", "faixas 0-14 / 15-39 / 40-69 / 70+", "limiar por custo: score ≥ 15",
+        "regras_risco.json versionado", "faixas 0-14 / 15-39 / 40-69 / 70+", f"limiar por custo: score ≥ {LIMIAR}",
         "5 gatilhos explícitos", "agrupamento (anti-fadiga)"], True, 6))
 
     s.append(caixa(f, 140, CW, 210, "Dashboard (4 perfis)", [

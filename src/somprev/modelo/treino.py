@@ -73,8 +73,10 @@ warnings.filterwarnings("ignore", category=UserWarning)
 VERSAO_MODELO = "v2.0"
 CORTE_VALIDACAO = "2026-07-01"
 CORTE_TESTE = "2026-08-01"
-CORES = {"Logistic Regression": "#6C8EBF", "Random Forest": "#0B6E4F",
-         "HistGradientBoosting": "#E8761B", "Receita Sprint 3": "#9E9E9E"}
+# Um candidato, uma cor da marca. O vencedor (HistGradientBoosting) fica em grafite
+# -- a tinta principal -- para se destacar dos demais sem recorrer a cor de risco.
+CORES = {"Logistic Regression": tema.AMBAR_PROFUNDO, "Random Forest": tema.VERDE_MARCA,
+         "HistGradientBoosting": tema.GRAFITE, "Receita Sprint 3": tema.CINZA_MEDIO}
 
 
 # ---------------------------------------------------------------------------
@@ -218,7 +220,7 @@ def _graficos(y_te, probs_te: dict, final_p, tabela_limiar, limiar, importancias
     fig, ax = plt.subplots(figsize=(6, 5))
     frac, media = calibration_curve(y_te, final_p, n_bins=10, strategy="quantile")
     ax.plot([0, 1], [0, 1], "k--", alpha=0.4, label="Calibração perfeita")
-    ax.plot(media, frac, "o-", color=tema.VERMELHO_INSTITUCIONAL, lw=2, label="Modelo final (calibrado)")
+    ax.plot(media, frac, "o-", color=tema.AMBAR_PROFUNDO, lw=2, label="Modelo final (calibrado)")
     ax.set(xlabel="Probabilidade prevista (score/100)", ylabel="Frequência real de sinistro",
            title="Calibração do score — conjunto de teste")
     ax.legend(loc="upper left")
@@ -227,19 +229,22 @@ def _graficos(y_te, probs_te: dict, final_p, tabela_limiar, limiar, importancias
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(7.2, 6.4), sharex=True)
     x = tabela_limiar["limiar"] * 100
     ax1.plot(x, tabela_limiar["custo_brl"] / 1e6, color=tema.GRAFITE, lw=2)
-    ax1.axvline(limiar * 100, color=tema.VERMELHO_INSTITUCIONAL, ls="--", lw=1.5)
+    ax1.axvline(limiar * 100, color=tema.AMBAR_PROFUNDO, ls="--", lw=1.5)
     ax1.set(ylabel="Custo esperado (R$ mi)",
             title=f"Escolha do limiar de alerta por custo (validação) → score ≥ {limiar * 100:.0f}")
-    ax2.plot(x, tabela_limiar["recall"], color="#2a78d6", lw=2, label="Recall (sinistros alertados)")
-    ax2.plot(x, tabela_limiar["precisao"], color="#eb6834", lw=2, label="Precisão (alertas corretos)")
-    ax2.axvline(limiar * 100, color=tema.VERMELHO_INSTITUCIONAL, ls="--", lw=1.5)
+    # recall na cor de apoio da marca (e a metrica que o projeto escolhe maximizar) e
+    # precisao em grafite medio: a troca fica legivel sem usar cor de risco.
+    ax2.plot(x, tabela_limiar["recall"], color=tema.VERDE_MARCA, lw=2, label="Recall (sinistros alertados)")
+    ax2.plot(x, tabela_limiar["precisao"], color=tema.GRAFITE_MEDIO, lw=2, label="Precisão (alertas corretos)")
+    ax2.axvline(limiar * 100, color=tema.AMBAR_PROFUNDO, ls="--", lw=1.5)
     ax2.set(xlabel="Limiar de alerta (score)", ylabel="Proporção", ylim=(0, 1.02))
     ax2.legend(loc="center right", fontsize=8)
     _salvar(fig, "analise_limiar.png")
 
     fig, ax = plt.subplots(figsize=(5.2, 4.6))
-    # escala ambar da marca: o vermelho fica reservado a faixa Critico do semaforo
-    ax.imshow(cm, cmap="YlOrBr")
+    # escala ambar da marca: a matriz conta leituras, nao mede risco -- o vermelho
+    # fica reservado a faixa Critico do semaforo.
+    ax.imshow(cm, cmap=tema.mapa_mpl(tema.ESCALA_AMBAR, "somprev_ambar"))
     rotulos = ["Sem sinistro", "Com sinistro"]
     ax.set_xticks([0, 1], [f"Sem alerta", f"Alerta"])
     ax.set_yticks([0, 1], rotulos)
@@ -255,7 +260,7 @@ def _graficos(y_te, probs_te: dict, final_p, tabela_limiar, limiar, importancias
 
     fig, ax = plt.subplots(figsize=(7.2, 4.8))
     imp = importancias.sort_values()
-    ax.barh([ROTULOS.get(i, i) for i in imp.index], imp.values, color=tema.VERMELHO_ESCURO)
+    ax.barh([ROTULOS.get(i, i) for i in imp.index], imp.values, color=tema.GRAFITE)
     ax.set(xlabel="Queda de PR-AUC ao embaralhar a variável", title="Importância das variáveis (permutação, teste)")
     _salvar(fig, "importancia_variaveis.png")
 
@@ -271,7 +276,7 @@ def _graficos(y_te, probs_te: dict, final_p, tabela_limiar, limiar, importancias
     _salvar(fig, "taxa_real_por_faixa.png")
 
     fig, ax = plt.subplots(figsize=(7.2, 4.4))
-    ax.hist(final_p * 100, bins=25, color=tema.VERMELHO_INSTITUCIONAL, alpha=0.85, edgecolor="white")
+    ax.hist(final_p * 100, bins=25, color=tema.AMBAR_PROFUNDO, alpha=0.85, edgecolor="white")
     for x in (25, 50, 75):
         ax.axvline(x, color="gray", ls="--", alpha=0.6)
     ax.axvline(limiar * 100, color=tema.GRAFITE, lw=2, label=f"Limiar de alerta ({limiar * 100:.0f})")

@@ -171,7 +171,7 @@ def gerar_relatorio(df: pd.DataFrame, alertas: pd.DataFrame, destino=None) -> di
 
     matriz = matriz_regiao_operacao(df, dias=30)
     fig, ax = plt.subplots(figsize=(7.5, 4.2))
-    im = ax.imshow(matriz.values, cmap="YlOrRd", vmin=0, vmax=max(60, np.nanmax(matriz.values)))
+    im = ax.imshow(matriz.values, cmap=tema.mapa_mpl(), vmin=0, vmax=max(60, np.nanmax(matriz.values)))
     ax.set_xticks(range(matriz.shape[1]), matriz.columns)
     ax.set_yticks(range(matriz.shape[0]), matriz.index)
     for i in range(matriz.shape[0]):

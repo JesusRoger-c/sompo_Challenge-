@@ -72,10 +72,6 @@ RISCO_TEXTO = {
 # --- Aliases legados --------------------------------------------------------
 # Os nomes antigos (identidade vermelha) continuam existindo para nao quebrar
 # o treino, os relatorios e o gerador do diagrama. Apontam para os tokens novos.
-VERMELHO_INSTITUCIONAL = AMBAR_PROFUNDO   # legado: acento da marca em graficos
-VERMELHO_ESCURO        = GRAFITE          # legado: titulos
-VERMELHO_SUAVE         = AMARELO_SUAVE    # legado: tint da marca
-
 # Agrupador opcional: reune todas as cores nomeadas em um unico dicionario.
 PALETA = {
     "amarelo_institucional": AMARELO_INSTITUCIONAL,
@@ -95,15 +91,40 @@ PALETA = {
     "risco": RISCO,
     "tinta_risco": TINTA_RISCO,
     "risco_texto": RISCO_TEXTO,
-    # chaves legadas
-    "vermelho_institucional": VERMELHO_INSTITUCIONAL,
-    "vermelho_escuro": VERMELHO_ESCURO,
-    "vermelho_suave": VERMELHO_SUAVE,
 }
 
-# Paleta categorica (series como regioes, operacoes, equipamentos). Ordem fixa e
-# validada para daltonismo em pares adjacentes: a mesma serie tem sempre a mesma cor.
-CATEGORICA = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300", "#4a3aa7", "#e34948"]
+# Paleta categorica (series como regioes, operacoes, equipamentos). Ordem fixa: a
+# mesma serie recebe sempre a mesma cor, entre execucoes e entre graficos.
+#
+# Construida DENTRO da identidade: grafite, ambar e o verde do broto, com terrosos
+# de apoio. Ficam fora, de proposito:
+#   - azul, roxo e rosa, que nao pertencem a marca;
+#   - as quatro cores do semaforo de risco (RISCO, abaixo), para que a cor de uma
+#     SERIE nunca seja lida como a cor de uma FAIXA de risco;
+#   - o amarelo institucional, pela regra do topo deste arquivo.
+# A ordem alterna claro/escuro para manter as series vizinhas distinguiveis, e a
+# variacao de luminosidade preserva a leitura quando o relatorio sai impresso em
+# preto e branco.
+CATEGORICA = ["#17160F", "#A06A00", "#1A7048", "#B08A5A",
+              "#4E7A2F", "#6B6657", "#5C3A0E", "#93A08C"]
 
-# Escala continua do mapa de calor: do papel ao grafite passando pelo ambar.
+# Escala continua do mapa de calor de RISCO: do papel ao vermelho da faixa Critico.
+# Aqui o vermelho e correto -- a grandeza mapeada e risco, e o topo da escala tem o
+# mesmo significado que o topo do semaforo.
 ESCALA_CALOR = [[0.0, "#FFFBEA"], [0.35, "#FFD45C"], [0.7, "#E8761B"], [1.0, "#8C1407"]]
+
+# Escala continua NEUTRA, para grandezas que nao sao risco (contagens, matriz de
+# confusao). Vai do papel ao ambar da marca e nao chega ao vermelho, justamente
+# para nao sugerir "risco" onde nao ha.
+ESCALA_AMBAR = [[0.0, "#FBFAF5"], [0.45, "#FFD45C"], [1.0, "#A06A00"]]
+
+
+def mapa_mpl(escala=None, nome: str = "somprev_calor"):
+    """Devolve um colormap do matplotlib a partir de uma escala deste arquivo.
+
+    Existe para que os graficos de matplotlib usem a MESMA escala que o dashboard
+    (o plotly consome ESCALA_CALOR direto), em vez de uma escala generica do
+    matplotlib como "YlOrRd", que traz vermelhos de fora da identidade.
+    """
+    from matplotlib.colors import LinearSegmentedColormap   # import local: tema nao depende de mpl
+    return LinearSegmentedColormap.from_list(nome, [(pos, cor) for pos, cor in (escala or ESCALA_CALOR)])
