@@ -84,11 +84,31 @@ def bitmap(svg_txt):
 
 
 def procurar():
-    """Lista o que esta plugado, para descobrir vendor/product id."""
+    """Lista o que o computador enxerga: portas seriais (Bluetooth) e USB.
+
+    A termica portatil de 58 mm costuma ser Bluetooth. Depois de parear no
+    macOS, ela aparece como uma porta serial em /dev/cu.ALGUMACOISA -- e e esse
+    caminho que vai no --porta. Se for um modelo USB, use --vendor/--product.
+    """
+    import glob
+    portas = sorted(set(glob.glob("/dev/cu.*") + glob.glob("/dev/tty.usb*")
+                        + glob.glob("/dev/ttyUSB*") + glob.glob("/dev/rfcomm*")))
+    descartar = ("debug-console", "Bluetooth-Incoming")
+    portas = [x for x in portas if not any(d in x for d in descartar)]
+    print("PORTAS SERIAIS (impressora Bluetooth aparece aqui depois de pareada):")
+    if portas:
+        for x in portas:
+            print(f"  {x}")
+        print("\n  Use assim:  python3 apolice.py --nome \"Fulano\" --score 59 --porta <a porta acima>")
+    else:
+        print("  nenhuma. A impressora esta ligada e pareada no Bluetooth do Mac?")
+
+    print("\nDISPOSITIVOS USB:")
     try:
         import usb.core
     except ImportError:
-        raise SystemExit("falta a pyusb: pip3 install pyusb python-escpos")
+        print("  (pyusb nao instalada: pip3 install pyusb python-escpos)")
+        return
     achou = False
     for d in usb.core.find(find_all=True):
         try:
@@ -98,13 +118,12 @@ def procurar():
         print(f"  idVendor=0x{d.idVendor:04x}  idProduct=0x{d.idProduct:04x}  {fab} {prod}")
         achou = True
     if not achou:
-        print("  nada encontrado. A impressora esta ligada e no cabo USB?")
-    print("\nUse assim:  python3 apolice.py --nome ... --vendor 0x0416 --product 0x5011")
+        print("  nenhum. Se a impressora for USB, confira o cabo.")
+    else:
+        print("\n  Use assim:  python3 apolice.py --nome ... --vendor 0x0416 --product 0x5011")
 
 
-def imprimir(img, vendor, product, perfil):
-    from escpos.printer import Usb
-    p = Usb(vendor, product, profile=perfil)
+def _finalizar(p, img):
     p.image(img, impl="bitImageRaster")
     p.ln(3)
     try:
@@ -114,6 +133,17 @@ def imprimir(img, vendor, product, perfil):
     p.close()
 
 
+def imprimir_usb(img, vendor, product, perfil):
+    from escpos.printer import Usb
+    _finalizar(Usb(vendor, product, profile=perfil), img)
+
+
+def imprimir_serial(img, porta, baud, perfil):
+    """Caminho da termica Bluetooth: depois de pareada, ela e uma porta serial."""
+    from escpos.printer import Serial
+    _finalizar(Serial(devfile=porta, baudrate=baud, profile=perfil), img)
+
+
 def main():
     ap = argparse.ArgumentParser(description="Apolice de demonstracao na termica 58 mm")
     ap.add_argument("--nome", default="Visitante")
@@ -121,7 +151,12 @@ def main():
     ap.add_argument("--faixa", default=None, help="forca a faixa; padrao e deduzir do score")
     ap.add_argument("--equipamento", default="TRATOR 4X4 / 110 CV")
     ap.add_argument("--previa", action="store_true", help="salva PNG em vez de imprimir")
-    ap.add_argument("--procurar", action="store_true", help="lista dispositivos USB")
+    ap.add_argument("--procurar", action="store_true",
+                    help="lista portas seriais (Bluetooth) e dispositivos USB")
+    ap.add_argument("--porta", default=None,
+                    help="porta serial da termica Bluetooth, ex.: /dev/cu.PT-210")
+    ap.add_argument("--baud", type=int, default=9600,
+                    help="velocidade da porta serial (9600 na maioria; 115200 em algumas)")
     ap.add_argument("--vendor", default="0x0416", help="idVendor da impressora")
     ap.add_argument("--product", default="0x5011", help="idProduct da impressora")
     ap.add_argument("--perfil", default="TM-T88III", help="perfil ESC/POS")
@@ -141,11 +176,16 @@ def main():
         return
 
     try:
-        imprimir(img, int(a.vendor, 16), int(a.product, 16), a.perfil)
+        if a.porta:
+            imprimir_serial(img, a.porta, a.baud, a.perfil)
+        else:
+            imprimir_usb(img, int(a.vendor, 16), int(a.product, 16), a.perfil)
     except Exception as e:
         print(f"nao deu para imprimir: {e}\n", file=sys.stderr)
-        print("Tente 'python3 apolice.py --procurar' para achar o endereco certo,\n"
-              "e confira se a bobina esta com o lado termico para fora.", file=sys.stderr)
+        print("Rode 'python3 apolice.py --procurar' para ver as portas e os USB.\n"
+              "Se a impressora for Bluetooth, pareie no macOS e passe --porta /dev/cu.ALGO\n"
+              "(se nao sair nada, tente --baud 115200).\n"
+              "Confira tambem se a bobina esta com o lado termico para fora.", file=sys.stderr)
         raise SystemExit(1)
     print(f"impresso: {a.nome}  score {a.score}  {a.faixa or faixa_de(a.score)}")
 
