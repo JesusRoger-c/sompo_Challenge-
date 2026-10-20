@@ -106,11 +106,19 @@ def procurar():
     print("\nDISPOSITIVOS USB:")
     try:
         import usb.core
+        dispositivos = list(usb.core.find(find_all=True))
     except ImportError:
         print("  (pyusb nao instalada: pip3 install pyusb python-escpos)")
         return
+    except Exception as erro:
+        # NoBackendError: a pyusb esta instalada mas falta a libusb do sistema
+        # (brew install libusb). Nao importa para a termica Bluetooth, que vai
+        # por porta serial -- entao avisa e sai, em vez de derrubar o comando.
+        print(f"  (nao deu para listar: {type(erro).__name__} -- falta a libusb do sistema;")
+        print("   irrelevante se a sua impressora e Bluetooth, use a porta serial acima)")
+        return
     achou = False
-    for d in usb.core.find(find_all=True):
+    for d in dispositivos:
         try:
             fab, prod = d.manufacturer, d.product
         except Exception:
