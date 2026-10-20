@@ -132,7 +132,12 @@ def procurar():
 
 
 def _finalizar(p, img):
-    p.image(img, impl="bitImageRaster")
+    # fragment_height: o python-escpos fatia imagens altas de 960 em 960 pontos
+    # e manda um comando de raster por fatia. A apolice tem ~1500 pontos, e esta
+    # termica perde o sincronismo entre uma fatia e outra: a primeira sai certa e
+    # a segunda vira pagina e pagina de "?". Mandando a imagem inteira num
+    # comando so, o problema deixa de existir.
+    p.image(img, impl="bitImageRaster", fragment_height=img.height + 16)
     p.ln(3)
     try:
         p.cut()        # nem toda 58 mm tem guilhotina; serrilha manual resolve
@@ -147,9 +152,24 @@ def imprimir_usb(img, vendor, product, perfil):
 
 
 def imprimir_serial(img, porta, baud, perfil):
-    """Caminho da termica Bluetooth: depois de pareada, ela e uma porta serial."""
+    """Caminho da termica Bluetooth: depois de pareada, ela e uma porta serial.
+
+    dsrdtr=False e obrigatorio aqui. O python-escpos liga controle de fluxo por
+    HARDWARE (DSR/DTR) por padrao; numa porta serial de verdade existe um fio
+    para esse sinal, mas numa porta Bluetooth ele nunca chega. O efeito e cruel:
+    em vez de dar erro, a escrita fica bloqueada para sempre dentro de
+    select()/tcdrain() e so sai com Ctrl+C.
+
+    O write_timeout e o cinto de seguranca: se ainda assim travar, levanta erro
+    em 20 segundos em vez de pendurar o terminal.
+    """
     from escpos.printer import Serial
-    _finalizar(Serial(devfile=porta, baudrate=baud, profile=perfil), img)
+    p = Serial(devfile=porta, baudrate=baud, profile=perfil, dsrdtr=False, timeout=5)
+    try:
+        p.device.write_timeout = 20
+    except Exception:
+        pass
+    _finalizar(p, img)
 
 
 def main():

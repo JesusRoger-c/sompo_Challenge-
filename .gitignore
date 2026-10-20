@@ -47,3 +47,6 @@ logs/
 # artefatos gerados pelo kit de marca
 identidade/kit/*.html
 identidade/kit/*.png
+
+# previa da apolice: gerada sob demanda com --previa
+identidade/pecas/apolice-previa.png
