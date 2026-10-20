@@ -86,6 +86,24 @@
   .manual.on{display:block}
   .manual input{width:100%;accent-color:var(--amarelo)}
   .manual p{font-size:13px;color:var(--tinta2);margin-bottom:10px}
+  /* Impressao: este bloco e da OPERADORA, nao do visitante, entao fica discreto
+     e longe do numero. Amarelo so na moldura do foco -- nunca como risco. */
+  .imprimir{display:flex;gap:10px;align-items:center;justify-content:center;
+    margin-top:24px;flex-wrap:wrap}
+  .imprimir input{background:transparent;border:1px solid var(--linha);color:var(--tinta);
+    border-radius:99px;padding:9px 16px;font:inherit;font-size:14px;
+    width:min(260px,60vw);outline:none;transition:border-color .2s ease}
+  .imprimir input:focus{border-color:var(--amarelo)}
+  .imprimir input::placeholder{color:#6E6859}
+  .imprimir button{background:transparent;border:1px solid var(--linha);color:var(--tinta2);
+    border-radius:99px;padding:9px 17px;font:inherit;font-size:14px;cursor:pointer;
+    transition:border-color .2s ease,color .2s ease,background .2s ease}
+  .imprimir button:hover:not(:disabled){border-color:var(--amarelo);color:var(--tinta)}
+  .imprimir button:active:not(:disabled){transform:scale(.97)}
+  .imprimir button:disabled{opacity:.45;cursor:default}
+  .imprimir .aviso{font-size:13px;color:var(--tinta2);min-width:130px;text-align:left}
+  .imprimir .aviso.bom{color:var(--baixo)}
+  .imprimir .aviso.ruim{color:var(--alto)}
   .erro{color:var(--alto);font-size:15px;margin-top:14px;min-height:20px}
 </style>
 </head>
@@ -117,6 +135,13 @@
     <input type="range" id="slider" min="0" max="35" step="0.5" value="0">
   </div>
 
+  <div class="imprimir">
+    <input id="nomeVisitante" type="text" placeholder="Nome do visitante"
+           maxlength="38" autocomplete="off" spellcheck="false">
+    <button id="btImprimir" type="button">Imprimir apólice</button>
+    <span class="aviso" id="avisoImpressao"></span>
+  </div>
+
   <div class="erro" id="erro"></div>
 </main>
 
@@ -139,6 +164,7 @@ const NOMES = { Baixo:"Baixo", Medio:"Médio", Alto:"Alto", Critico:"Crítico" }
 /* ---------------------------------------------------------------- estado */
 let anguloAtual = 0, ultimoPontuado = -99, falhas = 0, manual = false, pontuando = false;
 let cenarioAtual = "chuva", cenarios = [];
+let ultimoScore = null;        // null enquanto nao houve nenhuma leitura
 
 const $ = id => document.getElementById(id);
 
@@ -153,6 +179,7 @@ function mostrarResultado(r){
   const cor = CORES[classe] || "var(--tinta2)";
   document.documentElement.style.setProperty("--risco", cor);
 
+  ultimoScore = r.score_risco;          // e este numero que vai para o papel
   $("score").textContent = r.score_risco;
   $("faixa").textContent = NOMES[classe] || classe;
   $("preenche").style.width = Math.max(2, Math.min(100, r.score_risco)) + "%";
@@ -243,7 +270,15 @@ function ajustarManual(g){
 
 $("slider").addEventListener("input", e => ajustarManual(parseFloat(e.target.value)));
 
+/* Enquanto a operadora digita o nome do visitante, o teclado e DELA: sem este
+   guarda, digitar "1" trocaria de cenario e as setas mexeriam na inclinacao. */
+const digitando = e => {
+  const alvo = e.target;
+  return alvo && (alvo.tagName === "INPUT" || alvo.tagName === "TEXTAREA");
+};
+
 document.addEventListener("keydown", e => {
+  if (digitando(e)) return;
   if (e.key === "ArrowUp"   || e.key === "ArrowRight"){ if(!manual) entrarNoManual(); ajustarManual(anguloAtual + 1); e.preventDefault(); }
   if (e.key === "ArrowDown" || e.key === "ArrowLeft" ){ if(!manual) entrarNoManual(); ajustarManual(anguloAtual - 1); e.preventDefault(); }
   if (e.key === "m" || e.key === "M"){ manual ? (manual=false, $("manual").classList.remove("on")) : entrarNoManual(); }
@@ -285,8 +320,52 @@ function trocarCenario(chave){
 }
 
 document.addEventListener("keydown", e => {
+  if (digitando(e)) return;
   const n = parseInt(e.key, 10);
   if (n >= 1 && n <= cenarios.length) trocarCenario(cenarios[n - 1].chave);
+});
+
+/* ------------------------------------------------------------- impressão */
+function avisoImpressao(texto, classe){
+  const el = $("avisoImpressao");
+  el.textContent = texto;
+  el.className = "aviso" + (classe ? " " + classe : "");
+}
+
+async function imprimirApolice(){
+  if (ultimoScore === null){
+    avisoImpressao("incline o trator primeiro", "ruim");
+    return;
+  }
+  const nome = ($("nomeVisitante").value || "").trim() || "Visitante";
+  const bt = $("btImprimir");
+  bt.disabled = true;                       // trava: 2 cliques = 2 apólices
+  avisoImpressao("imprimindo…");
+  try{
+    const r = await fetch("/imprimir", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ nome: nome, score: ultimoScore })
+    });
+    const d = await r.json().catch(() => ({}));
+    if (r.ok){
+      avisoImpressao("saiu: " + nome, "bom");
+      $("nomeVisitante").value = "";        // pronto para o próximo da fila
+      setTimeout(() => avisoImpressao(""), 5000);
+    } else {
+      avisoImpressao(d.erro || "não saiu", "ruim");
+    }
+  }catch(e){
+    avisoImpressao("placar sem resposta", "ruim");
+  }finally{
+    bt.disabled = false;
+    $("nomeVisitante").focus();
+  }
+}
+
+$("btImprimir").addEventListener("click", imprimirApolice);
+$("nomeVisitante").addEventListener("keydown", e => {
+  if (e.key === "Enter"){ e.preventDefault(); imprimirApolice(); }
 });
 
 carregarCenarios();

@@ -48,6 +48,8 @@ from __future__ import annotations
 
 import json
 import os
+import subprocess
+import sys
 import threading
 import urllib.error
 import urllib.request
@@ -62,6 +64,12 @@ PORTA = int(os.getenv("PLACAR_PORTA", "8800"))
 API = os.getenv("SOMPREV_API_URL", "http://127.0.0.1:8000").rstrip("/")
 CHAVE = os.getenv("SOMPREV_API_KEY", "")
 EQUIPAMENTO = os.getenv("SOMPREV_EQUIPAMENTO", "EQ-021")
+
+# A apolice sai pelo apolice.py, em um PROCESSO SEPARADO de proposito: se a
+# termica travar ou a biblioteca levantar excecao, quem morre e o subprocesso.
+# No estande a tela do visitante nunca pode cair por causa da impressora.
+APOLICE = AQUI.parent / "identidade" / "kit" / "apolice.py"
+IMPRESSAO_LIMITE = int(os.getenv("SOMPREV_IMPRESSAO_LIMITE", "90"))
 
 _COMUM = {"equipamento_id": EQUIPAMENTO, "regiao_id": 4,
           "tipo_operacao": "Colheita", "periodo_dia": "Manha", "temperatura_c": 24.0}
@@ -151,6 +159,28 @@ def pontuar(declividade: float, cenario: str) -> tuple[int, dict]:
     return 409, {"erro": "Não consegui um horário livre para a leitura. Reinicie o placar."}
 
 
+def imprimir_apolice(nome: str, score: int) -> tuple[int, dict]:
+    """Imprime a apolice do visitante chamando o apolice.py.
+
+    O nome vai como argumento de lista (nunca por shell), entao nao ha como um
+    nome digitado virar comando.
+    """
+    if not APOLICE.exists():
+        return 500, {"erro": f"nao achei o apolice.py em {APOLICE}"}
+    comando = [sys.executable, str(APOLICE), "--nome", nome, "--score", str(score)]
+    try:
+        r = subprocess.run(comando, cwd=str(APOLICE.parent), capture_output=True,
+                           text=True, timeout=IMPRESSAO_LIMITE)
+    except subprocess.TimeoutExpired:
+        return 504, {"erro": "a impressora não respondeu. Desligue e ligue, e tente de novo."}
+    except OSError as e:
+        return 500, {"erro": f"não consegui chamar o apolice.py ({e})"}
+    if r.returncode == 0:
+        return 200, {"ok": True, "nome": nome, "score": score}
+    linhas = [l for l in (r.stderr or r.stdout or "").splitlines() if l.strip()]
+    return 502, {"erro": linhas[0] if linhas else "não deu para imprimir"}
+
+
 class Handler(BaseHTTPRequestHandler):
     def _responder(self, status: int, tipo: str, dados: bytes) -> None:
         self.send_response(status)
@@ -178,6 +208,8 @@ class Handler(BaseHTTPRequestHandler):
         self._responder(404, "text/plain; charset=utf-8", b"nao encontrado")
 
     def do_POST(self):  # noqa: N802
+        if self.path.startswith("/imprimir"):
+            return self._imprimir()
         if not self.path.startswith("/pontuar"):
             return self._responder(404, "text/plain; charset=utf-8", b"nao encontrado")
         try:
@@ -188,6 +220,19 @@ class Handler(BaseHTTPRequestHandler):
         except (ValueError, json.JSONDecodeError):
             return self._json(400, {"erro": "declividade_graus inválida"})
         status, corpo = pontuar(graus, cenario)
+        self._json(status, corpo)
+
+    def _imprimir(self) -> None:
+        try:
+            n = int(self.headers.get("Content-Length") or 0)
+            pedido = json.loads(self.rfile.read(n) or b"{}")
+            nome = str(pedido.get("nome") or "").strip()[:38] or "Visitante"
+            score = int(round(float(pedido.get("score"))))
+        except (TypeError, ValueError, json.JSONDecodeError):
+            return self._json(400, {"erro": "nome ou score inválido"})
+        if not 0 <= score <= 100:
+            return self._json(400, {"erro": "score fora da faixa 0-100"})
+        status, corpo = imprimir_apolice(nome, score)
         self._json(status, corpo)
 
     def log_message(self, *_):
