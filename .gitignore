@@ -50,3 +50,6 @@ identidade/kit/*.png
 
 # previa da apolice: gerada sob demanda com --previa
 identidade/pecas/apolice-previa.png
+
+# logs do estande: gerados a cada abertura
+estande/.logs/

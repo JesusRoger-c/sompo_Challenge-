@@ -24,6 +24,22 @@ i()  { printf '\033[2m%s\033[0m\n'  "$1"; }   # apagado
 
 cd "$RAIZ"
 
+# ------------------------------------------------------ 0. a libcairo do Mac
+# A apolice e desenhada com cairosvg, que depende da libcairo instalada pelo
+# Homebrew. Nos Macs com chip M o Python nao procura em /opt/homebrew/lib
+# sozinho, e a impressao morre com "no library called cairo-2 was found".
+# Resolver aqui deixa o estande independente do que esta no .zprofile: o placar
+# herda esta variavel, e o apolice.py que ele chama herda do placar.
+if [ -z "${DYLD_FALLBACK_LIBRARY_PATH:-}" ]; then
+  for d in /opt/homebrew/lib /usr/local/lib; do
+    if [ -f "$d/libcairo.2.dylib" ]; then
+      export DYLD_FALLBACK_LIBRARY_PATH="$d"
+      i "libcairo encontrada em $d"
+      break
+    fi
+  done
+fi
+
 # ---------------------------------------------------------------- 1. a chave
 if [ -f .env ]; then set -a; . ./.env; set +a; fi
 if [ -z "${SOMPREV_API_KEY:-}" ]; then
@@ -54,6 +70,27 @@ espera () {                     # espera <nome> <url> <segundos>
   i "     Veja o fim do log:  tail -20 estande/.logs/${nome}.log"
   return 1
 }
+
+# --------------------------------------------------- 1b. portas ja ocupadas
+# Sem esta checagem acontece o pior tipo de falha: um processo ANTIGO continua
+# na porta, o novo morre com "Address already in use", e o teste de saude passa
+# -- respondendo pelo processo velho, com o codigo velho. O script diria
+# "ESTANDE DE PE" enquanto voce roda uma versao que nao e a sua.
+ocupada=0
+for par in "8000:API" "8800:placar" "8501:dashboard"; do
+  porta="${par%%:*}"; quem="${par##*:}"
+  if lsof -ti "tcp:$porta" >/dev/null 2>&1; then
+    x "Porta $porta ($quem) ja esta ocupada."
+    ocupada=1
+  fi
+done
+if [ "$ocupada" -eq 1 ]; then
+  i ""
+  i "  Tem coisa de uma execucao anterior ainda rodando."
+  i "  Derrube tudo e rode de novo:"
+  i "      ./estande/fechar_estande.sh && ./estande/abrir_estande.sh"
+  exit 1
+fi
 
 falhou=0
 
@@ -87,7 +124,7 @@ cat <<FIM
     2. O placar em tela cheia e o canto diz "sensor conectado"
     3. Incline o trator: o número muda e a faixa muda de cor
     4. Imprima uma apólice de teste:
-         python identidade/kit/apolice.py --nome "Teste" --score 72
+         python3 identidade/kit/apolice.py --nome "Teste" --score 72
     5. Se o sensor estiver fora, aperte M no placar — modo manual salva o dia
 
   Para derrubar tudo:  ./estande/fechar_estande.sh

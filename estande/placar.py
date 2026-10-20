@@ -177,8 +177,16 @@ def imprimir_apolice(nome: str, score: int) -> tuple[int, dict]:
         return 500, {"erro": f"não consegui chamar o apolice.py ({e})"}
     if r.returncode == 0:
         return 200, {"ok": True, "nome": nome, "score": score}
-    linhas = [l for l in (r.stderr or r.stdout or "").splitlines() if l.strip()]
-    return 502, {"erro": linhas[0] if linhas else "não deu para imprimir"}
+
+    bruto = (r.stderr or r.stdout or "").strip()
+    if bruto:
+        # o erro inteiro vai para estande/.logs/placar.log, onde da para ler com calma
+        print(f"[imprimir] falhou com nome={nome!r} score={score}:\n{bruto}\n", flush=True)
+    linhas = [l.strip() for l in bruto.splitlines() if l.strip()]
+    # A ULTIMA linha de um traceback e a mensagem da excecao. A primeira e so
+    # "Traceback (most recent call last):", que nao diz nada a quem esta na
+    # bancada -- e e exatamente o que esta tela mostrava antes.
+    return 502, {"erro": (linhas[-1] if linhas else "não deu para imprimir")[:220]}
 
 
 class Handler(BaseHTTPRequestHandler):
